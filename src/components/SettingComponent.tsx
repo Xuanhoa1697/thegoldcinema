@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iconStyle: {
-    color: COLORS.White,
+    color: COLORS.Black,
     fontSize: FONTSIZE.size_24,
     paddingHorizontal: SPACING.space_20,
   },
@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_18,
-    color: COLORS.White,
+    color: COLORS.Black,
   },
   subtitle: {
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_14,
-    color: COLORS.WhiteRGBA15,
+    color: COLORS.Black,
   },
 });

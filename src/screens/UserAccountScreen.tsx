@@ -1,20 +1,25 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, StatusBar, Image} from 'react-native';
+import {Text, View, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import AppHeader from '../components/AppHeader';
 import SettingComponent from '../components/SettingComponent';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import tw from "twrnc";
+import axios from 'axios';
 
 const UserAccountScreen = ({navigation}: any) => {
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
-      <View style={styles.appHeaderContainer}>
-        <AppHeader
-          name="close"
-          header={'My Profile'}
-          action={() => navigation.goBack()}
-        />
-      </View>
+      <StatusBar
+        translucent={false}
+        backgroundColor={'#000000'}
+        barStyle={'default'}
+      />
+      <View style={tw`h-[75px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2`}>
+            <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
+          </TouchableOpacity>
+        </View>
 
       <View style={styles.profileContainer}>
         <Image
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.White,
   },
   appHeaderContainer: {
     marginHorizontal: SPACING.space_36,

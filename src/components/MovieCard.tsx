@@ -38,14 +38,6 @@ const MovieCard = (props: any) => {
       <View
         style={[
           styles.container,
-          props.shoudlMarginatedAtEnd
-            ? props.isFirst
-              ? {marginLeft: SPACING.space_18}
-              : props.isLast
-              ? {marginRight: SPACING.space_18}
-              : {}
-            : {},
-          props.shouldMarginatedAround ? {margin: SPACING.space_12} : {},
           {maxWidth: props.cardWidth}
         ]}>
         <Image
@@ -89,7 +81,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     aspectRatio: 2 / 3,
-    borderRadius: BORDERRADIUS.radius_10,
+    borderRadius: BORDERRADIUS.radius_8,
   },
   textTitle: {
     fontFamily: FONTFAMILY.poppins_regular,

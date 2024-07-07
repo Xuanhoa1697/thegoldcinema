@@ -11,6 +11,9 @@ import HomeScreen from './src/screens/HomeScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import TicketScreen from './src/screens/TicketScreen';
 import UserAccountScreen from './src/screens/UserAccountScreen';
+import CinemaHomeScreen from './src/screens/CinemaHome';
+import TrailerScreen from './src/screens/TrailerScreen';
+import DetaiCinemaScreen from './src/screens/DetaiCinema';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,52 +22,67 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
           headerShown: false,
-          animation: 'slide_from_left'
+          gestureDirection: 'horizontal'
         }} initialRouteName='LogoScreens'>
         <Stack.Screen
           name="LogoScreens"
           component={LogoScreens}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="SearchScreen"
           component={SearchScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="TicketScreen"
           component={TicketScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="UserAccountScreen"
           component={UserAccountScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="MovieDetails"
           component={MovieDetailsScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="SeatBooking"
           component={SeatBookingScreen}
-          options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
         />
         <Stack.Screen
           name="User"
           component={UserAccountScreen}
-          // options={{animation: 'simple_push'}}
+          options={{animation: 'slide_from_right'}}
+        />
+        <Stack.Screen
+          name="CinemaHomeScreen"
+          component={CinemaHomeScreen}
+          options={{animation: 'slide_from_right'}}
+        />
+        <Stack.Screen
+          name="TrailerScreen"
+          component={TrailerScreen}
+          options={{animation: 'slide_from_right'}}
+        />
+        <Stack.Screen
+          name="DetaiCinemaScreen"
+          component={DetaiCinemaScreen}
+          options={{animation: 'slide_from_right'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

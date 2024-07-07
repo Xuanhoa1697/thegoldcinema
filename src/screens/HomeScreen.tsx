@@ -14,7 +14,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Platform,
-  Animated
+  Animated,
+  TextInput
 } from 'react-native';
 import { COLORS, SPACING } from '../theme/theme';
 import InputHeader from '../components/InputHeader';
@@ -24,15 +25,13 @@ import MovieCard from '../components/MovieCard';
 import axios from 'axios';
 import tw from "twrnc";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import Carousel from "react-native-snap-carousel";
 import CustomIcon from '../components/CustomIcon';
 import LinearGradient from 'react-native-linear-gradient';
 
 const { width, height } = Dimensions.get('window');
-const SPACING1 = 10;
 const ITEM_SIZE1 = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
-const EMPTY_ITEM_SIZE = (width - ITEM_SIZE1) / 2;
-const BACKDROP_HEIGHT = height * 0.65;
 
 const getNowPlayingMoviesList = async () => {
   try {
@@ -60,9 +59,6 @@ const getNowPlayingMoviesList = async () => {
     let response = await axios.request(config);
     const datas = await JSON.parse(JSON.stringify(response.data)).result;
     return datas
-    // let response = await fetch(nowPlayingMovies);
-    // let json = await response.json();
-    // return json;
   } catch (error) {
     console.error(
       ' Something went wrong in getNowPlayingMoviesList Function',
@@ -96,7 +92,6 @@ const getUpcomingMoviesList = async () => {
 
     let response = await axios.request(config);
     const datas = await JSON.parse(JSON.stringify(response.data)).result;
-    // console.log('đangchieu', datas);
 
     return datas
   } catch (error) {
@@ -149,7 +144,10 @@ const HomeScreen = ({ navigation }: any) => {
   const [refreshingItem, setRefreshingItem] = useState(``);
   const [bgContent, setBgContent] = useState({});
   const scrollY = useRef(new Animated.Value(0)).current;
-  const HEADER_HEIGHT = 80;
+  const scrollViewRef = useRef<ScrollView>(null);
+  const lastOffsetY = useRef(0);
+  const scrollDirection = useRef('');
+  const HEADER_HEIGHT = 75;
 
   useEffect(() => {
     (async () => {
@@ -228,8 +226,8 @@ const HomeScreen = ({ navigation }: any) => {
         backgroundColor={'#000000'}
         barStyle={'default'}
       />
-      <Animated.View style={[styles.header, { transform: [{ translateY: headerTranslate }] }, 
-        tw`flex-row items-start justify-between pt-4`]}>
+      <Animated.View style={[styles.header, { transform: [{ translateY: headerTranslate }] },
+      tw`flex-row items-start justify-between pt-4`]}>
         <View style={tw`w-[30%] flex-row justify-start items-center`}>
           {/* <Entypo name="github" size={33} color={'#9c1d21'} /> */}
         </View>
@@ -241,18 +239,35 @@ const HomeScreen = ({ navigation }: any) => {
 
         <View style={tw`w-[30%] flex-row justify-end items-center`}>
           <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={36} color={'#9d2126'} />
+            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={34} color={'#9d2126'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('UserAccountScreen')}>
-            <MaterialCommunityIcons name="format-list-bulleted" size={40} color={'#9d2126'} />
+            <MaterialCommunityIcons name="format-list-bulleted" size={38} color={'#9d2126'} />
           </TouchableOpacity>
         </View>
       </Animated.View>
       <Animated.ScrollView style={tw`h-full w-full`}
+        ref={scrollViewRef}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
+          {
+            useNativeDriver: true,
+            listener: event => {
+              const offsetY = event.nativeEvent.contentOffset.y;
+              scrollDirection.current =
+                offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
+              lastOffsetY.current = offsetY;
+            },
+          },
         )}
+        onScrollEndDrag={({ }) => {
+
+          if (scrollDirection.current === 'down' && lastOffsetY.current < 100) {
+            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? 100 : 0, animated: true });
+          } else if (scrollDirection.current === 'down' && lastOffsetY.current > 100) {
+            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current : 0, animated: true });
+          }
+        }}
         scrollEventThrottle={16}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh}
@@ -265,7 +280,7 @@ const HomeScreen = ({ navigation }: any) => {
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={10}>
-          <View style={tw`flex-row items-start justify-between pt-4`}>
+          <View style={tw`flex-row items-start justify-between pt-4 h-[75px]`}>
             <View style={tw`w-[30%] flex-row justify-start items-center`}>
               {/* <Entypo name="github" size={33} color={'#9c1d21'} /> */}
             </View>
@@ -277,10 +292,10 @@ const HomeScreen = ({ navigation }: any) => {
 
             <View style={tw`w-[30%] flex-row justify-end items-center`}>
               <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={36} color={'#ffffff'} />
+                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={34} color={'#ffffff'} />
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('UserAccountScreen')}>
-                <MaterialCommunityIcons name="format-list-bulleted" size={40} color={'#ffffff'} />
+                <MaterialCommunityIcons name="format-list-bulleted" size={38} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
           </View>
@@ -291,7 +306,6 @@ const HomeScreen = ({ navigation }: any) => {
             <Carousel
               onSnapToItem={(index) => {
                 setBgContent(nowPlayingMoviesList[index]);
-                
               }}
               data={nowPlayingMoviesList}
               autoplay={true}
@@ -302,7 +316,7 @@ const HomeScreen = ({ navigation }: any) => {
                 <MovieCard
                   shoudlMarginatedAtEnd={true}
                   cardFunction={() => {
-                    navigation.push('MovieDetails', { movieid: item.id });
+                    navigation.push('MovieDetails', { movie: item });
                   }}
                   cardWidth={width * 0.7}
                   isFirst={index == 0 ? true : false}
@@ -310,49 +324,53 @@ const HomeScreen = ({ navigation }: any) => {
                   title={item.name}
                   imagePath={`http://118.70.118.186:8070${item.image}${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
-                  vote_average={item.rate}
+                  // vote_average={item.rate}
                   vote_count={item.rate}
                 />
               )}
               firstItem={1}
-              inactiveSlideScale={0.9}
+              inactiveSlideScale={0.8}
               inactiveSlideOpacity={0.7}
               sliderWidth={width}
-              itemWidth={width * 0.75}
+              itemWidth={width / 1.45}
               slideStyle={{ display: "flex", alignItems: "center" }}
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
               <View style={tw``}>
                 <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[16px] font-bold text-white`}>{bgContent?.name}</Text>
-                <View style={tw`flex-row items-center align-items-center mt-3`}>
+                <View style={tw`flex-row items-center justify-start mt-3`}>
                   <CustomIcon name="star" size={20} color={'#f5d53e'} />
                   <Text style={tw`text-[14px] text-white`}>{bgContent?.rate}</Text>
-                  
+
                   <Text style={tw`text-[14px] text-white ml-5`}>⛔{bgContent?.old_limit}+</Text>
                   <Text style={tw`text-[14px] text-white ml-5 border border-[#f5d53e] rounded-[30px] px-2`}>{bgContent?.type}</Text>
                 </View>
               </View>
-              <TouchableOpacity style={tw`rounded-[30px] bg-[#9c1d21] px-4 py-1`}>
+              <TouchableOpacity style={tw`rounded-[30px] bg-[#9c1d21] px-4 py-1`}
+                onPress={() => navigation.push('MovieDetails', { movie: bgContent })}>
                 <Text style={tw`text-[15px] font-bold text-white`}>ĐẶT VÉ</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
 
         </ImageBackground>
+        <View style={tw`h-[55px] pl-2 pr-4`}>
+          <TouchableOpacity style={tw`flex-row justify-between items-center h-full`}
+            onPress={() => navigation.navigate('CinemaHomeScreen')}>
+            <Text style={tw`text-[15px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
+              <Feather name="send" size={22} color={'#c9c9c9'}/>
+          </TouchableOpacity>
+        </View>
         <View style={tw`bg-white`}>
           <CategoryHeader title={'Đang chiếu'} />
-          <FlatList
+          <Carousel
             data={popularMoviesList}
-            keyExtractor={(item: any) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            bounces={false}
-            contentContainerStyle={styles.containerGap36}
+            loop={true}
             renderItem={({ item, index }) => (
               <SubMovieCard
                 shoudlMarginatedAtEnd={true}
                 cardFunction={() => {
-                  navigation.push('MovieDetails', { movieid: item.id });
+                  navigation.push('MovieDetails', { movie: item });
                 }}
                 cardWidth={width / 3}
                 isFirst={index == 0 ? true : false}
@@ -361,20 +379,22 @@ const HomeScreen = ({ navigation }: any) => {
                 imagePath={`http://118.70.118.186:8070${item.image}${refreshingItem}`}
               />
             )}
+            firstItem={1}
+            inactiveSlideScale={1}
+            inactiveSlideOpacity={1}
+            sliderWidth={width}
+            itemWidth={width / 3 + 20}
+            slideStyle={{ display: "flex", alignItems: "center" }}
           />
           <CategoryHeader title={'Sắp chiếu'} />
-          <FlatList
+          <Carousel
             data={upcomingMoviesList}
-            keyExtractor={(item: any) => item.id}
-            horizontal
-            bounces={false}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap36}
+            loop={true}
             renderItem={({ item, index }) => (
               <SubMovieCard
                 shoudlMarginatedAtEnd={true}
                 cardFunction={() => {
-                  navigation.push('MovieDetails', { movieid: item.id });
+                  navigation.push('MovieDetails', { movie: item });
                 }}
                 cardWidth={width / 3}
                 isFirst={index == 0 ? true : false}
@@ -383,10 +403,14 @@ const HomeScreen = ({ navigation }: any) => {
                 imagePath={`http://118.70.118.186:8070${item.image}${refreshingItem}`}
               />
             )}
+            firstItem={1}
+            inactiveSlideScale={1}
+            inactiveSlideOpacity={1}
+            sliderWidth={width}
+            itemWidth={width / 3 + 20}
+            slideStyle={{ display: "flex", alignItems: "center" }}
           />
         </View>
-
-
       </Animated.ScrollView>
     </SafeAreaView>
   );
@@ -444,7 +468,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 80,
+    height: 75,
     backgroundColor: '#f8f8f8',
     justifyContent: 'center',
     alignItems: 'center',

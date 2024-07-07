@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -11,7 +11,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {baseImagePath, movieCastDetails, movieDetails} from '../api/apicalls';
+import { baseImagePath, movieCastDetails, movieDetails } from '../api/apicalls';
 import {
   BORDERRADIUS,
   COLORS,
@@ -24,172 +24,176 @@ import LinearGradient from 'react-native-linear-gradient';
 import CustomIcon from '../components/CustomIcon';
 import CategoryHeader from '../components/CategoryHeader';
 import CastCard from '../components/CastCard';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import tw from "twrnc";
+import axios from 'axios';
 
-const getMovieDetails = async (movieid: number) => {
-  try {
-    let response = await fetch(movieDetails(movieid));
-    let json = await response.json();
-    return json;
-  } catch (error) {
-    console.error('Something Went wrong in getMoviesDetails Function', error);
-  }
-};
+// const getMovieDetails = async (movieid: number) => {
+//   try {
+//     let response = await fetch(movieDetails(movieid));
+//     let json = await response.json();
+//     return json;
+//   } catch (error) {
+//     console.error('Something Went wrong in getMoviesDetails Function', error);
+//   }
+// };
 
-const getMovieCastDetails = async (movieid: number) => {
-  try {
-    let response = await fetch(movieCastDetails(movieid));
-    let json = await response.json();
-    return json;
-  } catch (error) {
-    console.error(
-      'Something Went wrong in getMovieCastDetails Function',
-      error,
-    );
-  }
-};
+// const getMovieCastDetails = async (movieid: number) => {
+//   try {
+//     let response = await fetch(movieCastDetails(movieid));
+//     let json = await response.json();
+//     return json;
+//   } catch (error) {
+//     console.error(
+//       'Something Went wrong in getMovieCastDetails Function',
+//       error,
+//     );
+//   }
+// };
 
-const MovieDetailsScreen = ({navigation, route}: any) => {
-  const [movieData, setMovieData] = useState<any>(undefined);
-  const [movieCastData, setmovieCastData] = useState<any>(undefined);
+const MovieDetailsScreen = ({ navigation, route }: any) => {
+  const movie = route.params.movie
+  const [numberOfLines, setNumberOfLines] = useState(3)
+  console.log(movie);
 
   useEffect(() => {
-    (async () => {
-      const tempMovieData = await getMovieDetails(route.params.movieid);
-      setMovieData(tempMovieData);
-    })();
+    // (async () => {
+    //   const tempMovieData = await getMovieDetails(route.params.movieid);
+    //   setMovieData(tempMovieData);
+    // })();
 
-    (async () => {
-      const tempMovieCastData = await getMovieCastDetails(route.params.movieid);
-      setmovieCastData(tempMovieCastData.cast);
-    })();
+    // (async () => {
+    //   const tempMovieCastData = await getMovieCastDetails(route.params.movieid);
+    //   setmovieCastData(tempMovieCastData.cast);
+    // })();
   }, []);
 
-  if (
-    movieData == undefined &&
-    movieData == null &&
-    movieCastData == undefined &&
-    movieCastData == null
-  ) {
-    return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollViewContainer}
-        bounces={false}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.appHeaderContainer}>
-          <AppHeader
-            name="close"
-            header={''}
-            action={() => navigation.goBack()}
-          />
-        </View>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size={'large'} color={COLORS.Orange} />
-        </View>
-      </ScrollView>
-    );
-  }
+  // if (
+  //   movieData == undefined &&
+  //   movieData == null &&
+  //   movieCastData == undefined &&
+  //   movieCastData == null
+  // ) {
+  //   return (
+  //     <ScrollView
+  //       style={styles.container}
+  //       contentContainerStyle={styles.scrollViewContainer}
+  //       bounces={false}
+  //       showsVerticalScrollIndicator={false}>
+  //       <View style={styles.appHeaderContainer}>
+  //         <AppHeader
+  //           name="close"
+  //           header={''}
+  //           action={() => navigation.goBack()}
+  //         />
+  //       </View>
+  //       <View style={styles.loadingContainer}>
+  //         <ActivityIndicator size={'large'} color={COLORS.Orange} />
+  //       </View>
+  //     </ScrollView>
+  //   );
+  // }
   return (
     <ScrollView
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}>
-      <StatusBar hidden />
+      <StatusBar
+        translucent={false}
+        backgroundColor={'#000000'}
+        barStyle={'default'}
+      />
 
       <View>
         <ImageBackground
           source={{
-            uri: baseImagePath('w780', movieData?.backdrop_path),
+            uri: `http://118.70.118.186:8070/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
           }}
-          style={styles.imageBG}>
+          style={styles.imageBG}
+          resizeMode='cover'>
           <LinearGradient
+            style={tw`h-full flex items-center justify-center`}
             colors={[COLORS.BlackRGB10, COLORS.Black]}
-            style={styles.linearGradient}>
-            <View style={styles.appHeaderContainer}>
-              <AppHeader
-                name="close"
-                header={''}
-                action={() => navigation.goBack()}
-              />
+          >
+            {movie?.trailer && <TouchableOpacity style={tw`mb-10`} onPress={() => navigation.push('TrailerScreen', { trailer: movie?.trailer })}>
+              <AntDesign name="play" size={40} color={'#ffffff'} />
+            </TouchableOpacity>}
+            <View style={tw`absolute left-3 top-5`}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <MaterialIcons name="arrow-back" size={33} color={'#ffffff'} />
+              </TouchableOpacity>
+            </View>
+            <View style={tw`absolute bottom-0 left-33`}>
+              <Text style={tw`mt-15 mb-5 text-white font-semibold text-[18px] text-center`} >{movie?.name.toUpperCase()}</Text>
             </View>
           </LinearGradient>
         </ImageBackground>
-        <View style={styles.imageBG}></View>
         <Image
-          source={{uri: baseImagePath('w342', movieData?.poster_path)}}
+          source={{ uri: `http://118.70.118.186:8070/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
           style={styles.cardImage}
         />
       </View>
 
-      <View style={styles.timeContainer}>
-        <CustomIcon name="clock" style={styles.clockIcon} />
-        <Text style={styles.runtimeText}>
-          {Math.floor(movieData?.runtime / 60)}h{' '}
-          {Math.floor(movieData?.runtime % 60)}m
-        </Text>
-      </View>
-
-      <View>
-        <Text style={styles.title}>{movieData?.original_title}</Text>
-        <View style={styles.genreContainer}>
-          {movieData?.genres.map((item: any) => {
-            return (
-              <View style={styles.genreBox} key={item.id}>
-                <Text style={styles.genreText}>{item.name}</Text>
-              </View>
-            );
-          })}
+      <View style={tw`ml-33`}>
+        <View style={styles.timeContainer}>
+          <View style={tw`flex-row border border-gray-400 py-0.6 px-0.6 rounded-1 px-1`}>
+            <CustomIcon name="clock" style={styles.clockIcon} />
+            <Text style={tw`text-[#9c9c9c]`}>
+              {Math.floor(movie?.time / 60)} giờ{' '}
+              {Math.floor(movie?.time % 60)} phút
+            </Text>
+          </View>
+          <View style={tw`flex-row border border-gray-400 py-0.6 px-0.7 rounded-1 ml-3`}>
+            <EvilIcons name="calendar" size={28} color={COLORS.Black} />
+            <Text style={tw`text-[#9c9c9c]`}>
+              {movie?.date_start.replaceAll('-', '/')}
+            </Text>
+          </View>
         </View>
-        <Text style={styles.tagline}>{movieData?.tagline}</Text>
-      </View>
-
-      <View style={styles.infoContainer}>
-        <View style={styles.rateContainer}>
+        <View style={tw`flex-row mt-2`}>
           <CustomIcon name="star" style={styles.starIcon} />
-          <Text style={styles.runtimeText}>
-            {movieData?.vote_average.toFixed(1)} ({movieData?.vote_count})
-          </Text>
-          <Text style={styles.runtimeText}>
-            {movieData?.release_date.substring(8, 10)}{' '}
-            {new Date(movieData?.release_date).toLocaleString('default', {
-              month: 'long',
-            })}{' '}
-            {movieData?.release_date.substring(0, 4)}
-          </Text>
+          <Text style={styles.runtimeText}>{movie?.rate}</Text>
+          <Text style={tw`text-[14px] text-[#9d2126] ml-5`}>⛔ {movie?.old_limit}+</Text>
+          
         </View>
-        <Text style={styles.descriptionText}>{movieData?.overview}</Text>
+      </View>
+
+      <View style={tw`mt-5 mx-4`}>
+        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={styles.descriptionText}>{movie?.content.replaceAll('<p>', '').replaceAll('</p>', '')}</Text>
+        {numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
+          <Text style={tw`text-[#9d2126]`}>Xem thêm</Text>
+        </TouchableOpacity>}
+        <View style={tw`flex-row mt-3`}>
+          <Text style={tw`text-[14px] text-[#000000] font-semibold w-[20%]`}>Thể loại</Text>
+          <Text style={tw`text-[14px] text-[#000000] ml-15 px-2`}>{movie?.type}</Text>
+        </View>
+        <View style={tw`flex-row mt-2`}>
+          <Text style={tw`text-[14px] text-[#000000] font-semibold w-[20%]`}>Đạo diễn</Text>
+          <Text style={tw`text-[14px] text-[#000000] ml-15 px-2`}>{movie?.daoien}</Text>
+        </View>
+        <View style={tw`flex-row mt-2`}>
+          <Text style={tw`text-[14px] text-[#000000] font-semibold w-[20%]`}>Diễn viên</Text>
+          <Text style={tw`text-[14px] text-[#000000] ml-15 px-2`}>{movie?.dienvien}</Text>
+        </View>
+        <View style={tw`flex-row mt-2`}>
+          <Text style={tw`text-[14px] text-[#000000] font-semibold w-[20%]`}>Ngôn ngữ</Text>
+          <Text style={tw`text-[14px] text-[#000000] ml-15 px-2`}>{movie?.lang}</Text>
+        </View>
       </View>
 
       <View>
-        <CategoryHeader title="Top Cast" />
-        <FlatList
-          data={movieCastData}
-          keyExtractor={(item: any) => item.id}
-          horizontal
-          contentContainerStyle={styles.containerGap24}
-          renderItem={({item, index}) => (
-            <CastCard
-              shouldMarginatedAtEnd={true}
-              cardWidth={80}
-              isFirst={index == 0 ? true : false}
-              isLast={index == movieCastData?.length - 1 ? true : false}
-              imagePath={baseImagePath('w185', item.profile_path)}
-              title={item.original_name}
-              subtitle={item.character}
-            />
-          )}
-        />
-
-        <View>
+        <View style={tw`px-3`}>
           <TouchableOpacity
-            style={styles.buttonBG}
+            style={tw`bg-[#9d2126] rounded-5 text-white w-full text-center py-2.5 my-5`}
             onPress={() => {
-              navigation.push('SeatBooking', {
-                BgImage: baseImagePath('w780', movieData.backdrop_path),
-                PosterImage: baseImagePath('original', movieData.poster_path),
+              navigation.navigate('DetaiCinemaScreen', {
+                movieid: movie?.id,
+                movieName: movie?.name,
               });
             }}>
-            <Text style={styles.buttonText}>Select Seats</Text>
+            <Text style={tw`text-white w-full text-center`}>Đặt Vé</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.White,
   },
   loadingContainer: {
     flex: 1,
@@ -217,41 +221,44 @@ const styles = StyleSheet.create({
   },
   imageBG: {
     width: '100%',
-    aspectRatio: 3072 / 1727,
+    aspectRatio: 3072 / 2000,
   },
   linearGradient: {
     height: '100%',
   },
   cardImage: {
-    width: '60%',
+    width: '25%',
     aspectRatio: 200 / 300,
     position: 'absolute',
-    bottom: 0,
+    top: 200,
+    left: 10,
+    borderRadius: 10,
     alignSelf: 'center',
+    borderWidth: 3,
+    borderColor: COLORS.White,
   },
   clockIcon: {
     fontSize: FONTSIZE.size_20,
-    color: COLORS.WhiteRGBA50,
+    color: COLORS.Black,
     marginRight: SPACING.space_8,
   },
   timeContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: SPACING.space_15,
   },
   runtimeText: {
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
+    color: COLORS.Black,
   },
   title: {
     fontFamily: FONTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_24,
-    color: COLORS.White,
+    color: COLORS.Black,
     marginHorizontal: SPACING.space_36,
-    marginVertical: SPACING.space_15,
     textAlign: 'center',
   },
   genreContainer: {
@@ -297,7 +304,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontFamily: FONTFAMILY.poppins_light,
     fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
+    color: COLORS.Black,
   },
   containerGap24: {
     gap: SPACING.space_24,
