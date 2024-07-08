@@ -22,14 +22,6 @@ const UserAccountScreen = ({navigation}: any) => {
         </View>
 
       <View style={styles.profileContainer}>
-        <Image
-          source={require('../assets/image/avatar.png')}
-          style={styles.avatarImage}
-        />
-        <Text style={styles.avatarText}>John Doe</Text>
-      </View>
-
-      <View style={styles.profileContainer}>
         <SettingComponent
           icon="user"
           heading="Account"

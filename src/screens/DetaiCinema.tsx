@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, StatusBar, Image, TouchableOpacity, ActivityInd
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Agenda } from 'react-native-calendars';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import tw from "twrnc";
 import axios from 'axios';
 
@@ -77,8 +78,12 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
       </View>
     }
 
-    const checkLogin = (item) => {
-      console.log(item);
+    const checkLogin = async (item) => {
+      const email_user = await AsyncStorage.getItem('email_user');
+      const password_user = await AsyncStorage.getItem('password_user');
+      if (!email_user || !password_user) {
+        navigation.navigate('LoginScreen');
+      }
     }
     return (
       <View style={tw`px-3`}>
