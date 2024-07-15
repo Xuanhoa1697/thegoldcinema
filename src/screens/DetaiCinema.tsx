@@ -81,6 +81,8 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
     const checkLogin = async (item) => {
       const email_user = await AsyncStorage.getItem('email_user');
       const password_user = await AsyncStorage.getItem('password_user');
+      console.log(email_user, password_user);
+      
       if (!email_user || !password_user) {
         navigation.navigate('LoginScreen');
       }

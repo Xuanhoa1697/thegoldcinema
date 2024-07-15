@@ -29,6 +29,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import tw from "twrnc";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // const getMovieDetails = async (movieid: number) => {
 //   try {
@@ -95,6 +96,21 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
   //     </ScrollView>
   //   );
   // }
+
+  const checkLogin = async () => {
+    const email_user = await AsyncStorage.getItem('email_user');
+    const password_user = await AsyncStorage.getItem('password_user');
+    
+    if (!email_user || !password_user) {
+      navigation.navigate('LoginScreen');
+    }else{
+      navigation.navigate('DetaiCinemaScreen', {
+        movieid: movie?.id,
+        movieName: movie?.name,
+      })
+    }
+  }
+
   return (
     <ScrollView
       style={styles.container}
@@ -187,12 +203,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <View style={tw`px-3`}>
           <TouchableOpacity
             style={tw`bg-[#9d2126] rounded-5 text-white w-full text-center py-2.5 my-5`}
-            onPress={() => {
-              navigation.navigate('DetaiCinemaScreen', {
-                movieid: movie?.id,
-                movieName: movie?.name,
-              });
-            }}>
+            onPress={checkLogin}>
             <Text style={tw`text-white w-full text-center`}>Đặt Vé</Text>
           </TouchableOpacity>
         </View>

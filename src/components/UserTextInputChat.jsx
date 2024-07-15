@@ -8,25 +8,25 @@ import tw from "twrnc"
 const UserTextInputChat = ({ placeholder, domainType=false, isPass, setStateValue }) => {
   const [value, setValue] = useState('');
   const [showPass, setShowPass] = useState(true);
-  const [primaryColor, setPrimaryColor] = useState('#9c1d21');
-  const [primaryValue, setPrimaryValue] = useState('#000000');
-  const [primaryPlaceholder, setPrimaryPlaceholder] = useState('#404040');
+  const [primaryColor, setPrimaryColor] = useState('#9c9c9c');
+  const [primaryValue, setPrimaryValue] = useState('#9c9c9c');
+  const [primaryPlaceholder, setPrimaryPlaceholder] = useState('#9c9c9c');
 
   const handleTextChange = (text) => {
     setValue(text);
     setStateValue(text);
   };
   const handleBlur = () => {
-    setPrimaryColor('#7a7a7a');
-    setPrimaryPlaceholder('#9c1d21')
+    setPrimaryColor('#9c9c9c');
+    setPrimaryPlaceholder('#9c9c9c')
   };
   const handleInput = () => {
-    setPrimaryColor('#4bb965');
-    setPrimaryPlaceholder('#4bb965');
+    setPrimaryColor('#9c9c9c');
+    setPrimaryPlaceholder('#9c9c9c');
   };
 
   return (
-    <View style={tw`border-b-[0.5px] rounded-1 px-1 pt-3 h-[55px] flex-row items-center content-center justify-between border-[${primaryColor}] ${domainType ? 'w-73%' : ''}`}>
+    <View style={tw`border-b-[0.5px] rounded-1 px-1 pt-3 mt-3 h-[55px] flex-row items-center content-center justify-between border-[${primaryColor}] ${domainType ? 'w-73%' : ''}`}>
       <TextInput
         placeholder={placeholder}
         value={value}
