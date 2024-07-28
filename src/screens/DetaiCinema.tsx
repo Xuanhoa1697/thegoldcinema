@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, StatusBar, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Agenda } from 'react-native-calendars';
@@ -48,7 +48,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://118.70.118.186:8070/web/api/v1/get_list_cinema_with_date`,
+        url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema_with_date`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
@@ -58,6 +58,8 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
 
       let response = await axios.request(config);
       const datas = await JSON.parse(JSON.stringify(response.data)).result;
+      console.log(datas);
+      
       setItems(datas.result);
 
     } catch (error) {
@@ -80,11 +82,12 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
 
     const checkLogin = async (item) => {
       const email_user = await AsyncStorage.getItem('email_user');
-      const password_user = await AsyncStorage.getItem('password_user');
-      console.log(email_user, password_user);
-      
+      const password_user = await AsyncStorage.getItem('password_user');      
       if (!email_user || !password_user) {
-        navigation.navigate('LoginScreen');
+        navigation.navigate('SeatBooking', {
+          detailId: item
+        });
+        // navigation.navigate('LoginScreen');
       }
     }
     return (
@@ -93,22 +96,30 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
           <View style={tw`mt-5 w-full`}>
             <View style={tw`flex-row items-center justify-between`} key={key} >
               <View style={tw`flex-row items-center justify-start`}>
-                <Text style={tw`text-[16px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
-                <Text style={tw`text-[16px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
+                <Text style={tw`text-[14px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
+                <Text style={tw`text-[14px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
               </View>
               <AntDesign name='heart' size={22} color={key == 0 ? '#9c1d21' : '#9c9c9c'} />
             </View>
             <Text style={tw`text-[15px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
-            <View style={tw`flex-row items-center justify-start mt-3 `}>
-            {items[date][cinemaName]['danhsachphim'].map((item, index) => (
-              <TouchableOpacity style={tw`flex-row items-center justify-between mr-2 
-                rounded-2 border border-[#9c9c9c] px-2 py-1`} key={index}
-                onPress={() => checkLogin(item)}>
-                  <View style={tw`flex-row items-center justify-start`}>
-                    <Text style={tw`text-start text-[16px] text-[#9c9c9c]`}>{item.giobatdau}</Text>
-                  </View>
-                </TouchableOpacity>
-            ))}
+            <View style={tw`flex-row items-center justify-start mt-1.5`}>
+            <FlatList
+              data={items[date][cinemaName]['danhsachphim']}
+              keyExtractor={item => item.giobatdau}
+              horizontal
+              bounces={false}
+              renderItem={({ item, index }) => {
+                return (
+                  <TouchableOpacity style={tw`flex-row items-center justify-between mr-2 
+                    rounded-1 border border-[#9c9c9c] px-3 py-1.2`} key={index}
+                    onPress={() => checkLogin(item)}>
+                      <View style={tw`flex-row items-center justify-start`}>
+                        <Text style={tw`text-[14px] text-[#9c9c9c]`}>{item.giobatdau}</Text>
+                      </View>
+                    </TouchableOpacity>
+                );
+              }}
+            />
           </View>
         </View>
         ))}
@@ -126,9 +137,9 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
       <View style={tw`h-full w-full`}>
         <View style={tw`h-[75px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2`}>
-            <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
+            <MaterialIcons name="arrow-back" size={32} color={'#9c1d21'} />
           </TouchableOpacity>
-          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[17px] font-bold text-black ml-2`}>{movieName.toUpperCase()}</Text>
+          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] font-bold text-black ml-2`}>{movieName.toUpperCase()}</Text>
         </View>
         {loading && <View style={tw`h-full w-full absolute z-10 top-[180px] flex items-center justify-start`}>
           <ActivityIndicator size="30" color="#9c1d21" style={tw`mt-[50%]`} />

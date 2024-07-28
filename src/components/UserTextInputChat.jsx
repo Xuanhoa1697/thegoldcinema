@@ -5,11 +5,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from "twrnc"
 
-const UserTextInputChat = ({ placeholder, domainType=false, isPass, setStateValue }) => {
+const UserTextInputChat = ({ placeholder, domainType=false, isPass, setStateValue, typeInput='default' }) => {
   const [value, setValue] = useState('');
   const [showPass, setShowPass] = useState(true);
   const [primaryColor, setPrimaryColor] = useState('#9c9c9c');
-  const [primaryValue, setPrimaryValue] = useState('#9c9c9c');
+  const [primaryValue, setPrimaryValue] = useState('#000000');
   const [primaryPlaceholder, setPrimaryPlaceholder] = useState('#9c9c9c');
 
   const handleTextChange = (text) => {
@@ -35,8 +35,7 @@ const UserTextInputChat = ({ placeholder, domainType=false, isPass, setStateValu
         onChangeText={handleTextChange} 
         secureTextEntry={isPass && showPass}
         autoCapitalize='none'
-        onBlur={handleBlur}
-        onFocus={handleInput}/>
+        keyboardType={typeInput}/>
       {isPass &&
         <TouchableOpacity onPress={()=>setShowPass(!showPass)}>
           <Ionicons name={`${!showPass ? 'eye' : 'eye-off'}`} size={25} color={primaryColor} />

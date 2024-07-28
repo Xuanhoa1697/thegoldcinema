@@ -15,6 +15,7 @@ import CinemaHomeScreen from './src/screens/CinemaHome';
 import TrailerScreen from './src/screens/TrailerScreen';
 import DetaiCinemaScreen from './src/screens/DetaiCinema';
 import LoginScreen from './src/screens/LoginScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +89,11 @@ const App = () => {
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
+          options={{animation: 'slide_from_right'}}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
           options={{animation: 'slide_from_right'}}
         />
       </Stack.Navigator>

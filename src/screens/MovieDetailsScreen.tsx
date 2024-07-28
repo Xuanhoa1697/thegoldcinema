@@ -56,6 +56,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MovieDetailsScreen = ({ navigation, route }: any) => {
   const movie = route.params.movie
+  console.log(movie);
+  
   const [numberOfLines, setNumberOfLines] = useState(3)
   console.log(movie);
 
@@ -102,7 +104,11 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
     const password_user = await AsyncStorage.getItem('password_user');
     
     if (!email_user || !password_user) {
-      navigation.navigate('LoginScreen');
+      // navigation.navigate('LoginScreen');
+      navigation.navigate('DetaiCinemaScreen', {
+        movieid: movie?.id,
+        movieName: movie?.name,
+      })
     }else{
       navigation.navigate('DetaiCinemaScreen', {
         movieid: movie?.id,
@@ -125,7 +131,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
       <View>
         <ImageBackground
           source={{
-            uri: `http://118.70.118.186:8070/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
+            uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
           }}
           style={styles.imageBG}
           resizeMode='cover'>
@@ -138,16 +144,16 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
             </TouchableOpacity>}
             <View style={tw`absolute left-3 top-5`}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <MaterialIcons name="arrow-back" size={33} color={'#ffffff'} />
+                <MaterialIcons name="arrow-back" size={30} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
             <View style={tw`absolute bottom-0 left-33`}>
-              <Text style={tw`mt-15 mb-5 text-white font-semibold text-[18px] text-center`} >{movie?.name.toUpperCase()}</Text>
+              <Text style={tw`mt-15 mb-5 text-white font-semibold text-[15px] text-center`} >{movie?.name.toUpperCase()}</Text>
             </View>
           </LinearGradient>
         </ImageBackground>
         <Image
-          source={{ uri: `http://118.70.118.186:8070/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
+          source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
           style={styles.cardImage}
         />
       </View>

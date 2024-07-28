@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react"
-import { View, TouchableOpacity, StatusBar, Keyboard, Text, Image, ActivityIndicator, Linking, Platform, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, StatusBar, Keyboard, Text, Image, ActivityIndicator, Platform, ToastAndroid } from 'react-native';
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import tw from "twrnc";
@@ -10,25 +10,22 @@ import LinearGradient from 'react-native-linear-gradient';
 import UserTextInputChat from "../components/UserTextInputChat";
 
 
-const LoginScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
     const Navigation = useNavigation();
     const [hidenLogo, setHidenLogo] = useState('');
     const [mt15, setMt15] = useState('');
     const [isSpinLoading, setIsSpinLoading] = useState(false);
+    const [name, setName] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(null);
 
     useEffect(() => {
-        async function fetchMyAPI() {
-            // setTimeout(() => {
-            //     Navigation.navigate('SplashScreen')
-            // }, 2000)
-        }
-
-        fetchMyAPI()
         
     }, []);
 
+    
     const keyboardDidShowListener = Keyboard.addListener(
         'keyboardDidShow',
         () => {
@@ -45,26 +42,32 @@ const LoginScreen = ({ navigation }) => {
         }
     );
 
-    const actionLogin = async () => {
-        setIsSpinLoading(true)
-        if (!email || !password) {
+    const actionRegister = async () => {
+        if (!name || !phoneNumber || !email || !password || !confirmPassword) {
             return handleShowNotification('Vui lòng điền đầy đủ thông tin');
         }
+
+        if (password !== confirmPassword) {
+            return handleShowNotification('Xác nhận mật khẩu không đúng');
+        }
+
         try {
 
             let data = JSON.stringify({
               "jsonrpc": "2.0",
               "method": "call",
               "params": {
-                'email': email,
-                'password': password
+                "email": email,
+                'name': name,
+                'password': password,
+                'phone': phoneNumber
               }
             });
             let config = {
               method: 'post',
               maxBodyLength: Infinity,
               mode: 'no-cors',
-              url: `http://192.168.1.218:8069/web/api/v1/login`,
+              url: `http://192.168.1.218:8069/web/api/v1/register`,
               headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -106,10 +109,10 @@ const LoginScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[17px] font-bold text-[#9c1d21]`}>Đăng nhập</Text>
+                <Text style={tw`text-[17px] font-bold text-[#9c1d21]`}>Đăng ký</Text>
             </View>
             <View style={tw`flex-1 h-full items-center justify-start`}>
-                <View style={tw`w-full h-[200px] flex items-center justify-center`}>
+                <View style={tw`w-full h-[200px] flex items-center justify-center ${hidenLogo}`}>
                     <View style={tw`flex justify-center items-center`}>
                         <View style={tw`rounded-5 flex justify-center items-center`}>
                             <Image source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}` }}
@@ -119,12 +122,26 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={tw`bg-white h-[55%] h-full px-3 py-5 rounded-t-10`}>
+                    <UserTextInputChat
+                        placeholder="Tên"
+                        iconInput="email"
+                        isPass={false}
+                        setStateValue={setName}
+                    />
+                    <UserTextInputChat
+                        placeholder="Số điện thoại"
+                        iconInput="email"
+                        isPass={false}
+                        setStateValue={setPhoneNumber}
+                        typeInput='phone-pad'
+                    />
                     {/* Email */}
                     <UserTextInputChat
-                        placeholder="Tài khoản"
+                        placeholder="Email"
                         iconInput="email"
                         isPass={false}
                         setStateValue={setEmail}
+                        typeInput='email-address'
                     />
 
                     {/* Password */}
@@ -135,31 +152,18 @@ const LoginScreen = ({ navigation }) => {
                         setStateValue={setPassword}
                     />
 
-                    <View style={tw`w-full flex-row justify-between items-center h-10 mt-7`}>
-                        <View style={tw`w-full pr-1 h-full`}>
-                            <TouchableOpacity style={tw`h-full bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
-                            onPress={actionLogin}>
-                                <Text style={tw`text-white font-bold text-[15px] py-2 px-2`}>Đăng nhập</Text>
-                                {isSpinLoading &&
-                                    <ActivityIndicator color="#ffffff" size={20} />
-                                }
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={tw`w-full flex-row items-center justify-center py-5`}>
-                        <TouchableOpacity onPress={() => {
-                            Linking.openURL('https://thegoldcinema.com/web/reset_password');
-                        }}>
-                            <Text style={tw`text-[#000000] text-[15px]`}>Quên mật khẩu?</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={tw`text-[#000000] text-[15px] text-center italic`}>Hoặc</Text>
+                    <UserTextInputChat
+                        placeholder="Nhập lại mật khẩu"
+                        isPass={true}
+                        iconInput="lock"
+                        setStateValue={setConfirmPassword}
+                    />
 
                     <View style={tw`w-full flex-row justify-between items-center h-10 mt-7`}>
                         <View style={tw`w-full pr-1 h-full`}>
-                            <TouchableOpacity style={tw`h-full bg-[#ffffff] border border-[#9c9c9c] flex-row justify-center items-center rounded-15`}
-                            onPress={() => navigation.navigate('RegisterScreen')}>
-                                <Text style={tw`text-[#9c9c9c] text-[15px] py-2 px-2`}>Đăng ký tài khoản</Text>
+                            <TouchableOpacity style={tw`h-full bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
+                            onPress={actionRegister}>
+                                <Text style={tw`text-white font-bold text-[15px] py-2 px-2`}>Đăng ký</Text>
                                 {isSpinLoading &&
                                     <ActivityIndicator color="#ffffff" size={20} />
                                 }
@@ -172,4 +176,4 @@ const LoginScreen = ({ navigation }) => {
     )
 }
 
-export default LoginScreen
+export default RegisterScreen

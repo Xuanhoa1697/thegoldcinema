@@ -48,7 +48,7 @@ const getNowPlayingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://118.70.118.186:8070/web/api/v1/get_list_cinema`,
+      url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const getUpcomingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://118.70.118.186:8070/web/api/v1/get_list_cinema`,
+      url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const getPopularMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://118.70.118.186:8070/web/api/v1/get_list_cinema`,
+      url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
         <View style={tw`w-[40%] flex-row justify-center items-center`}>
           <Image style={tw`h-[55px] w-[100px]`}
-            source={{ uri: `http://118.70.118.186:8070/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+            source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
             resizeMode='contain' />
         </View>
 
@@ -276,7 +276,7 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://118.70.118.186:8070${bgContent?.image}` }}
+          source={{ uri: `http://192.168.1.218:8069${bgContent?.image}` }}
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={10}>
@@ -286,7 +286,7 @@ const HomeScreen = ({ navigation }: any) => {
             </View>
             <View style={tw`w-[40%] flex-row justify-center items-center`}>
               <Image style={tw`h-[55px] w-[100px]`}
-                source={{ uri: `http://118.70.118.186:8070/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                 resizeMode='contain' />
             </View>
 
@@ -322,7 +322,7 @@ const HomeScreen = ({ navigation }: any) => {
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
-                  imagePath={`http://118.70.118.186:8070${item.image}${refreshingItem}`}
+                  imagePath={`http://192.168.1.218:8069${item.image}${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
                   // vote_average={item.rate}
                   vote_count={item.rate}
@@ -337,7 +337,7 @@ const HomeScreen = ({ navigation }: any) => {
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
               <View style={tw``}>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[16px] font-bold text-white`}>{bgContent?.name}</Text>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] font-bold text-white`}>{bgContent?.name}</Text>
                 <View style={tw`flex-row items-center justify-start mt-3`}>
                   <CustomIcon name="star" size={20} color={'#f5d53e'} />
                   <Text style={tw`text-[14px] text-white`}>{bgContent?.rate}</Text>
@@ -376,7 +376,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://118.70.118.186:8070${item.image}${refreshingItem}`}
+                imagePath={`http://192.168.1.218:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -400,7 +400,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://118.70.118.186:8070${item.image}${refreshingItem}`}
+                imagePath={`http://192.168.1.218:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}
