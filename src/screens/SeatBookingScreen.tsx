@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   Dimensions,
   ToastAndroid,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform,
+  Alert
 } from 'react-native';
 import {
   BORDERRADIUS,
@@ -23,6 +25,7 @@ import AppHeader from '../components/AppHeader';
 import CustomIcon from '../components/CustomIcon';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import tw from "twrnc";
 import axios from 'axios';
 import {
@@ -89,7 +92,7 @@ const { width, height } = Dimensions.get('window');
 
 const SeatBookingScreen = ({ navigation, route }: any) => {
   const detail = route.params.detailId;
-
+  const isFocused = useIsFocused()
 
   const [dateArray, setDateArray] = useState<any[]>(generateDate());
   const [selectedDateIndex, setSelectedDateIndex] = useState<any>();
@@ -98,6 +101,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   const [selectedSeatArray, setSelectedSeatArray] = useState([]);
   const [selectedTimeIndex, setSelectedTimeIndex] = useState<any>();
   const [data, setData] = useState([]);
+  const [rootDataa, setRootData] = useState([]);
   const [rowMap, setRowMap] = useState([]);
   const [columnMap, setColumnMap] = useState([]);
   const [customStyle, setCustomStyle] = useState({});
@@ -105,19 +109,21 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   const [datvetruocList, setDatvetruocList] = useState([]);
   const [legendTtems, setLegendTtems] = useState([]);
   const [seats, setSeats] = useState([]);
-  const scale = useSharedValue(0.7);
+  const scale = useSharedValue(0.8);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-  const savedScale = useRef(0.7);
+  const savedScale = useRef(0.8);
   const savedTranslateX = useRef(0);
   const savedTranslateY = useRef(0);
   const [loading, setLoading] = useState(false);
+  const [selectedSeats, setSelectedSeats] = useState({});
 
   React.useEffect(() => {
     (async () => {
+      setSelectedSeats({})
       get_seat_map_cinema_home()
     })();
-  }, []);
+  }, [isFocused]);
 
   const get_seat_map_cinema_home = async () => {
     try {
@@ -143,8 +149,8 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
 
       let response = await axios.request(config);
       const datas = await JSON.parse(JSON.stringify(response.data)).result;
-      console.log(datas.result);
       setLoading(false)
+      setRootData(datas.result);
       setData(datas.result.data);
       setRowMap(datas.result.rows_map);
       setColumnMap(datas.result.columns_map);
@@ -161,61 +167,42 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
     }
   };
 
-  const selectSeat = (index: number, subindex: number, num: number) => {
-    if (!twoDSeatArray[index][subindex].taken) {
-      let array: any = [...selectedSeatArray];
-      let temp = [...twoDSeatArray];
-      temp[index][subindex].selected = !temp[index][subindex].selected;
-      if (!array.includes(num)) {
-        array.push(num);
-        setSelectedSeatArray(array);
+  const toggleSeat = (seatId, is_ghedoi) => {
+    let data_seat = {
+      ...selectedSeats,
+      [seatId]: selectedSeats.hasOwnProperty(seatId) ? !selectedSeats[seatId] : true,
+    }
+    if (is_ghedoi) {
+      let ghe_doi = seatId.split("_");
+      if (Number(ghe_doi[1]) % 2 === 0) {
+        ghe_doi = ghe_doi[0] + "_" + (Number(ghe_doi[1]) - 1);
       } else {
-        const tempindex = array.indexOf(num);
-        if (tempindex > -1) {
-          array.splice(tempindex, 1);
-          setSelectedSeatArray(array);
-        }
+        ghe_doi = ghe_doi[0] + "_" + (Number(ghe_doi[1]) + 1);
       }
-      setPrice(array.length * 5.0);
-      setTwoDSeatArray(temp);
+      data_seat[[ghe_doi]] = data_seat.hasOwnProperty(ghe_doi) ? !data_seat[ghe_doi] : true;
+    }
+    setSelectedSeats(data_seat);
+  };
+
+  const handleShowNotification = (text) => {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(text, ToastAndroid.SHORT)
+    } else {
+      Alert.alert('Thông báo', text);
     }
   };
 
   const BookSeats = async () => {
-    if (
-      selectedSeatArray.length !== 0 &&
-      timeArray[selectedTimeIndex] !== undefined &&
-      dateArray[selectedDateIndex] !== undefined
-    ) {
-      try {
-        await EncryptedStorage.setItem(
-          'ticket',
-          JSON.stringify({
-            seatArray: selectedSeatArray,
-            time: timeArray[selectedTimeIndex],
-            date: dateArray[selectedDateIndex],
-            ticketImage: route.params.PosterImage,
-          }),
-        );
-      } catch (error) {
-        console.error(
-          'Something went Wrong while storing in BookSeats Functions',
-          error,
-        );
-      }
-      navigation.navigate('Ticket', {
-        seatArray: selectedSeatArray,
-        time: timeArray[selectedTimeIndex],
-        date: dateArray[selectedDateIndex],
-        ticketImage: route.params.PosterImage,
-      });
-    } else {
-      ToastAndroid.showWithGravity(
-        'Please Select Seats, Date and Time of the Show',
-        ToastAndroid.SHORT,
-        ToastAndroid.BOTTOM,
-      );
+    console.log(selectedSeats);
+    
+    if (Object.keys(selectedSeats).length === 0) {
+      return handleShowNotification('Vui lòng chọn ghế trước khi đặt vé');
     }
+    navigation.navigate('PaymentScreen', {
+      detailId: detail,
+      seats: selectedSeats,
+      data: rootDataa
+    });
   };
 
   const pinchGesture = Gesture.Pinch()
@@ -227,7 +214,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
     })
     .onEnd(() => {
       if (scale.value < 1) {
-        scale.value = withTiming(0.7, { duration: 300 });
+        scale.value = withTiming(0.8, { duration: 300 });
       }
     });
 
@@ -272,8 +259,8 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
           </View>
           <View style={tw`flex-row items-start justify-center`}>
             <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c]`}>{detail.phong},</Text>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}{detail.ngaychieu.split("-")[1]}/{detail.ngaychieu.split("-")[0]},</Text>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}/{detail.ngaychieu.split("-")[1]}/{detail.ngaychieu.split("-")[0]}</Text>
+            {/* <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text> */}
           </View>
         </View>
       </View>
@@ -282,9 +269,9 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
           <Animated.View style={[styles.container, animatedStyle]}>
             <Text style={tw`text-[30px] text-[#ffffff] font-bold text-center mb-15`}>MÀN HÌNH</Text>
             <View style={[styles.containerGap20]}>
-            {loading && <View style={tw`h-full w-full absolute z-10 top-[50%] flex items-center justify-start`}>
-              <ActivityIndicator size="30" color="#ffffff" style={tw``} />
-            </View>}
+              {loading && <View style={tw`h-full w-full absolute z-10 top-[50%] flex items-center justify-start`}>
+                <ActivityIndicator size="30" color="#ffffff" style={tw``} />
+              </View>}
               {rowMap?.map((item, index_row) => {
                 let data_item = data[index_row].split("");
                 return (
@@ -293,30 +280,34 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
                       if (subitem != "") {
                         let color = '';
                         let disableBooking = false
+                        let is_ghedoi = false
                         if (data_item.filter((i) => i === 'a').length > 0) {
                           color = '#3a78c3'
-                        }else {
+                        } else {
                           color = '#ee82ee';
+                          is_ghedoi = true
                         }
 
-                        if (datvetruocList.includes(item + subitem)) {
+                        if (datvetruocList.includes(`${item}_${subitem}`)) {
                           color = '#008000'
                           disableBooking = true;
                         }
 
-                        if (bookedSeat.includes(item + subitem)) {
+                        if (bookedSeat.includes(`${item}_${subitem}`)) {
                           color = '#472b34';
                           disableBooking = true
                         }
                         return (
                           <TouchableOpacity
-                            key={item + subitem}
+                            key={`${item}_${subitem}`}
                             disabled={disableBooking}
                             style={[customStyle.hasOwnProperty(item + subitem) ? customStyle[item + subitem] : '']}
                             onPress={() => {
-                              // selectSeat(index, subindex, subitem.number);
+                              toggleSeat(`${item}_${subitem}`, is_ghedoi);
                             }}>
-                            <View style={[tw`w-7 h-7 bg-white flex justify-center items-center bg-[${color}]`]}>
+                            <View style={[tw`w-7 h-7 bg-white flex justify-center items-center bg-[${color}] 
+                                bg-[${(selectedSeats.hasOwnProperty(`${item}_${subitem}`) && selectedSeats[`${item}_${subitem}`]) ? '#e6cac4' : color}] 
+                              `]}>
                               <Text style={tw`text-[11px] text-center text-white`}>{item + subitem}</Text>
                             </View>
                           </TouchableOpacity>
@@ -329,6 +320,13 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
               })}
             </View>
             <View style={[styles.seatRadioContainer, tw`mt-15`]}>
+              {legendTtems.length > 0 && <View style={styles.radioContainer}>
+                <View style={[tw`w-4 h-4 bg-white flex justify-center items-center bg-[#e6cac4]`]}>
+
+                </View>
+                <Text style={tw`text-[12px] text-center text-white`}>Đang chọn</Text>
+              </View>
+              }
               {legendTtems?.map((item) => {
                 let color = '';
                 if (item[0] == 'a') {
@@ -346,7 +344,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
                 return (
                   <View style={styles.radioContainer} key={item[0]}>
                     <View style={[tw`w-4 h-4 bg-white flex justify-center items-center bg-[${color}]`]}>
-                      
+
                     </View>
                     <Text style={tw`text-[12px] text-center text-white`}>{item[2]}</Text>
                   </View>
@@ -360,7 +358,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
         <View style={tw`flex items-start justify-start w-full`}>
           <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[14px] text-black`}>{detail.phim.toUpperCase()}</Text>
           <View style={tw`flex-row items-center justify-between w-full`}>
-            <Text style={tw`text-[#000000] text-[14px]`}>{price} đ</Text>
+            <Text style={tw`text-[#9c9c9c] text-[14px]`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
             <TouchableOpacity onPress={BookSeats}>
               <Text style={tw`text-white font-bold bg-[#9C1D21] text-[14px] px-8 py-2 rounded-15`}>Đặt vé</Text>
             </TouchableOpacity>

@@ -328,7 +328,7 @@ const HomeScreen = ({ navigation }: any) => {
                   vote_count={item.rate}
                 />
               )}
-              firstItem={1}
+              firstItem={0}
               inactiveSlideScale={0.8}
               inactiveSlideOpacity={0.7}
               sliderWidth={width}
