@@ -18,7 +18,7 @@ import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
-const PaymentScreen = ({ navigation, route }) => {
+const QrScreen = ({ navigation, route }) => {
     const detail = route.params.detailId;
     const seats = route.params.seats;
     const banggia = route.params.data.banggia;
@@ -124,4 +124,4 @@ const PaymentScreen = ({ navigation, route }) => {
     );
 };
 
-export default PaymentScreen;
+export default QrScreen;

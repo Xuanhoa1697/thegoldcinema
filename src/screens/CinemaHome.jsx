@@ -26,7 +26,7 @@ const CinemaHomeScreen = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema_home`,
+                url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema_home`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',

@@ -17,6 +17,7 @@ import DetaiCinemaScreen from './src/screens/DetaiCinema';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
+import EditProfile from './src/screens/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -100,6 +101,11 @@ const App = () => {
         <Stack.Screen
           name="PaymentScreen"
           component={PaymentScreen}
+          options={{animation: 'slide_from_right'}}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
           options={{animation: 'slide_from_right'}}
         />
       </Stack.Navigator>

@@ -48,7 +48,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema_with_date`,
+        url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema_with_date`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
@@ -81,14 +81,9 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
     }
 
     const checkLogin = async (item) => {
-      const email_user = await AsyncStorage.getItem('email_user');
-      const password_user = await AsyncStorage.getItem('password_user');      
-      if (!email_user || !password_user) {
-        navigation.navigate('SeatBooking', {
-          detailId: item
-        });
-        // navigation.navigate('LoginScreen');
-      }
+      navigation.navigate('SeatBooking', {
+        detailId: item
+      });
     }
     return (
       <View style={tw`px-3`}>

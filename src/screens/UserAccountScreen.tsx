@@ -1,13 +1,32 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, StatusBar, Image, TouchableOpacity} from 'react-native';
-import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
+import { Text, View, StyleSheet, StatusBar, Image, TouchableOpacity, Linking } from 'react-native';
+import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
 import AppHeader from '../components/AppHeader';
 import SettingComponent from '../components/SettingComponent';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import tw from "twrnc";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const UserAccountScreen = ({navigation}: any) => {
+const UserAccountScreen = ({ navigation }: any) => {
+
+  const logoutApp = async () => {
+    try {
+      await AsyncStorage.removeItem('user_info');
+      navigation.navigate('HomeScreen');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const handleUser = async (keyData) => {
+    if (keyData === 'user') {
+      navigation.navigate('EditProfile');
+    }
+    if (keyData === 'support') {
+      Linking.openURL('https://thegoldcinema.com')
+    }
+  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -15,37 +34,41 @@ const UserAccountScreen = ({navigation}: any) => {
         backgroundColor={'#000000'}
         barStyle={'default'}
       />
-      <View style={tw`h-[75px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2`}>
-            <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
-          </TouchableOpacity>
-        </View>
+      <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2`}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
+        </TouchableOpacity>
+        <Text style={tw`text-[17px] font-bold text-[#9c1d21]`}>Tài khoản</Text>
+      </View>
 
       <View style={styles.profileContainer}>
         <SettingComponent
           icon="user"
-          heading="Account"
-          subheading="Edit Profile"
-          subtitle="Change Password"
+          heading="Tài khoản"
+          subheading="Chỉnh sửa thông tin"
+          handleAction={handleUser}
+          keyData="user"
         />
+
         <SettingComponent
           icon="setting"
-          heading="Settings"
-          subheading="Theme"
-          subtitle="Permissions"
+          heading="Phiên bản"
+          subheading="1.0.0"
+          handleAction={handleUser}
+          keyData="version"
         />
+
         <SettingComponent
-          icon="dollar"
-          heading="Offers & Refferrals"
-          subheading="Offer"
-          subtitle="Refferrals"
+          icon="setting"
+          heading="Hỗ trợ"
+          subheading="Hướng dẫn thanh toán, thông tin công ty"
+          handleAction={handleUser}
+          keyData="support"
         />
-        <SettingComponent
-          icon="info"
-          heading="About"
-          subheading="About Movies"
-          subtitle="more"
-        />
+        <TouchableOpacity style={tw`w-full`}
+          onPress={logoutApp}>
+          <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[14px] px-8 py-2 rounded-15`}>Đăng xuất</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -63,7 +86,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     alignItems: 'center',
-    padding: SPACING.space_36,
+    padding: SPACING.space_10,
   },
   avatarImage: {
     height: 80,

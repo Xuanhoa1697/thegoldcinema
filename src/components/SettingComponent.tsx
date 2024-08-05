@@ -1,23 +1,24 @@
 import * as React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import CustomIcon from './CustomIcon';
+import tw from "twrnc";
 
 const SettingComponent = (props: any) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={tw`flex-row items-start mb-3`} onPress={() => props.handleAction(props.keyData)}>
       <View>
         <CustomIcon name={props.icon} style={styles.iconStyle} />
       </View>
       <View style={styles.settingContainer}>
         <Text style={styles.title}>{props.heading}</Text>
-        <Text style={styles.subtitle}>{props.subheading}</Text>
+        <Text style={styles.subtitle} ellipsizeMode='tail' numberOfLines={1}>{props.subheading}</Text>
         <Text style={styles.subtitle}>{props.subtitle}</Text>
       </View>
       <View style={styles.iconBG}>
         <CustomIcon name={'arrow-right'} style={styles.iconStyle} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: FONTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_18,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.Black,
   },
   subtitle: {

@@ -29,6 +29,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Carousel from "react-native-snap-carousel";
 import CustomIcon from '../components/CustomIcon';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get('window');
 const ITEM_SIZE1 = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
@@ -48,7 +49,7 @@ const getNowPlayingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema`,
+      url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ const getUpcomingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema`,
+      url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -117,7 +118,7 @@ const getPopularMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://192.168.1.218:8069/web/api/v1/get_list_cinema`,
+      url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -218,6 +219,15 @@ const HomeScreen = ({ navigation }: any) => {
     );
   }
 
+  const checkLogin = async () => {
+    const user_info = await AsyncStorage.getItem('user_info');
+    if (!user_info) {
+      navigation.navigate('LoginScreen');
+    } else {
+      navigation.navigate('UserAccountScreen');
+    }
+  }
+
   return (
     <SafeAreaView style={tw`h-full w-full`}>
       {/* <StatusBar hidden /> */}
@@ -233,7 +243,7 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
         <View style={tw`w-[40%] flex-row justify-center items-center`}>
           <Image style={tw`h-[55px] w-[100px]`}
-            source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+            source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
             resizeMode='contain' />
         </View>
 
@@ -241,7 +251,7 @@ const HomeScreen = ({ navigation }: any) => {
           <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
             <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={34} color={'#9d2126'} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('UserAccountScreen')}>
+          <TouchableOpacity onPress={checkLogin}>
             <MaterialCommunityIcons name="format-list-bulleted" size={38} color={'#9d2126'} />
           </TouchableOpacity>
         </View>
@@ -276,7 +286,7 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://192.168.1.218:8069${bgContent?.image}` }}
+          source={{ uri: `http://10.17.0.157:8069${bgContent?.image}` }}
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={10}>
@@ -286,7 +296,7 @@ const HomeScreen = ({ navigation }: any) => {
             </View>
             <View style={tw`w-[40%] flex-row justify-center items-center`}>
               <Image style={tw`h-[55px] w-[100px]`}
-                source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                 resizeMode='contain' />
             </View>
 
@@ -294,7 +304,7 @@ const HomeScreen = ({ navigation }: any) => {
               <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
                 <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={34} color={'#ffffff'} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('UserAccountScreen')}>
+              <TouchableOpacity onPress={checkLogin}>
                 <MaterialCommunityIcons name="format-list-bulleted" size={38} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
@@ -322,7 +332,7 @@ const HomeScreen = ({ navigation }: any) => {
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
-                  imagePath={`http://192.168.1.218:8069${item.image}${refreshingItem}`}
+                  imagePath={`http://10.17.0.157:8069${item.image}${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
                   // vote_average={item.rate}
                   vote_count={item.rate}
@@ -362,7 +372,7 @@ const HomeScreen = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
         <View style={tw`bg-white`}>
-          <CategoryHeader title={'Đang chiếu'} />
+          {popularMoviesList && <CategoryHeader title={'Đang chiếu'} />}
           <Carousel
             data={popularMoviesList}
             loop={true}
@@ -376,7 +386,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://192.168.1.218:8069${item.image}${refreshingItem}`}
+                imagePath={`http://10.17.0.157:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -386,7 +396,7 @@ const HomeScreen = ({ navigation }: any) => {
             itemWidth={width / 3 + 20}
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
-          <CategoryHeader title={'Sắp chiếu'} />
+          {upcomingMoviesList && <CategoryHeader title={'Sắp chiếu'} />}
           <Carousel
             data={upcomingMoviesList}
             loop={true}
@@ -400,7 +410,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://192.168.1.218:8069${item.image}${refreshingItem}`}
+                imagePath={`http://10.17.0.157:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}

@@ -100,15 +100,11 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
   // }
 
   const checkLogin = async () => {
-    const email_user = await AsyncStorage.getItem('email_user');
-    const password_user = await AsyncStorage.getItem('password_user');
+    const user_info = await AsyncStorage.getItem('user_info');
+    console.log(user_info);
     
-    if (!email_user || !password_user) {
-      // navigation.navigate('LoginScreen');
-      navigation.navigate('DetaiCinemaScreen', {
-        movieid: movie?.id,
-        movieName: movie?.name,
-      })
+    if (!user_info) {
+      navigation.navigate('LoginScreen');
     }else{
       navigation.navigate('DetaiCinemaScreen', {
         movieid: movie?.id,
@@ -131,7 +127,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
       <View>
         <ImageBackground
           source={{
-            uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
+            uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
           }}
           style={styles.imageBG}
           resizeMode='cover'>
@@ -153,7 +149,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
           </LinearGradient>
         </ImageBackground>
         <Image
-          source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
+          source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
           style={styles.cardImage}
         />
       </View>

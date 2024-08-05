@@ -139,7 +139,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://192.168.1.218:8069/web/api/v1/lichchieu/seatmap`,
+        url: `http://10.17.0.157:8069/web/api/v1/lichchieu/seatmap`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',

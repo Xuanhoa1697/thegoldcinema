@@ -46,12 +46,12 @@ const LoginScreen = ({ navigation }) => {
     );
 
     const actionLogin = async () => {
-        setIsSpinLoading(true)
         if (!email || !password) {
             return handleShowNotification('Vui lòng điền đầy đủ thông tin');
         }
         try {
-
+            Keyboard.dismiss()
+            setIsSpinLoading(true)
             let data = JSON.stringify({
               "jsonrpc": "2.0",
               "method": "call",
@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
               method: 'post',
               maxBodyLength: Infinity,
               mode: 'no-cors',
-              url: `http://192.168.1.218:8069/web/api/v1/login`,
+              url: `http://10.17.0.157:8069/web/api/v1/login`,
               headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -74,10 +74,13 @@ const LoginScreen = ({ navigation }) => {
       
             let response = await axios.request(config);
             const datas = await JSON.parse(JSON.stringify(response.data)).result;
-            // if (datas.status == 500) {
-            //     return handleShowNotification(datas.msg);
-            // }
-            Navigation.navigate('LoginScreen');
+            console.log(datas);
+            setIsSpinLoading(false)
+            if (datas.status != 200) {
+                return handleShowNotification(datas.msg);
+            }
+            await saveToLocal(datas);
+            Navigation.navigate('HomeScreen');
       
           } catch (error) {
             console.error(
@@ -85,6 +88,14 @@ const LoginScreen = ({ navigation }) => {
               error,
             );
           }
+    }
+
+    const saveToLocal = async (datas) => {
+        try {
+            const user_info = await AsyncStorage.setItem('user_info', JSON.stringify(datas));
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const handleShowNotification = (text) => {
@@ -112,7 +123,7 @@ const LoginScreen = ({ navigation }) => {
                 <View style={tw`w-full h-[200px] flex items-center justify-center`}>
                     <View style={tw`flex justify-center items-center`}>
                         <View style={tw`rounded-5 flex justify-center items-center`}>
-                            <Image source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}` }}
+                            <Image source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}` }}
                                 style={tw`w-[200px] h-full`}
                                 resizeMode='contain' />
                         </View>

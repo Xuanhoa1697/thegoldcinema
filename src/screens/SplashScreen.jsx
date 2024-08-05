@@ -28,10 +28,10 @@ const SplashScreen = ({ route }) => {
                 barStyle="white-content"
             />
             <ImageBackground blurRadius={7} 
-                source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem&time=${Math.random()}` }} 
+                source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem&time=${Math.random()}` }} 
                 resizeMode="cover" style={tw`h-full w-full flex items-center justify-center `}>
                     <Image 
-                        source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}`}}
+                        source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}`}}
                         resizeMode="contain"
                         style={tw`h-[70px] w-[60%]`} />
                     <ActivityIndicator size="50" color="#ffffff" />

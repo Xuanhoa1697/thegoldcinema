@@ -52,7 +52,7 @@ const RegisterScreen = ({ navigation }) => {
         }
 
         try {
-
+            Keyboard.dismiss()
             let data = JSON.stringify({
               "jsonrpc": "2.0",
               "method": "call",
@@ -67,7 +67,7 @@ const RegisterScreen = ({ navigation }) => {
               method: 'post',
               maxBodyLength: Infinity,
               mode: 'no-cors',
-              url: `http://192.168.1.218:8069/web/api/v1/register`,
+              url: `http://10.17.0.157:8069/web/api/v1/register`,
               headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -77,10 +77,16 @@ const RegisterScreen = ({ navigation }) => {
       
             let response = await axios.request(config);
             const datas = await JSON.parse(JSON.stringify(response.data)).result;
-            // if (datas.status == 500) {
-            //     return handleShowNotification(datas.msg);
-            // }
-            Navigation.navigate('LoginScreen');
+            console.log(datas);
+            if (datas.status == 500) {
+                return handleShowNotification(datas.msg);
+            }
+            if (datas.status == 200) {
+                handleShowNotification(datas.msg);
+            }
+            setTimeout(() => {
+                Navigation.navigate('LoginScreen');
+            }, 1000);
       
           } catch (error) {
             console.error(
@@ -115,7 +121,7 @@ const RegisterScreen = ({ navigation }) => {
                 <View style={tw`w-full h-[200px] flex items-center justify-center ${hidenLogo}`}>
                     <View style={tw`flex justify-center items-center`}>
                         <View style={tw`rounded-5 flex justify-center items-center`}>
-                            <Image source={{ uri: `http://192.168.1.218:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}` }}
+                            <Image source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiema` }}
                                 style={tw`w-[200px] h-full`}
                                 resizeMode='contain' />
                         </View>
