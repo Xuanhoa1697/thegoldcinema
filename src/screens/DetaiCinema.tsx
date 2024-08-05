@@ -48,7 +48,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema_with_date`,
+        url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema_with_date`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',

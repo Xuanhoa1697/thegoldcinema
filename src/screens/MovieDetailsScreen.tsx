@@ -127,7 +127,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
       <View>
         <ImageBackground
           source={{
-            uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
+            uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
           }}
           style={styles.imageBG}
           resizeMode='cover'>
@@ -149,7 +149,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
           </LinearGradient>
         </ImageBackground>
         <Image
-          source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
+          source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
           style={styles.cardImage}
         />
       </View>

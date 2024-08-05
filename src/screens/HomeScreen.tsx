@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   Platform,
   Animated,
-  TextInput
+  BackHandler,
+  Alert
 } from 'react-native';
 import { COLORS, SPACING } from '../theme/theme';
 import InputHeader from '../components/InputHeader';
@@ -49,7 +50,7 @@ const getNowPlayingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema`,
+      url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ const getUpcomingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema`,
+      url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -118,7 +119,7 @@ const getPopularMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://10.17.0.157:8069/web/api/v1/get_list_cinema`,
+      url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -162,6 +163,21 @@ const HomeScreen = ({ navigation }: any) => {
       let tempUpcoming = await getUpcomingMoviesList();
       setUpcomingMoviesList(tempUpcoming.result);
     })();
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'YES', onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
   }, []);
 
   const onRefresh = async () => {
@@ -243,7 +259,7 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
         <View style={tw`w-[40%] flex-row justify-center items-center`}>
           <Image style={tw`h-[55px] w-[100px]`}
-            source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+            source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
             resizeMode='contain' />
         </View>
 
@@ -286,7 +302,7 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://10.17.0.157:8069${bgContent?.image}` }}
+          source={{ uri: `http://192.168.0.104:8069${bgContent?.image}` }}
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={10}>
@@ -296,7 +312,7 @@ const HomeScreen = ({ navigation }: any) => {
             </View>
             <View style={tw`w-[40%] flex-row justify-center items-center`}>
               <Image style={tw`h-[55px] w-[100px]`}
-                source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                 resizeMode='contain' />
             </View>
 
@@ -332,7 +348,7 @@ const HomeScreen = ({ navigation }: any) => {
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
-                  imagePath={`http://10.17.0.157:8069${item.image}${refreshingItem}`}
+                  imagePath={`http://192.168.0.104:8069${item.image}${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
                   // vote_average={item.rate}
                   vote_count={item.rate}
@@ -368,7 +384,7 @@ const HomeScreen = ({ navigation }: any) => {
           <TouchableOpacity style={tw`flex-row justify-between items-center h-full`}
             onPress={() => navigation.navigate('CinemaHomeScreen')}>
             <Text style={tw`text-[15px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
-              <Feather name="send" size={22} color={'#c9c9c9'}/>
+            <Feather name="send" size={22} color={'#c9c9c9'} />
           </TouchableOpacity>
         </View>
         <View style={tw`bg-white`}>
@@ -386,7 +402,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://10.17.0.157:8069${item.image}${refreshingItem}`}
+                imagePath={`http://192.168.0.104:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -410,7 +426,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://10.17.0.157:8069${item.image}${refreshingItem}`}
+                imagePath={`http://192.168.0.104:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}

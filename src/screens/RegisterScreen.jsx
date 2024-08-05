@@ -67,7 +67,7 @@ const RegisterScreen = ({ navigation }) => {
               method: 'post',
               maxBodyLength: Infinity,
               mode: 'no-cors',
-              url: `http://10.17.0.157:8069/web/api/v1/register`,
+              url: `http://192.168.0.104:8069/web/api/v1/register`,
               headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -108,20 +108,20 @@ const RegisterScreen = ({ navigation }) => {
         <View style={tw`h-full w-full`}>
             <StatusBar
                 translucent={false}
-                backgroundColor={'#000000'}
-                barStyle={'default'}
+                backgroundColor={'#9c1d21'}
+                barStyle={'light-content'}
             />
-            <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2`}>
+            <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
+                    <MaterialIcons name="arrow-back" size={32} color={'#ffffff'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[17px] font-bold text-[#9c1d21]`}>Đăng ký</Text>
+                <Text style={tw`text-[17px] font-bold text-[#ffffff]`}>Đăng ký</Text>
             </View>
             <View style={tw`flex-1 h-full items-center justify-start`}>
                 <View style={tw`w-full h-[200px] flex items-center justify-center ${hidenLogo}`}>
                     <View style={tw`flex justify-center items-center`}>
                         <View style={tw`rounded-5 flex justify-center items-center`}>
-                            <Image source={{ uri: `http://10.17.0.157:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiema` }}
+                            <Image source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                                 style={tw`w-[200px] h-full`}
                                 resizeMode='contain' />
                         </View>

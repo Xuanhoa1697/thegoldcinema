@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, StatusBar, Image, TouchableOpacity, Linking } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, Image, TouchableOpacity, Linking, Alert } from 'react-native';
 import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
 import AppHeader from '../components/AppHeader';
 import SettingComponent from '../components/SettingComponent';
@@ -11,6 +11,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const UserAccountScreen = ({ navigation }: any) => {
 
   const logoutApp = async () => {
+    Alert.alert('Đăng xuất', 'Bạn có muốn đăng xuất?', [
+      {
+        text: 'Hủy bỏ',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Đồng ý', onPress: () => {
+        logoutUser()
+      }},
+    ]);
+  }
+
+  const logoutUser = async () => {
     try {
       await AsyncStorage.removeItem('user_info');
       navigation.navigate('HomeScreen');
@@ -31,17 +44,17 @@ const UserAccountScreen = ({ navigation }: any) => {
     <View style={styles.container}>
       <StatusBar
         translucent={false}
-        backgroundColor={'#000000'}
-        barStyle={'default'}
+        backgroundColor={'#9C1D21'}
+        barStyle={'light-content'}
       />
-      <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2`}>
+      <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
+          <MaterialIcons name="arrow-back" size={30} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[17px] font-bold text-[#9c1d21]`}>Tài khoản</Text>
+        <Text style={tw`text-[17px] font-bold text-[#ffffff]`}>Tài khoản</Text>
       </View>
 
-      <View style={styles.profileContainer}>
+      <View style={[styles.profileContainer, tw`mt-8`]}>
         <SettingComponent
           icon="user"
           heading="Tài khoản"
