@@ -8,117 +8,175 @@ import {
     TouchableOpacity,
     Dimensions,
     ToastAndroid,
-    ActivityIndicator
+    ActivityIndicator,
+    Image,
+    Linking,
+    PermissionsAndroid,
+    Platform,
+    Alert
 } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SelectCountry } from 'react-native-element-dropdown';
 import tw from "twrnc";
 import axios from 'axios';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const { width, height } = Dimensions.get('window');
 
 const QrScreen = ({ navigation, route }) => {
-    const detail = route.params.detailId;
-    const seats = route.params.seats;
-    const banggia = route.params.data.banggia;
-    const defaultBanggia = banggia.length > 0 ? banggia[0]["dm_loaive_id"] : 0;
-    const defaultDongia = banggia.length > 0 ? banggia[0]["dongia"] : 0;
-    const [selectedBanggia, setSelectedBanggia] = useState({});
+
+    const [bankingData, setBankingData] = useState([]);
 
     useEffect(() => {
         (async () => {
-            let seats_data_default = {
-                ...selectedBanggia,
-            }
-            Object.keys(seats).map((item) => {
-                seats_data_default[[item]] = defaultDongia
-            })
-            setSelectedBanggia(seats_data_default);
+            await getBanking();
         })();
-      }, []);
-    const renderItem = ({ item }) => {
-        return (
-            <View style={tw``}>
-                <View style={tw`w-full`}>
-                    <Text style={tw`text-[14px] text-[#404040]`}>{item.dm_loaighe_name}</Text>
-                </View>
-            </View>
-        )
+    }, []);
+
+    const getBanking = async () => {
+        try {
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                mode: 'no-cors',
+                url: 'https://api.vietqr.io/v2/banks',
+                headers: {},
+            };
+
+            await axios.request(config)
+                .then((response) => {
+                    setBankingData(JSON.parse(JSON.stringify(response.data)).data);
+                })
+                .catch((error) => {
+                    console.log(1, error);
+                });
+
+
+            // const datas = await JSON.parse(JSON.stringify(response.data)).result;
+            // return datas
+        } catch (error) {
+            console.error(
+                ' Something went wrong in get banking Function',
+                error,
+            );
+        }
     }
 
-    const onChange = (item, key) => {
-        setSelectedBanggia({
-            ...selectedBanggia,
-            [key]: item.dongia || 0,
-        });
-        console.log(selectedBanggia);
+    const onDeepLink = async (item) => {
+        await checkPermission();
+        Linking.openURL(`https://dl.vietqr.io/pay?app=${item.code.toLowerCase()}`);
     }
+
+    const checkPermission = async () => {
+        if (Platform.OS === 'ios') {
+            downloadImage();
+        }else {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                    {
+                        title: 'Storage Permission Required',
+                        message: 'App needs access to your storage to download Photos',
+                    },
+                )
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    downloadImage();
+                } else {
+                    Alert.alert('Storage Permission Denied');
+                }
+            } catch (err){
+                console.warn(err);
+            }
+        }
+    }
+
+    const downloadImage = async () => {
+        let date = new Date();
+        let image_Url = `https://img.vietqr.io/image/vietinbank-113366668888-qr_only.jpg?amount=1000000&addInfo=banhang&accountName=TestApp`;
+        let ext = getExtention(image_Url);
+        ext = "." + ext[0];
+
+        const { config, fs } = RNFetchBlob
+
+        let PictureDir = fs.dirs.PictureDir;
+        let options = {
+            fileCache: true,
+            addAndroidDownloads: {
+                useDownloadManager: true,
+                notification: true,
+                path: PictureDir + "/image_" + Math.floor(date.getTime() + date.getSeconds() / 2) + ext,
+                description: 'Image'
+            }
+        }
+
+        config(options).fetch('GET', image_Url).then((res) => {
+            console.log('The image is saved to');
+        })
+    }
+
+    const getExtention = (filename) => {
+        return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined
+    }
+
 
     return (
         <View style={tw`h-full w-full`}>
             <StatusBar
                 translucent={false}
-                backgroundColor={'#000000'}
-                barStyle={'default'}
+                backgroundColor={'#9c1d21'}
+                barStyle={'light-content'}
             />
-            <View style={tw`h-[75px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
+            <View style={tw`h-[75px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 bg-[#9c1d21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={tw``}>
-                    <MaterialIcons name="arrow-back" size={30} color={'#9c1d21'} />
+                    <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
                 </TouchableOpacity>
                 <View style={tw`flex items-start justify-center ml-2`}>
                     <View style={tw`flex-row items-start justify-center`}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[15px] font-bold text-[#9c1d21]`}>{detail.marap}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[15px] font-bold text-black ml-1`}>{detail.rapphim.toUpperCase()}</Text>
-                    </View>
-                    <View style={tw`flex-row items-start justify-center`}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c]`}>{detail.phong},</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}{detail.ngaychieu.split("-")[1]}/{detail.ngaychieu.split("-")[0]},</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
+                        <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Thanh toán</Text>
                     </View>
                 </View>
             </View>
-            <View style={tw`w-full mt-[75px]`}>
-                <ScrollView style={tw`w-full px-2`}>
-                    {Object.keys(seats).map((item) => {
+            <View style={tw`flex-row items-center justify-between px-2 py-2 pr-4 border-b border-gray-300`}>
+                <Image
+                    source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                    resizeMode="contain"
+                    style={tw`h-[70px] w-[170px]`} />
+                <View>
+                    <Text style={tw`text-[14px] text-[#404040]`}>Số tiền thanh toán</Text>
+                    <Text style={tw`text-[15px] font-bold text-[#9c1d21]`}>100.000 VND</Text>
+                </View>
+            </View>
+            <ScrollView>
+                <View style={tw`flex items-center justify-center`}>
+                    <Image
+                        resizeMode="contain"
+                        style={tw`h-60%] w-[50%]`}
+                        source={{ uri: `https://img.vietqr.io/image/vietinbank-113366668888-qr_only.jpg?amount=1000000&addInfo=banhang&accountName=TestApp` }} />
+
+                    <TouchableOpacity style={tw`mt-2 flex-row items-center justify-center`}
+                        onPress={checkPermission}>
+                        <MaterialIcons name="file-download" size={20} color={'#404040'} />
+                        <Text style={tw`text-[#404040] text-center text-[14px]`}>Tải xuống</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={tw`w-full flex-wrap px-2 border-b border-gray-300 flex-row items-center justify-start mt-10`}>
+                    {bankingData.map((item, index) => {
                         return (
-                            <View key={item} style={tw`w-full h-[65px] flex-row items-center justify-between px-3 mt-2 bg-[#ffffff] rounded`}>
-                                <View style={tw`flex-row items-center justify-between`}>
-                                    <View style={[tw`w-10 h-10 bg-white flex justify-center items-center bg-[#3a78c3] rounded`]}>
-                                        <Text style={tw`text-[11px] text-center text-white`}>{item.split("_")[0]}{item.split("_")[1]}</Text>
-                                    </View>
-                                    <SelectCountry
-                                        style={tw`w-[120px] border-b-[0.5px] ml-3 border-b-[#7a7a7a]`}
-                                        selectedTextStyle={tw`text-[14px] text-[#404040]`}
-                                        placeholderStyle={tw`text-[14px]`}
-                                        value={defaultBanggia}
-                                        data={banggia}
-                                        valueField="dm_loaive_id"
-                                        labelField="dm_loaive_name"
-                                        placeholder={'Loại vé'}
-                                        onChange={e => {
-                                            onChange(e, item)
-                                        }}
-                                        renderItem={renderItem}
-                                    />
-                                </View>
-                                <Text style={tw`text-[#9C1D21] font-bold text-[14px]`}>{(selectedBanggia[item] || defaultDongia).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+                            <View style={tw`w-1/4 p-1`} key={index}>
+                                <TouchableOpacity key={index} style={tw`flex-row items-center justify-between border border-gray-300 h-[50px]`}
+                                    onPress={() => onDeepLink(item)}>
+                                <Image
+                                    resizeMode="contain"
+                                    style={tw`w-[100%] h-[40px]`}
+                                    source={{ uri: item?.logo }} />
+                                </TouchableOpacity>
                             </View>
                         )
                     })}
-                </ScrollView>
-            </View>
-            <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 absolute z-1 bottom-0 bg-white`}>
-                <View style={tw`flex items-start justify-start w-full`}>
-                    <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[14px] text-black`}>{detail.phim.toUpperCase()}</Text>
-                    <View style={tw`flex-row items-center justify-between w-full`}>
-                        <Text style={tw`text-[#9C1D21] font-bold text-[14px]`}>{Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
-                        <TouchableOpacity>
-                            <Text style={tw`text-white font-bold bg-[#9C1D21] text-[14px] px-8 py-2 rounded-15`}>Đặt vé</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
-            </View>
+            </ScrollView>
+
 
         </View>
     );

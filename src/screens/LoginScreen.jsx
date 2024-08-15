@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
               method: 'post',
               maxBodyLength: Infinity,
               mode: 'no-cors',
-              url: `http://192.168.0.104:8069/web/api/v1/login`,
+              url: `http://125.253.121.150:8069/web/api/v1/login`,
               headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const LoginScreen = ({ navigation }) => {
       
           } catch (error) {
             console.error(
-              ' Something went wrong in getPopularMoviesList Function',
+              ' Something went wrong in Login Function',
               error,
             );
           }
@@ -115,15 +115,15 @@ const LoginScreen = ({ navigation }) => {
             />
             <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={32} color={'#ffffff'} />
+                    <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[17px] font-bold text-[#ffffff]`}>Đăng nhập</Text>
+                <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Đăng nhập</Text>
             </View>
             <View style={tw`flex-1 h-full items-center justify-start`}>
                 <View style={tw`w-full h-[200px] flex items-center justify-center`}>
                     <View style={tw`flex justify-center items-center`}>
                         <View style={tw`rounded-5 flex justify-center items-center`}>
-                            <Image source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                            <Image source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                                 style={tw`w-[200px] h-full`}
                                 resizeMode='contain' />
                         </View>
@@ -150,7 +150,7 @@ const LoginScreen = ({ navigation }) => {
                         <View style={tw`w-full pr-1 h-full`}>
                             <TouchableOpacity style={tw`h-full bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
                             onPress={actionLogin}>
-                                <Text style={tw`text-white font-bold text-[15px] py-2 px-2`}>Đăng nhập</Text>
+                                <Text style={tw`text-white font-bold text-[13.5px] py-2 px-2`}>Đăng nhập</Text>
                                 {isSpinLoading &&
                                     <ActivityIndicator color="#ffffff" size={20} />
                                 }
@@ -161,16 +161,16 @@ const LoginScreen = ({ navigation }) => {
                         <TouchableOpacity onPress={() => {
                             Linking.openURL('https://thegoldcinema.com/web/reset_password');
                         }}>
-                            <Text style={tw`text-[#000000] text-[15px]`}>Quên mật khẩu?</Text>
+                            <Text style={tw`text-[#000000] text-[13.5px]`}>Quên mật khẩu?</Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={tw`text-[#000000] text-[15px] text-center italic`}>Hoặc</Text>
+                    <Text style={tw`text-[#000000] text-[13.5px] text-center italic`}>Hoặc</Text>
 
                     <View style={tw`w-full flex-row justify-between items-center h-10 mt-7`}>
                         <View style={tw`w-full pr-1 h-full`}>
                             <TouchableOpacity style={tw`h-full bg-[#ffffff] border border-[#9c9c9c] flex-row justify-center items-center rounded-15`}
                             onPress={() => navigation.navigate('RegisterScreen')}>
-                                <Text style={tw`text-[#9c9c9c] text-[15px] py-2 px-2`}>Đăng ký tài khoản</Text>
+                                <Text style={tw`text-[#9c9c9c] text-[13.5px] py-2 px-2`}>Đăng ký tài khoản</Text>
                                 {isSpinLoading &&
                                     <ActivityIndicator color="#ffffff" size={20} />
                                 }

@@ -92,6 +92,7 @@ const { width, height } = Dimensions.get('window');
 
 const SeatBookingScreen = ({ navigation, route }: any) => {
   const detail = route.params.detailId;
+  
   const isFocused = useIsFocused()
 
   const [dateArray, setDateArray] = useState<any[]>(generateDate());
@@ -139,7 +140,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://192.168.0.104:8069/web/api/v1/lichchieu/seatmap`,
+        url: `http://125.253.121.150:8069/web/api/v1/lichchieu/seatmap`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
@@ -193,7 +194,6 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   };
 
   const BookSeats = async () => {
-    console.log(selectedSeats);
     
     if (Object.keys(selectedSeats).length === 0) {
       return handleShowNotification('Vui lòng chọn ghế trước khi đặt vé');
@@ -250,16 +250,16 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       />
       <View style={tw`h-[75px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={tw``}>
-          <MaterialIcons name="arrow-back" size={30} color={'#9c1d21'} />
+          <MaterialIcons name="arrow-back" size={29} color={'#9c1d21'} />
         </TouchableOpacity>
         <View style={tw`flex items-start justify-center ml-2`}>
           <View style={tw`flex-row items-start justify-center`}>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[15px] font-bold text-[#9c1d21]`}>{detail.marap}</Text>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[15px] font-bold text-black ml-1`}>{detail.rapphim.toUpperCase()}</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-[#9c1d21]`}>{detail.marap}</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-black ml-1`}>{detail.rapphim.toUpperCase()}</Text>
           </View>
           <View style={tw`flex-row items-start justify-center`}>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c]`}>{detail.phong},</Text>
-            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}/{detail.ngaychieu.split("-")[1]}/{detail.ngaychieu.split("-")[0]}</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] text-[#9c9c9c]`}>{detail.phong},</Text>
+            <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}/{detail.ngaychieu.split("-")[1]}/{detail.ngaychieu.split("-")[0]}</Text>
             {/* <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text> */}
           </View>
         </View>
@@ -267,7 +267,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       <GestureHandlerRootView style={tw`h-full w-full bg-black`}>
         <GestureDetector gesture={composedGesture}>
           <Animated.View style={[styles.container, animatedStyle]}>
-            <Text style={tw`text-[30px] text-[#ffffff] font-bold text-center mb-15`}>MÀN HÌNH</Text>
+            <Text style={tw`text-[20px] text-[#ffffff] font-bold text-center mb-15`}>MÀN HÌNH</Text>
             <View style={[styles.containerGap20]}>
               {loading && <View style={tw`h-full w-full absolute z-10 top-[50%] flex items-center justify-start`}>
                 <ActivityIndicator size="30" color="#ffffff" style={tw``} />
@@ -356,11 +356,11 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       </GestureHandlerRootView>
       <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 absolute z-1 bottom-0 bg-white`}>
         <View style={tw`flex items-start justify-start w-full`}>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[14px] text-black`}>{detail.phim.toUpperCase()}</Text>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[13.5px] text-black`}>{detail.phim.toUpperCase()}</Text>
           <View style={tw`flex-row items-center justify-between w-full`}>
-            <Text style={tw`text-[#9c9c9c] text-[14px]`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
+            <Text style={tw`text-[#9c9c9c] text-[13.5px]`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
             <TouchableOpacity onPress={BookSeats}>
-              <Text style={tw`text-white font-bold bg-[#9C1D21] text-[14px] px-8 py-2 rounded-15`}>Đặt vé</Text>
+              <Text style={tw`text-white font-bold bg-[#9C1D21] text-[13.5px] px-8 py-2 rounded-15`}>Đặt vé</Text>
             </TouchableOpacity>
           </View>
 

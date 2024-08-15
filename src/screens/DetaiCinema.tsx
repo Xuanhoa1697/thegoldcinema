@@ -23,6 +23,7 @@ const dateToString = () => {
 const DetaiCinemaScreen = ({ navigation, route }) => {
   const movieid = route.params.movieid
   const movieName = route.params.movieName
+  const params = route.params;
   const [items, setItems] = useState({});
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(dateToString);
@@ -48,7 +49,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema_with_date`,
+        url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema_with_date`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
@@ -82,7 +83,8 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
 
     const checkLogin = async (item) => {
       navigation.navigate('SeatBooking', {
-        detailId: item
+        detailId: item,
+        params: params
       });
     }
     return (
@@ -91,12 +93,12 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
           <View style={tw`mt-5 w-full`}>
             <View style={tw`flex-row items-center justify-between`} key={key} >
               <View style={tw`flex-row items-center justify-start`}>
-                <Text style={tw`text-[14px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
-                <Text style={tw`text-[14px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
+                <Text style={tw`text-[13.5px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
+                <Text style={tw`text-[13.5px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
               </View>
               <AntDesign name='heart' size={22} color={key == 0 ? '#9c1d21' : '#9c9c9c'} />
             </View>
-            <Text style={tw`text-[15px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
+            <Text ellipsizeMode='tail' style={tw`text-[15px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
             <View style={tw`flex-row items-center justify-start mt-1.5`}>
             <FlatList
               data={items[date][cinemaName]['danhsachphim']}
@@ -109,7 +111,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
                     rounded-1 border border-[#9c9c9c] px-3 py-1.2`} key={index}
                     onPress={() => checkLogin(item)}>
                       <View style={tw`flex-row items-center justify-start`}>
-                        <Text style={tw`text-[14px] text-[#9c9c9c]`}>{item.giobatdau}</Text>
+                        <Text style={tw`text-[13.5px] text-[#000000]`}>{item.giobatdau}</Text>
                       </View>
                     </TouchableOpacity>
                 );
@@ -134,7 +136,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2`}>
             <MaterialIcons name="arrow-back" size={32} color={'#9c1d21'} />
           </TouchableOpacity>
-          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] font-bold text-black ml-2`}>{movieName.toUpperCase()}</Text>
+          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-black ml-2 w-[300px]`}>{movieName.toUpperCase()}</Text>
         </View>
         {loading && <View style={tw`h-full w-full absolute z-10 top-[180px] flex items-center justify-start`}>
           <ActivityIndicator size="30" color="#9c1d21" style={tw`mt-[50%]`} />

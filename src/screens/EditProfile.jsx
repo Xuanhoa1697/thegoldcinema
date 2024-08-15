@@ -45,7 +45,7 @@ const EditProfile = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://192.168.0.104:8069/web/api/v1/user_update`,
+                url: `http://125.253.121.150:8069/web/api/v1/user_update`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
@@ -80,7 +80,6 @@ const EditProfile = ({ navigation }) => {
     }
 
     const deleteUser = async () => {
-        const localStorage = JSON.parse(await AsyncStorage.getItem('user_info'));
         try {
             Keyboard.dismiss()
             let data = JSON.stringify({
@@ -95,7 +94,7 @@ const EditProfile = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://192.168.0.104:8069/web/api/v1/user_delete`,
+                url: `http://125.253.121.150:8069/web/api/v1/user_delete`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
@@ -144,40 +143,40 @@ const EditProfile = ({ navigation }) => {
             />
             <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9C1D21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={36} color={'#ffffff'} />
+                    <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[17px] font-bold text-[#ffffff]`}>Thông tin tài khoản</Text>
+                <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Thông tin tài khoản</Text>
             </View>
             <View style={tw`px-4 mt-5`}>
                 <TextInput
-                    style={tw`border-b border-[#9C9C9C] py-3`}
+                    style={tw`border-b border-[#9C9C9C] py-3 text-[13.5px]`}
                     placeholder='Họ tên *'
                     value={name}
                     onChange={(e) => setName(e.nativeEvent.text)}
                     selectTextOnFocus={false} />
                 <TextInput
-                    style={tw`border-b border-[#9C9C9C] py-3`}
+                    style={tw`border-b border-[#9C9C9C] py-3 text-[13.5px]`}
                     placeholder='Số điện thoại *'
                     value={phone || ''}
                     onChange={(e) => setPhone(e.nativeEvent.text)}
                     keyboardType='phone-pad'
                     selectTextOnFocus={false} />
                 <TextInput
-                    style={tw`border-b border-[#9C9C9C] py-3`}
+                    style={tw`border-b border-[#9C9C9C] py-3 text-[13.5px]`}
                     placeholder='Email *'
                     value={email}
                     onChange={(e) => setEmail(e.nativeEvent.text)}
                     editable={false}
                     selectTextOnFocus={false} />
 
-                <Text style={tw`text-[14px] text-[#9C9C9C] mt-5`}>* Thông tin bắt buộc</Text>
+                <Text style={tw`text-[13.5px] text-[#9C9C9C] mt-5`}>* Thông tin bắt buộc</Text>
                 <TouchableOpacity style={tw`w-full mt-5`}
                     onPress={updateProfile}>
-                    <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[14px] px-8 py-2 rounded-15`}>Cập nhật</Text>
+                    <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[13.5px] px-8 py-2 rounded-15`}>Cập nhật</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={tw`mt-3`}
                     onPress={removeUser}>
-                    <Text style={tw`text-[#9C9C9C] text-center text-[14px]`}>Xóa tài khoản</Text>
+                    <Text style={tw`text-[#9C9C9C] text-center text-[13.5px]`}>Xóa tài khoản</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -50,7 +50,7 @@ const getNowPlayingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema`,
+      url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const getUpcomingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema`,
+      url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const getPopularMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema`,
+      url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -210,12 +210,9 @@ const HomeScreen = ({ navigation }: any) => {
   });
 
   if (
-    nowPlayingMoviesList == undefined &&
-    nowPlayingMoviesList == null &&
-    popularMoviesList == undefined &&
-    popularMoviesList == null &&
-    upcomingMoviesList == undefined &&
-    upcomingMoviesList == null
+    !nowPlayingMoviesList &&
+    !popularMoviesList &&
+    !upcomingMoviesList
   ) {
     return (
       <ScrollView
@@ -259,16 +256,16 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
         <View style={tw`w-[40%] flex-row justify-center items-center`}>
           <Image style={tw`h-[55px] w-[100px]`}
-            source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+            source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
             resizeMode='contain' />
         </View>
 
-        <View style={tw`w-[30%] flex-row justify-end items-center`}>
+        <View style={tw`w-[30%] flex-row justify-end items-center mt-1`}>
           <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={34} color={'#9d2126'} />
+            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={29} color={'#9d2126'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={checkLogin}>
-            <MaterialCommunityIcons name="format-list-bulleted" size={38} color={'#9d2126'} />
+            <MaterialCommunityIcons name="format-list-bulleted" size={31} color={'#9d2126'} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -291,7 +288,7 @@ const HomeScreen = ({ navigation }: any) => {
           if (scrollDirection.current === 'down' && lastOffsetY.current < 100) {
             scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? 100 : 0, animated: true });
           } else if (scrollDirection.current === 'down' && lastOffsetY.current > 100) {
-            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current : 0, animated: true });
+            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current + 50 : 0, animated: true });
           }
         }}
         scrollEventThrottle={16}
@@ -302,7 +299,7 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://192.168.0.104:8069${bgContent?.image}` }}
+          source={{ uri: `http://125.253.121.150:8069${bgContent?.image}` }}
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={10}>
@@ -312,16 +309,16 @@ const HomeScreen = ({ navigation }: any) => {
             </View>
             <View style={tw`w-[40%] flex-row justify-center items-center`}>
               <Image style={tw`h-[55px] w-[100px]`}
-                source={{ uri: `http://192.168.0.104:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                 resizeMode='contain' />
             </View>
 
-            <View style={tw`w-[30%] flex-row justify-end items-center`}>
+            <View style={tw`w-[30%] flex-row justify-end items-center mt-1`}>
               <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={34} color={'#ffffff'} />
+                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={29} color={'#ffffff'} />
               </TouchableOpacity>
               <TouchableOpacity onPress={checkLogin}>
-                <MaterialCommunityIcons name="format-list-bulleted" size={38} color={'#ffffff'} />
+                <MaterialCommunityIcons name="format-list-bulleted" size={31} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
           </View>
@@ -348,10 +345,10 @@ const HomeScreen = ({ navigation }: any) => {
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
-                  imagePath={`http://192.168.0.104:8069${item.image}${refreshingItem}`}
+                  imagePath={`http://125.253.121.150:8069${item.image}${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
                   // vote_average={item.rate}
-                  vote_count={item.rate}
+                  vote_count={item.nsx}
                 />
               )}
               firstItem={0}
@@ -363,18 +360,18 @@ const HomeScreen = ({ navigation }: any) => {
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
               <View style={tw``}>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] font-bold text-white`}>{bgContent?.name}</Text>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] font-bold text-white w-[250px]`}>{bgContent?.name}</Text>
                 <View style={tw`flex-row items-center justify-start mt-3`}>
-                  <CustomIcon name="star" size={20} color={'#f5d53e'} />
-                  <Text style={tw`text-[14px] text-white`}>{bgContent?.rate}</Text>
-
-                  <Text style={tw`text-[14px] text-white ml-5`}>⛔{bgContent?.old_limit}+</Text>
-                  <Text style={tw`text-[14px] text-white ml-5 border border-[#f5d53e] rounded-[30px] px-2`}>{bgContent?.type}</Text>
+                  {bgContent?.rate && <CustomIcon name="star" size={20} color={'#f5d53e'} />}
+                  {bgContent?.rate && <Text style={tw`text-[13.5px] text-white mr-2`}>{bgContent?.rate}</Text>}
+                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-white mr-2 border border-[#f5d53e] rounded-[30px] px-2 w-[100px]`}>{bgContent?.type}</Text>}
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-white w-[150px]`}>⛔{bgContent?.old_limit}+</Text>
+                  
                 </View>
               </View>
               <TouchableOpacity style={tw`rounded-[30px] bg-[#9c1d21] px-4 py-1`}
                 onPress={() => navigation.push('MovieDetails', { movie: bgContent })}>
-                <Text style={tw`text-[15px] font-bold text-white`}>ĐẶT VÉ</Text>
+                <Text style={tw`text-[13.5px] font-bold text-white`}>ĐẶT VÉ</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
@@ -383,12 +380,12 @@ const HomeScreen = ({ navigation }: any) => {
         <View style={tw`h-[55px] pl-2 pr-4`}>
           <TouchableOpacity style={tw`flex-row justify-between items-center h-full`}
             onPress={() => navigation.navigate('CinemaHomeScreen')}>
-            <Text style={tw`text-[15px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
+            <Text style={tw`text-[13.5px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
             <Feather name="send" size={22} color={'#c9c9c9'} />
           </TouchableOpacity>
         </View>
         <View style={tw`bg-white`}>
-          {popularMoviesList && <CategoryHeader title={'Đang chiếu'} />}
+          {popularMoviesList && popularMoviesList.length > 0 && <CategoryHeader title={'Đang chiếu'} />}
           <Carousel
             data={popularMoviesList}
             loop={true}
@@ -402,7 +399,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://192.168.0.104:8069${item.image}${refreshingItem}`}
+                imagePath={`http://125.253.121.150:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -412,7 +409,7 @@ const HomeScreen = ({ navigation }: any) => {
             itemWidth={width / 3 + 20}
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
-          {upcomingMoviesList && <CategoryHeader title={'Sắp chiếu'} />}
+          {upcomingMoviesList && upcomingMoviesList.length > 0 && <CategoryHeader title={'Sắp chiếu'} />}
           <Carousel
             data={upcomingMoviesList}
             loop={true}
@@ -426,7 +423,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://192.168.0.104:8069${item.image}${refreshingItem}`}
+                imagePath={`http://125.253.121.150:8069${item.image}${refreshingItem}`}
               />
             )}
             firstItem={1}

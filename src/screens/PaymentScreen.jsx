@@ -113,7 +113,7 @@ const PaymentScreen = ({ navigation, route }) => {
                     <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[14px] text-black`}>{detail.phim.toUpperCase()}</Text>
                     <View style={tw`flex-row items-center justify-between w-full`}>
                         <Text style={tw`text-[#9C1D21] font-bold text-[14px]`}>{Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('QrScreen')}>
                             <Text style={tw`text-white font-bold bg-[#9C1D21] text-[14px] px-8 py-2 rounded-15`}>Đặt vé</Text>
                         </TouchableOpacity>
                     </View>

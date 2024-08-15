@@ -22,7 +22,8 @@ const TrailerScreen = ({ navigation, route }) => {
             </View>
             <YoutubePlayer
                 height={300}
-                play={false}
+                allowWebViewZoom={true}
+                play={true}
                 videoId={trailer}
             />
         </View>

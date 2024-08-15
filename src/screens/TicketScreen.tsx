@@ -6,6 +6,7 @@ import {
   StatusBar,
   ImageBackground,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import AppHeader from '../components/AppHeader';
@@ -18,6 +19,8 @@ import {
 } from '../theme/theme';
 import LinearGradient from 'react-native-linear-gradient';
 import CustomIcon from '../components/CustomIcon';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import tw from "twrnc";
 
 const TicketScreen = ({navigation, route}: any) => {
   const [ticketData, setTicketData] = useState<any>(route.params);
@@ -39,29 +42,18 @@ const TicketScreen = ({navigation, route}: any) => {
     setTicketData(route.params);
   }
 
-  if (ticketData == undefined || ticketData == null) {
-    return (
-      <View style={styles.container}>
-        <StatusBar hidden />
-        <View style={styles.appHeaderContainer}>
-          <AppHeader
-            name="close"
-            header={'My Tickets'}
-            action={() => navigation.goBack()}
-          />
-        </View>
-      </View>
-    );
-  }
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
-      <View style={styles.appHeaderContainer}>
-        <AppHeader
-          name="close"
-          header={'My Tickets'}
-          action={() => navigation.goBack()}
-        />
+      <StatusBar
+        translucent={false}
+        backgroundColor={'#9C1D21'}
+        barStyle={'light-content'}
+      />
+      <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
+        </TouchableOpacity>
+        <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Đơn hàng</Text>
       </View>
 
       <View style={styles.ticketContainer}>

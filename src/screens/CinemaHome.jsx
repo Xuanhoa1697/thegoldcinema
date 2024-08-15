@@ -26,7 +26,7 @@ const CinemaHomeScreen = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://192.168.0.104:8069/web/api/v1/get_list_cinema_home`,
+                url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema_home`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const CinemaHomeScreen = ({ navigation }) => {
                 {datas.length > 0 && datas.map((item, index) => {
                     return (<View key={index} style={tw`h-[75px] w-full flex-row items-center justify-between px-3`}>
                         <Text style={tw`text-[16px] font-semibold text-black`}>{item.name}</Text>
-                        <Text style={tw`text-[16px] text-[#9c1d21]`}>{item.address}</Text>
+                        <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[16px] text-[#9c1d21] w-[200px]`}>{item.address}</Text>
                     </View>)
                 })}
             </TouchableOpacity>

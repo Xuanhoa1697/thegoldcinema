@@ -49,9 +49,9 @@ const UserAccountScreen = ({ navigation }: any) => {
       />
       <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={30} color={'#ffffff'} />
+          <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[17px] font-bold text-[#ffffff]`}>Tài khoản</Text>
+        <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Tài khoản</Text>
       </View>
 
       <View style={[styles.profileContainer, tw`mt-8`]}>
@@ -80,7 +80,7 @@ const UserAccountScreen = ({ navigation }: any) => {
         />
         <TouchableOpacity style={tw`w-full`}
           onPress={logoutApp}>
-          <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[14px] px-8 py-2 rounded-15`}>Đăng xuất</Text>
+          <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[13px] px-8 py-3 rounded-15`}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
     </View>

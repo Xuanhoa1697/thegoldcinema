@@ -9,7 +9,7 @@ const CategoryHeader = (props: any) => {
 const styles = StyleSheet.create({
   text: {
     fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_16,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.Black,
     paddingHorizontal: SPACING.space_8,
     paddingVertical: SPACING.space_12,
