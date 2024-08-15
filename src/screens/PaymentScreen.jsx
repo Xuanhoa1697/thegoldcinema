@@ -7,11 +7,12 @@ import {
     ImageBackground,
     TouchableOpacity,
     Dimensions,
-    ToastAndroid,
+    Modal,
     ActivityIndicator
 } from 'react-native';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { SelectCountry } from 'react-native-element-dropdown';
 import tw from "twrnc";
 import axios from 'axios';
@@ -19,12 +20,17 @@ import axios from 'axios';
 const { width, height } = Dimensions.get('window');
 
 const PaymentScreen = ({ navigation, route }) => {
+    const datas = route.params.data;
     const detail = route.params.detailId;
     const seats = route.params.seats;
     const banggia = route.params.data.banggia;
     const defaultBanggia = banggia.length > 0 ? banggia[0]["dm_loaive_id"] : 0;
     const defaultDongia = banggia.length > 0 ? banggia[0]["dongia"] : 0;
     const [selectedBanggia, setSelectedBanggia] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+
+    console.log(datas);
+    
 
     useEffect(() => {
         (async () => {
@@ -52,7 +58,18 @@ const PaymentScreen = ({ navigation, route }) => {
             ...selectedBanggia,
             [key]: item.dongia || 0,
         });
-        console.log(selectedBanggia);
+    }
+
+    const showModal = () => {
+        setModalVisible(!modalVisible);
+    }
+
+    const paymentQr = async () => {
+        navigation.navigate('QrScreen', {
+            'tong_tien': Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            'datas': datas,
+            'selectedBanggia': selectedBanggia
+        })
     }
 
     return (
@@ -79,6 +96,30 @@ const PaymentScreen = ({ navigation, route }) => {
                 </View>
             </View>
             <View style={tw`w-full mt-[75px]`}>
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                    <View style={tw`flex-1 justify-center items-center p-3`}>
+                        <View style={tw`bg-white w-full pt-4 pb-6  px-6 rounded-2 bg-[#ffffff]`}>
+                            <TouchableOpacity style={tw`absolute top-3 right-3`} onPress={() => setModalVisible(false)}>
+                                <FontAwesome name="close" size={20} color='#9c1d21' />
+                            </TouchableOpacity>
+                            <Text style={tw`text-[15px] text-center text-[#000000] font-bold`}>Thông báo</Text>
+
+                            <Text style={tw`text-[14px] text-[#9c9c9c] font-bold mt-3`}>{datas.ptthanhtoan.length > 0 ? datas.ptthanhtoan[0].luu_y : 'Vui lòng kiểm tra trước khi thanh toán.'}</Text>
+
+                            <TouchableOpacity style={tw`w-full h-[35px] flex-row items-center justify-center px-3 mt-6 bg-[#9c1d21] rounded-5`} 
+                                onPress={() => paymentQr()}>
+                                <Text style={tw`text-[14px] text-center text-white font-bold`}>Đồng ý và xác nhận thanh toán</Text>
+                            </TouchableOpacity>
+
+                        </View>
+                    </View>
+                </Modal>
                 <ScrollView style={tw`w-full px-2`}>
                     {Object.keys(seats).map((item) => {
                         return (
@@ -108,13 +149,13 @@ const PaymentScreen = ({ navigation, route }) => {
                     })}
                 </ScrollView>
             </View>
-            <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 absolute z-1 bottom-0 bg-white`}>
+            <View style={tw`h-[90px] w-full flex-row items-center justify-between px-2 absolute z-1 bottom-0 bg-white`}>
                 <View style={tw`flex items-start justify-start w-full`}>
                     <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[14px] text-black`}>{detail.phim.toUpperCase()}</Text>
-                    <View style={tw`flex-row items-center justify-between w-full`}>
+                    <View style={tw`flex-row items-center justify-between w-full mt-2`}>
                         <Text style={tw`text-[#9C1D21] font-bold text-[14px]`}>{Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('QrScreen')}>
-                            <Text style={tw`text-white font-bold bg-[#9C1D21] text-[14px] px-8 py-2 rounded-15`}>Đặt vé</Text>
+                        <TouchableOpacity onPress={showModal}>
+                            <Text style={tw`text-white font-bold bg-[#9C1D21] text-[14px] px-8 py-2 rounded-15`}>Thanh toán</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

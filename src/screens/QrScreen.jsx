@@ -25,7 +25,11 @@ import RNFetchBlob from 'rn-fetch-blob';
 const { width, height } = Dimensions.get('window');
 
 const QrScreen = ({ navigation, route }) => {
-
+    const tong_tien = route.params.tong_tien;
+    const selectedBanggia = route.params.selectedBanggia;
+    const datas = route.params.datas;
+    console.log(tong_tien);
+    
     const [bankingData, setBankingData] = useState([]);
 
     useEffect(() => {
@@ -144,7 +148,7 @@ const QrScreen = ({ navigation, route }) => {
                     style={tw`h-[70px] w-[170px]`} />
                 <View>
                     <Text style={tw`text-[14px] text-[#404040]`}>Số tiền thanh toán</Text>
-                    <Text style={tw`text-[15px] font-bold text-[#9c1d21]`}>100.000 VND</Text>
+                    <Text style={tw`text-[15px] font-bold text-[#9c1d21]`}>{tong_tien} VND</Text>
                 </View>
             </View>
             <ScrollView>
@@ -164,7 +168,7 @@ const QrScreen = ({ navigation, route }) => {
                     {bankingData.map((item, index) => {
                         return (
                             <View style={tw`w-1/4 p-1`} key={index}>
-                                <TouchableOpacity key={index} style={tw`flex-row items-center justify-between border border-gray-300 h-[50px]`}
+                                <TouchableOpacity key={index} style={tw`flex-row items-center justify-between border border-gray-300 h-[50px] bg-white`}
                                     onPress={() => onDeepLink(item)}>
                                 <Image
                                     resizeMode="contain"

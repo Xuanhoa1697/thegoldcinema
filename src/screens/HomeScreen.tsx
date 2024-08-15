@@ -288,7 +288,7 @@ const HomeScreen = ({ navigation }: any) => {
           if (scrollDirection.current === 'down' && lastOffsetY.current < 100) {
             scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? 100 : 0, animated: true });
           } else if (scrollDirection.current === 'down' && lastOffsetY.current > 100) {
-            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current + 50 : 0, animated: true });
+            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current + 100 : 0, animated: true });
           }
         }}
         scrollEventThrottle={16}
