@@ -141,11 +141,11 @@ const EditProfile = ({ navigation }) => {
                 backgroundColor={'#9C1D21'}
                 barStyle={'light-content'}
             />
-            <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9C1D21]`}>
+            <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9C1D21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
+                    <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Thông tin tài khoản</Text>
+                <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin tài khoản</Text>
             </View>
             <View style={tw`px-4 mt-5`}>
                 <TextInput
@@ -172,7 +172,7 @@ const EditProfile = ({ navigation }) => {
                 <Text style={tw`text-[13.5px] text-[#9C9C9C] mt-5`}>* Thông tin bắt buộc</Text>
                 <TouchableOpacity style={tw`w-full mt-5`}
                     onPress={updateProfile}>
-                    <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[13.5px] px-8 py-2 rounded-15`}>Cập nhật</Text>
+                    <Text style={tw`text-white bg-[#9C1D21] text-center text-[13.5px] px-8 py-2 rounded-15`}>Cập nhật</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={tw`mt-3`}
                     onPress={removeUser}>

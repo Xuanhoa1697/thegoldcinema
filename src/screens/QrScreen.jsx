@@ -70,7 +70,7 @@ const QrScreen = ({ navigation, route }) => {
 
     const onDeepLink = async (item) => {
         await checkPermission();
-        Linking.openURL(`https://dl.vietqr.io/pay?app=${item.code.toLowerCase()}`);
+        Linking.openURL(`https://dl.vietqr.io/pay?app=` + item.code.toLowerCase());
     }
 
     const checkPermission = async () => {
@@ -124,6 +124,23 @@ const QrScreen = ({ navigation, route }) => {
         return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined
     }
 
+    const backToHome = () => {
+        console.log(1);
+        
+        Alert.alert('Thông báo', 'Vé phim đã được đặt. Việc rời đi khi chưa thanh toán có thể gây nhầm lẫn. Bạn có muốn tiếp tục?', [
+            {
+                text: 'Hủy bỏ',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {
+                text: 'Đồng ý', onPress: () => {
+                    navigation.navigate('HomeScreen');
+                }
+            },
+        ]);
+    }
+
 
     return (
         <View style={tw`h-full w-full`}>
@@ -132,13 +149,13 @@ const QrScreen = ({ navigation, route }) => {
                 backgroundColor={'#9c1d21'}
                 barStyle={'light-content'}
             />
-            <View style={tw`h-[75px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 bg-[#9c1d21]`}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={tw``}>
-                    <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
+            <View style={tw`h-[65px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 bg-[#9c1d21]`}>
+                <TouchableOpacity onPress={backToHome} style={tw``}>
+                    <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
                 </TouchableOpacity>
                 <View style={tw`flex items-start justify-center ml-2`}>
                     <View style={tw`flex-row items-start justify-center`}>
-                        <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Thanh toán</Text>
+                        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thanh toán</Text>
                     </View>
                 </View>
             </View>
@@ -148,7 +165,7 @@ const QrScreen = ({ navigation, route }) => {
                     resizeMode="contain"
                     style={tw`h-[70px] w-[170px]`} />
                 <View>
-                    <Text style={tw`text-[14px] text-[#404040]`}>Số tiền thanh toán</Text>
+                    <Text style={tw`text-[13.5px] text-[#404040]`}>Số tiền thanh toán</Text>
                     <Text style={tw`text-[15px] font-bold text-[#9c1d21]`}>{tong_tien} VND</Text>
                 </View>
             </View>
@@ -159,13 +176,13 @@ const QrScreen = ({ navigation, route }) => {
                         style={tw`h-60%] w-[50%]`}
                         source={{ uri: rs_data.qr }} />
 
-                    <TouchableOpacity style={tw`mt-2 flex-row items-center justify-center`}
+                    <TouchableOpacity style={tw` flex-row items-center justify-center`}
                         onPress={checkPermission}>
                         <MaterialIcons name="file-download" size={20} color={'#404040'} />
-                        <Text style={tw`text-[#404040] text-center text-[14px]`}>Tải xuống</Text>
+                        <Text style={tw`text-[#404040] text-center text-[13.5px]`}>Tải xuống</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={tw`w-full flex-wrap px-2 border-b border-gray-300 flex-row items-center justify-start mt-10`}>
+                <View style={tw`w-full flex-wrap px-2 border-b border-gray-300 flex-row items-center justify-start mt-5`}>
                     {bankingData.map((item, index) => {
                         return (
                             <View style={tw`w-1/4 p-1`} key={index}>

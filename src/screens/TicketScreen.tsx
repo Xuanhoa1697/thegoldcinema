@@ -49,11 +49,11 @@ const TicketScreen = ({navigation, route}: any) => {
         backgroundColor={'#9C1D21'}
         barStyle={'light-content'}
       />
-      <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+      <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
+          <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Đơn hàng</Text>
+        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Vé phim</Text>
       </View>
 
       <View style={styles.ticketContainer}>

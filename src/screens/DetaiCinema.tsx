@@ -90,15 +90,15 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
     return (
       <View style={tw`px-3`}>
         {Object.keys(items[date]).map((cinemaName, key) => (
-          <View style={tw`mt-5 w-full`}>
-            <View style={tw`flex-row items-center justify-between`} key={key} >
+          <View style={tw`mt-5 w-full`} key={key} >
+            <View style={tw`flex-row items-center justify-between`}>
               <View style={tw`flex-row items-center justify-start`}>
                 <Text style={tw`text-[13.5px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
                 <Text style={tw`text-[13.5px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
               </View>
               <AntDesign name='heart' size={22} color={key == 0 ? '#9c1d21' : '#9c9c9c'} />
             </View>
-            <Text ellipsizeMode='tail' style={tw`text-[15px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
+            <Text ellipsizeMode='tail' style={tw`text-[13.5px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
             <View style={tw`flex-row items-center justify-start mt-1.5`}>
             <FlatList
               data={items[date][cinemaName]['danhsachphim']}
@@ -132,11 +132,11 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         barStyle={'default'}
       />
       <View style={tw`h-full w-full`}>
-        <View style={tw`h-[75px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2`}>
-            <MaterialIcons name="arrow-back" size={32} color={'#9c1d21'} />
+        <View style={tw`h-[65px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2 z-10`}>
+            <MaterialIcons name="arrow-back" size={27} color={'#9c1d21'} />
           </TouchableOpacity>
-          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-black ml-2 w-[300px]`}>{movieName.toUpperCase()}</Text>
+          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-black ml-2 w-[100%] pl-8`}>{movieName}</Text>
         </View>
         {loading && <View style={tw`h-full w-full absolute z-10 top-[180px] flex items-center justify-start`}>
           <ActivityIndicator size="30" color="#9c1d21" style={tw`mt-[50%]`} />
@@ -168,6 +168,9 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
             agendaTodayColor: '#9c1d21',
             backgroundColor: '#000000',
             calendarBackground: '#000000',
+            textDayFontSize: 13.5,
+            textMonthFontSize: 13.5,
+            textDayHeaderFontSize: 13.5
           }}
         />
       </View>

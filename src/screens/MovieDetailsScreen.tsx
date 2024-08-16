@@ -103,9 +103,9 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
             {movie?.trailer && <TouchableOpacity style={tw`mb-10`} onPress={() => navigation.push('TrailerScreen', { trailer: movie?.trailer })}>
               <AntDesign name="play" size={40} color={'#ffffff'} />
             </TouchableOpacity>}
-            <View style={tw`absolute left-3 top-5`}>
+            <View style={tw`absolute left-3 top-2`}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
+                <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
             <View style={tw`absolute bottom-0 left-33`}>
@@ -139,14 +139,16 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
           {movie?.rate && <CustomIcon name="star" style={styles.starIcon} />}
           {movie?.rate && <Text style={[styles.runtimeText, tw`mr-5`]}>{movie?.rate}</Text>}
           <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#9d2126]`}>⛔ {movie?.old_limit}+</Text>
-          
         </View>
       </View>
 
       <View style={tw`mt-5 mx-4`}>
-        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[13.5px]`]}>{movie?.content.replaceAll('<p>', '').replaceAll('</p>', '')}</Text>
+        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[13px]`]}>{movie?.content.replaceAll('<p>', '').replaceAll('</p>', '')}</Text>
         {numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
           <Text style={tw`text-[#9d2126]`}>Xem thêm</Text>
+        </TouchableOpacity>}
+        {numberOfLines != 3 && <TouchableOpacity onPress={() => setNumberOfLines(3)}>
+          <Text style={tw`text-[#9d2126]`}>Rút gọn</Text>
         </TouchableOpacity>}
         <View style={tw`flex-row mt-3`}>
           <Text style={tw`text-[13.5px] text-[#000000] font-semibold w-[20%]`}>Thể loại</Text>

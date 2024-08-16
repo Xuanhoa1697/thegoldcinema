@@ -26,7 +26,7 @@ const UserTextInputChat = ({ placeholder, domainType=false, isPass, setStateValu
   };
 
   return (
-    <View style={tw`border-b-[0.5px] rounded-1 px-1 pt-3 mt-3 h-[55px] flex-row items-center content-center justify-between border-[${primaryColor}] ${domainType ? 'w-73%' : ''}`}>
+    <View style={tw`border-b-[0.5px] rounded-1 px-1 pt-3 mt-3 h-[65px] flex-row items-center content-center justify-between border-[${primaryColor}] ${domainType ? 'w-73%' : ''}`}>
       <TextInput
         placeholder={placeholder}
         value={value}

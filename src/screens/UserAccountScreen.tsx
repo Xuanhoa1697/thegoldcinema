@@ -47,11 +47,11 @@ const UserAccountScreen = ({ navigation }: any) => {
         backgroundColor={'#9C1D21'}
         barStyle={'light-content'}
       />
-      <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+      <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={29} color={'#ffffff'} />
+          <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[15px] font-bold text-[#ffffff]`}>Tài khoản</Text>
+        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin</Text>
       </View>
 
       <View style={[styles.profileContainer, tw`mt-8`]}>
@@ -74,13 +74,13 @@ const UserAccountScreen = ({ navigation }: any) => {
         <SettingComponent
           icon="setting"
           heading="Hỗ trợ"
-          subheading="Hướng dẫn thanh toán, thông tin công ty"
+          subheading="Hướng dẫn, điều khoản sử dụng"
           handleAction={handleUser}
           keyData="support"
         />
         <TouchableOpacity style={tw`w-full`}
           onPress={logoutApp}>
-          <Text style={tw`text-white font-bold bg-[#9C1D21] text-center text-[13px] px-8 py-3 rounded-15`}>Đăng xuất</Text>
+          <Text style={tw`text-white bg-[#9C1D21] text-center text-[13px] px-8 py-3 rounded-15`}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
     </View>

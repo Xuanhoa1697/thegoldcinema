@@ -248,9 +248,9 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
         backgroundColor={'#000000'}
         barStyle={'default'}
       />
-      <View style={tw`h-[75px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
+      <View style={tw`h-[65px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={tw``}>
-          <MaterialIcons name="arrow-back" size={29} color={'#9c1d21'} />
+          <MaterialIcons name="arrow-back" size={27} color={'#9c1d21'} />
         </TouchableOpacity>
         <View style={tw`flex items-start justify-center ml-2`}>
           <View style={tw`flex-row items-start justify-center`}>
@@ -357,8 +357,8 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2 absolute z-1 bottom-0 bg-white`}>
         <View style={tw`flex items-start justify-start w-full`}>
           <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[13.5px] text-black`}>{detail.phim.toUpperCase()}</Text>
-          <View style={tw`flex-row items-center justify-between w-full`}>
-            <Text style={tw`text-[#9c9c9c] text-[13.5px]`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
+          <View style={tw`flex-row items-center justify-between w-full mt-2`}>
+            <Text style={tw`text-[#4a4a4a] text-[13.5px]`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
             <TouchableOpacity onPress={BookSeats}>
               <Text style={tw`text-white font-bold bg-[#9C1D21] text-[13.5px] px-8 py-2 rounded-15`}>Đặt vé</Text>
             </TouchableOpacity>

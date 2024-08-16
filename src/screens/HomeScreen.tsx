@@ -255,17 +255,17 @@ const HomeScreen = ({ navigation }: any) => {
           {/* <Entypo name="github" size={33} color={'#9c1d21'} /> */}
         </View>
         <View style={tw`w-[40%] flex-row justify-center items-center`}>
-          <Image style={tw`h-[55px] w-[100px]`}
+          <Image style={tw`h-[45px] w-[100px]`}
             source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
             resizeMode='contain' />
         </View>
 
-        <View style={tw`w-[30%] flex-row justify-end items-center mt-1`}>
+        <View style={tw`w-[30%] flex-row justify-end items-center`}>
           <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={29} color={'#9d2126'} />
+            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={35} color={'#9d2126'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={checkLogin}>
-            <MaterialCommunityIcons name="format-list-bulleted" size={31} color={'#9d2126'} />
+            <MaterialCommunityIcons name="format-list-bulleted" size={35} color={'#9d2126'} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -285,11 +285,12 @@ const HomeScreen = ({ navigation }: any) => {
         )}
         onScrollEndDrag={({ }) => {
 
-          if (scrollDirection.current === 'down' && lastOffsetY.current < 100) {
+          if (scrollDirection.current === 'down' && lastOffsetY.current < 50) {
             scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? 100 : 0, animated: true });
-          } else if (scrollDirection.current === 'down' && lastOffsetY.current > 100) {
-            scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current + 100 : 0, animated: true });
-          }
+          } 
+          // else if (scrollDirection.current === 'down' && lastOffsetY.current > 100) {
+          //   scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current + 100 : 0, animated: true });
+          // }
         }}
         scrollEventThrottle={16}
         refreshControl={
@@ -299,26 +300,26 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://125.253.121.150:8069${bgContent?.image}` }}
+          source={{ uri: `http://125.253.121.150:8069${nowPlayingMoviesList && nowPlayingMoviesList.length > 0 ? nowPlayingMoviesList[0]?.image : ''}` }}
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={10}>
-          <View style={tw`flex-row items-start justify-between pt-4 h-[75px]`}>
+          <View style={tw`flex-row items-start justify-between pt-4 h-[65px]`}>
             <View style={tw`w-[30%] flex-row justify-start items-center`}>
               {/* <Entypo name="github" size={33} color={'#9c1d21'} /> */}
             </View>
             <View style={tw`w-[40%] flex-row justify-center items-center`}>
-              <Image style={tw`h-[55px] w-[100px]`}
+              <Image style={tw`h-[45px] w-[100px]`}
                 source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                 resizeMode='contain' />
             </View>
 
-            <View style={tw`w-[30%] flex-row justify-end items-center mt-1`}>
+            <View style={tw`w-[30%] flex-row justify-end items-center`}>
               <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={29} color={'#ffffff'} />
+                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={35} color={'#ffffff'} />
               </TouchableOpacity>
               <TouchableOpacity onPress={checkLogin}>
-                <MaterialCommunityIcons name="format-list-bulleted" size={31} color={'#ffffff'} />
+                <MaterialCommunityIcons name="format-list-bulleted" size={35} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
           </View>
@@ -345,7 +346,7 @@ const HomeScreen = ({ navigation }: any) => {
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
-                  imagePath={`http://125.253.121.150:8069${item.image}${refreshingItem}`}
+                  imagePath={`http://125.253.121.150:8069${item.image}&time=${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
                   // vote_average={item.rate}
                   vote_count={item.nsx}
@@ -360,24 +361,24 @@ const HomeScreen = ({ navigation }: any) => {
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
               <View style={tw``}>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] font-bold text-white w-[250px]`}>{bgContent?.name}</Text>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-white w-[270px]`}>{bgContent?.name}</Text>
                 <View style={tw`flex-row items-center justify-start mt-3`}>
                   {bgContent?.rate && <CustomIcon name="star" size={20} color={'#f5d53e'} />}
                   {bgContent?.rate && <Text style={tw`text-[13.5px] text-white mr-2`}>{bgContent?.rate}</Text>}
                   {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-white mr-2 border border-[#f5d53e] rounded-[30px] px-2 w-[100px]`}>{bgContent?.type}</Text>}
-                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-white w-[150px]`}>⛔{bgContent?.old_limit}+</Text>
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-white w-[180px]`}>⛔{bgContent?.old_limit}+</Text>
                   
                 </View>
               </View>
               <TouchableOpacity style={tw`rounded-[30px] bg-[#9c1d21] px-4 py-1`}
                 onPress={() => navigation.push('MovieDetails', { movie: bgContent })}>
-                <Text style={tw`text-[13.5px] font-bold text-white`}>ĐẶT VÉ</Text>
+                <Text style={tw`text-[13.5px] text-white`}>ĐẶT VÉ</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
 
         </ImageBackground>
-        <View style={tw`h-[55px] pl-2 pr-4`}>
+        <View style={tw`h-[65px] pl-2 pr-4`}>
           <TouchableOpacity style={tw`flex-row justify-between items-center h-full`}
             onPress={() => navigation.navigate('CinemaHomeScreen')}>
             <Text style={tw`text-[13.5px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
@@ -399,7 +400,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://125.253.121.150:8069${item.image}${refreshingItem}`}
+                imagePath={`http://125.253.121.150:8069${item.image}&time=${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -423,7 +424,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://125.253.121.150:8069${item.image}${refreshingItem}`}
+                imagePath={`http://125.253.121.150:8069${item.image}&time=${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -491,7 +492,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 75,
+    height: 65,
     backgroundColor: '#f8f8f8',
     justifyContent: 'center',
     alignItems: 'center',
