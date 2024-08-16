@@ -16,6 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { SelectCountry } from 'react-native-element-dropdown';
 import tw from "twrnc";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,9 +28,8 @@ const PaymentScreen = ({ navigation, route }) => {
     const defaultBanggia = banggia.length > 0 ? banggia[0]["dm_loaive_id"] : 0;
     const defaultDongia = banggia.length > 0 ? banggia[0]["dongia"] : 0;
     const [selectedBanggia, setSelectedBanggia] = useState({});
+    const [selectedBanggiaData, setSelectedBanggiaData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
-
-    console.log(datas);
     
 
     useEffect(() => {
@@ -41,6 +41,14 @@ const PaymentScreen = ({ navigation, route }) => {
                 seats_data_default[[item]] = defaultDongia
             })
             setSelectedBanggia(seats_data_default);
+
+            let seats_data_default1 = {
+                ...selectedBanggiaData,
+            }
+            Object.keys(seats).map((item) => {
+                seats_data_default1[[item]] = banggia?.length > 0 ? banggia[0] : {}
+            })
+            setSelectedBanggiaData(seats_data_default1);
         })();
       }, []);
     const renderItem = ({ item }) => {
@@ -54,9 +62,16 @@ const PaymentScreen = ({ navigation, route }) => {
     }
 
     const onChange = (item, key) => {
+        console.log(item, key);
+        
         setSelectedBanggia({
             ...selectedBanggia,
             [key]: item.dongia || 0,
+        });
+
+        setSelectedBanggiaData({
+            ...selectedBanggiaData,
+            [key]: item
         });
     }
 
@@ -65,11 +80,70 @@ const PaymentScreen = ({ navigation, route }) => {
     }
 
     const paymentQr = async () => {
-        navigation.navigate('QrScreen', {
-            'tong_tien': Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-            'datas': datas,
-            'selectedBanggia': selectedBanggia
+        let user = await AsyncStorage.getItem('user_info');
+        let data_cinema = {
+            'user_id': JSON.parse(user).user_id,
+            'lc_id': detail.id,
+            'ptthanhtoan_id': datas.ptthanhtoan.length > 0 ? datas.ptthanhtoan[0].id : false,
+            'totals': Object.values(selectedBanggia).reduce((a, b) => a + b, 0),
+            'items': []
+        }
+        let data = []
+        Object.keys(selectedBanggiaData).map((item) => {
+            let bangGiaData = { ...selectedBanggiaData[item] }
+            bangGiaData['id'] = item;
+            data.push(bangGiaData)
+            
         })
+        data_cinema.items = data;
+        
+        fetchData(data_cinema);
+        
+    }
+
+    const fetchData = async (data_cinema) => {
+        // return console.log(data);
+        
+        try {
+            let data = JSON.stringify({
+              "jsonrpc": "2.0",
+              "method": "call",
+              "params": {
+                'data': data_cinema
+              }
+            });
+            let config = {
+              method: 'post',
+              maxBodyLength: Infinity,
+              mode: 'no-cors',
+              url: `http://125.253.121.150:8069/web/api/v1/booking`,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            };
+      
+            let response = await axios.request(config);
+            const rs_data = await JSON.parse(JSON.stringify(response.data)).result;
+            setModalVisible(false);
+
+            setTimeout(() => {
+                navigation.navigate('QrScreen', {
+                    'tong_tien': Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                    'datas': datas,
+                    'selectedBanggia': selectedBanggia,
+                    'rs_data': rs_data.data
+                })
+            }, 1000);
+            
+          } catch (error) {
+            setModalVisible(false);
+            console.error(
+              ' Something went wrong in getPopularMoviesList Function',
+              error,
+            );
+          }
     }
 
     return (

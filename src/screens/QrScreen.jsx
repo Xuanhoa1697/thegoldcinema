@@ -28,6 +28,7 @@ const QrScreen = ({ navigation, route }) => {
     const tong_tien = route.params.tong_tien;
     const selectedBanggia = route.params.selectedBanggia;
     const datas = route.params.datas;
+    const rs_data = route.params.rs_data;
     console.log(tong_tien);
     
     const [bankingData, setBankingData] = useState([]);
@@ -97,7 +98,7 @@ const QrScreen = ({ navigation, route }) => {
 
     const downloadImage = async () => {
         let date = new Date();
-        let image_Url = `https://img.vietqr.io/image/vietinbank-113366668888-qr_only.jpg?amount=1000000&addInfo=banhang&accountName=TestApp`;
+        let image_Url = rs_data.qr;
         let ext = getExtention(image_Url);
         ext = "." + ext[0];
 
@@ -156,7 +157,7 @@ const QrScreen = ({ navigation, route }) => {
                     <Image
                         resizeMode="contain"
                         style={tw`h-60%] w-[50%]`}
-                        source={{ uri: `https://img.vietqr.io/image/vietinbank-113366668888-qr_only.jpg?amount=1000000&addInfo=banhang&accountName=TestApp` }} />
+                        source={{ uri: rs_data.qr }} />
 
                     <TouchableOpacity style={tw`mt-2 flex-row items-center justify-center`}
                         onPress={checkPermission}>
