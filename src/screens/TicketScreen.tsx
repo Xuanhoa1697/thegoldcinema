@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   StatusBar,
   ImageBackground,
-  Image,
+  Modal,
   TouchableOpacity,
+  Alert,
+  ToastAndroid,
+  Platform,
+  ScrollView
 } from 'react-native';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import AppHeader from '../components/AppHeader';
+import Svg, { Path } from 'react-native-svg';
 import {
   BORDERRADIUS,
   COLORS,
@@ -18,112 +21,152 @@ import {
   SPACING,
 } from '../theme/theme';
 import LinearGradient from 'react-native-linear-gradient';
-import CustomIcon from '../components/CustomIcon';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import tw from "twrnc";
+import axios from 'axios';
+import QRCode from 'react-native-qrcode-svg';
+// import { ScrollView } from 'react-native-gesture-handler';
 
-const TicketScreen = ({navigation, route}: any) => {
-  const [ticketData, setTicketData] = useState<any>(route.params);
+const TicketScreen = ({ navigation, route }: any) => {
+  const [ticketData, setTicketData] = useState<any>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [orderCode, setOrderCode] = useState('');
 
   useEffect(() => {
     (async () => {
       try {
-        const ticket = await EncryptedStorage.getItem('ticket');
-        if (ticket !== undefined && ticket !== null) {
-          setTicketData(JSON.parse(ticket));
-        }
+        let user_info = await AsyncStorage.getItem('user_info');
+        get_ticket_cinema(user_info)
       } catch (error) {
         console.error('Something went wrong while getting Data', error);
       }
     })();
   }, []);
 
-  if (ticketData !== route.params && route.params != undefined) {
-    setTicketData(route.params);
+  const get_ticket_cinema = async (user_info) => {
+    try {
+      let data = JSON.stringify({
+        "jsonrpc": "2.0",
+        "method": "call",
+        "params": {
+          'user_id': JSON.parse(user_info).user_id,
+        }
+      });
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        mode: 'no-cors',
+        url: `http://125.253.121.150:8069/web/api/v1/get_ticket`,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+        data: data
+      };
+
+      let response = await axios.request(config);
+      const datas = await JSON.parse(JSON.stringify(response.data));
+      if (datas.result.status != 200) {
+        return handleShowNotification(datas.result.msg)
+      }
+      setTicketData(datas.result.result);
+    } catch (error) {
+      handleShowNotification('Đã xảy ra lỗi. Vui lòng thử lại.')
+      console.error(
+        ' Something went wrong in getPopularMoviesList Function',
+        error,
+      );
+    }
+  };
+
+  const handleShowNotification = (text) => {
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(text, ToastAndroid.SHORT)
+    } else {
+      Alert.alert('Thông báo', text);
+    }
+  };
+
+  const onShowTicketDetail = (item) => {
+    // navigation.navigate('TicketDetailScreen', { item: item })
+    setModalVisible(!modalVisible);
+    setOrderCode(item.name)
+    console.log(item);
+
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, tw`bg-[#c9c9c9]`]}>
       <StatusBar
         translucent={false}
         backgroundColor={'#9C1D21'}
         barStyle={'light-content'}
       />
-      <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+      <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
+          <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Vé phim</Text>
+        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Vé của tôi</Text>
       </View>
+      <Modal
+        animationType='fade'
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={tw`w-full h-full`}>
+          <View style={tw`bg-white w-full rounded-2 bg-[#ffffff]`}>
+            <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
+              </TouchableOpacity>
+              <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
+            </View>
+            <View>
+              <QRCode
+                value={orderCode}
+                size={200}
+                color="black"
+                backgroundColor="white"
+              />
+            </View>
 
-      <View style={styles.ticketContainer}>
-        <ImageBackground
-          source={{uri: ticketData?.ticketImage}}
-          style={styles.ticketBGImage}>
-          <LinearGradient
-            colors={[COLORS.OrangeRGBA0, COLORS.Orange]}
-            style={styles.linearGradient}>
-            <View
-              style={[
-                styles.blackCircle,
-                {position: 'absolute', bottom: -40, left: -40},
-              ]}></View>
-            <View
-              style={[
-                styles.blackCircle,
-                {position: 'absolute', bottom: -40, right: -40},
-              ]}></View>
-          </LinearGradient>
-        </ImageBackground>
-        <View style={styles.linear}></View>
-
-        <View style={styles.ticketFooter}>
-          <View
-            style={[
-              styles.blackCircle,
-              {position: 'absolute', top: -40, left: -40},
-            ]}></View>
-          <View
-            style={[
-              styles.blackCircle,
-              {position: 'absolute', top: -40, right: -40},
-            ]}></View>
-          <View style={styles.ticketDateContainer}>
-            <View style={styles.subtitleContainer}>
-              <Text style={styles.dateTitle}>{ticketData?.date.date}</Text>
-              <Text style={styles.subtitle}>{ticketData?.date.day}</Text>
-            </View>
-            <View style={styles.subtitleContainer}>
-              <CustomIcon name="clock" style={styles.clockIcon} />
-              <Text style={styles.subtitle}>{ticketData?.time}</Text>
-            </View>
           </View>
-          <View style={styles.ticketSeatContainer}>
-            <View style={styles.subtitleContainer}>
-              <Text style={styles.subheading}>Hall</Text>
-              <Text style={styles.subtitle}>02</Text>
-            </View>
-            <View style={styles.subtitleContainer}>
-              <Text style={styles.subheading}>Row</Text>
-              <Text style={styles.subtitle}>04</Text>
-            </View>
-            <View style={styles.subtitleContainer}>
-              <Text style={styles.subheading}>Seats</Text>
-              <Text style={styles.subtitle}>
-                {ticketData?.seatArray
-                  .slice(0, 3)
-                  .map((item: any, index: number, arr: any) => {
-                    return item + (index == arr.length - 1 ? '' : ', ');
-                  })}
-              </Text>
-            </View>
-          </View>
-          <Image
-            source={require('../assets/image/barcode.png')}
-            style={styles.barcodeImage}
-          />
         </View>
-      </View>
+      </Modal>
+
+      <ScrollView style={tw`flex-1 px-2`}>
+        {ticketData.length == 0 && <Text style={tw`text-center text-[#000000] mt-5`}>Không có dữ liệu</Text>}
+        {ticketData?.map((item, index) => (
+          <TouchableOpacity onPress={() => onShowTicketDetail(item)} key={index} style={tw`w-full mt-3 px-2 bg-[#ffffff]`}>
+            <Svg height="100%" width="20" viewBox="5 0 30 200" style={tw`absolute left-0`}>
+              <Path
+                d="M0,0 Q20,5 0,10 Q20,15 0,20 Q20,25 0,30 Q20,35 0,40 Q20,45 0,50 Q20,55 0,60 Q20,65 0,70 Q20,75 0,80 
+               Q20,85 0,90 Q20,95 0,100 Q20,105 0,110 Q20,115 0,120 Q20,125 0,130 Q20,135 0,140 Q20,145 0,150 
+               Q20,155 0,160 Q20,165 0,170 Q20,175 0,180 Q20,185 0,190 Q20,195 0,200"
+                fill="#c9c9c9"
+              />
+            </Svg>
+            <View style={tw`flex-1 p-2`}>
+              <View style={tw`h-[30px] w-[30px] rounded-full bg-[#c9c9c9] absolute top-[33px] right-[-20px]`} />
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#000000] font-semibold w-[80%]`}>{item.tenphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#c9c9c9] w-[80%] mt-1`}>{item.rapphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#c9c9c9] w-[80%] mt-1`}>{item.date_order}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+            </View>
+            <Svg height="100%" width="20" viewBox="0 0 1 200" style={tw`absolute right-0`}>
+              <Path
+                d="M20,0 Q0,5 20,10 Q0,15 20,20 Q0,25 20,30 Q0,35 20,40 Q0,45 20,50 Q0,55 20,60 Q0,65 20,70 Q0,75 20,80 
+               Q0,85 20,90 Q0,95 20,100 Q0,105 20,110 Q0,115 20,120 Q0,125 20,130 Q0,135 20,140 Q0,145 20,150 
+               Q0,155 20,160 Q0,165 20,170 Q0,175 20,180 Q0,185 20,190 Q0,195 20,200"
+                fill="#c9c9c9"
+              />
+            </Svg>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -132,7 +175,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.White,
   },
   appHeaderContainer: {
     marginHorizontal: SPACING.space_36,

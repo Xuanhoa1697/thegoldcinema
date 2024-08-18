@@ -52,18 +52,18 @@ const CinemaHomeScreen = ({ navigation }) => {
                 backgroundColor={'#000000'}
                 barStyle={'default'}
             />
-            <View style={tw`h-[75px] w-full flex-row items-center justify-between px-2`}>
+            <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={36} color={'#9c1d21'} />
+                    <MaterialIcons name="arrow-back" size={25} color={'#9c1d21'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[17px] font-bold text-[#9c1d21]`}>Danh sách rạp phim</Text>
+                <Text style={tw`text-[13.5px] font-bold text-[#9c1d21]`}>Danh sách rạp phim</Text>
             </View>
             <View style={tw`h-[1px] w-full bg-[#9c9c9c] opacity-50`}/>
             <TouchableOpacity style={tw`w-full border-b border-[#c9c9c9]`} onPress={() => navigation.goBack()}>
                 {datas.length > 0 && datas.map((item, index) => {
                     return (<View key={index} style={tw`h-[75px] w-full flex-row items-center justify-between px-3`}>
-                        <Text style={tw`text-[16px] font-semibold text-black`}>{item.name}</Text>
-                        <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[16px] text-[#9c1d21] w-[200px]`}>{item.address}</Text>
+                        <Text style={tw`text-[13.5px] font-semibold text-black`}>{item.name}</Text>
+                        <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[13.5px] text-[#9c1d21] w-[250px]`}>{item.address}</Text>
                     </View>)
                 })}
             </TouchableOpacity>

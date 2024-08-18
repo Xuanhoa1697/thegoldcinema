@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, View, Keyboard, StatusBar, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, Keyboard, StatusBar, TextInput, TouchableOpacity, Alert, Platform, ToastAndroid } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import tw from "twrnc";
 import axios from 'axios';
@@ -69,6 +69,14 @@ const EditProfile = ({ navigation }) => {
             );
         }
     }
+
+    const handleShowNotification = (text) => {
+        if (Platform.OS === 'android') {
+            ToastAndroid.show(text, ToastAndroid.SHORT)
+        } else {
+            Alert.alert('Thông báo', text);
+        }
+    };
 
     const saveToLocal = async (data) => {
         const localStorage = JSON.parse(await AsyncStorage.getItem('user_info'));
@@ -141,9 +149,9 @@ const EditProfile = ({ navigation }) => {
                 backgroundColor={'#9C1D21'}
                 barStyle={'light-content'}
             />
-            <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9C1D21]`}>
+            <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9C1D21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
+                    <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
                 </TouchableOpacity>
                 <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin tài khoản</Text>
             </View>

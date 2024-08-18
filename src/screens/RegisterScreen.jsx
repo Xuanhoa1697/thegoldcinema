@@ -53,6 +53,7 @@ const RegisterScreen = ({ navigation }) => {
 
         try {
             Keyboard.dismiss()
+            setIsSpinLoading(true)
             let data = JSON.stringify({
                 "jsonrpc": "2.0",
                 "method": "call",
@@ -85,10 +86,12 @@ const RegisterScreen = ({ navigation }) => {
                 handleShowNotification(datas.msg);
             }
             setTimeout(() => {
+                setIsSpinLoading(false);
                 Navigation.navigate('LoginScreen');
             }, 1000);
 
         } catch (error) {
+            setIsSpinLoading(false);
             console.error(
                 ' Something went wrong in getPopularMoviesList Function',
                 error,
@@ -111,9 +114,9 @@ const RegisterScreen = ({ navigation }) => {
                 backgroundColor={'#9c1d21'}
                 barStyle={'light-content'}
             />
-            <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+            <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
+                    <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
                 </TouchableOpacity>
                 <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Đăng ký</Text>
             </View>

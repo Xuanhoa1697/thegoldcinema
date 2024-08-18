@@ -354,6 +354,7 @@ const HomeScreen = ({ navigation }: any) => {
               )}
               firstItem={0}
               inactiveSlideScale={0.8}
+              // inactiveSlideShift={10}
               inactiveSlideOpacity={0.7}
               sliderWidth={width}
               itemWidth={width / 1.45}
@@ -378,11 +379,11 @@ const HomeScreen = ({ navigation }: any) => {
           </LinearGradient>
 
         </ImageBackground>
-        <View style={tw`h-[65px] pl-2 pr-4`}>
+        <View style={tw`h-[50px] pl-2 pr-4`}>
           <TouchableOpacity style={tw`flex-row justify-between items-center h-full`}
             onPress={() => navigation.navigate('CinemaHomeScreen')}>
-            <Text style={tw`text-[13.5px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
-            <Feather name="send" size={22} color={'#c9c9c9'} />
+            <Text style={tw`text-[13px] text-[#c9c9c9] text-base`}>Tìm rạp gần bạn...</Text>
+            <Feather name="send" size={20} color={'#c9c9c9'} />
           </TouchableOpacity>
         </View>
         <View style={tw`bg-white`}>

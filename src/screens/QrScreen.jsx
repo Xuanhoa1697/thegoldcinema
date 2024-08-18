@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Dimensions,
     ToastAndroid,
-    ActivityIndicator,
+    Modal,
     Image,
     Linking,
     PermissionsAndroid,
@@ -29,8 +29,8 @@ const QrScreen = ({ navigation, route }) => {
     const selectedBanggia = route.params.selectedBanggia;
     const datas = route.params.datas;
     const rs_data = route.params.rs_data;
-    console.log(tong_tien);
-    
+    const [modalVisible, setModalVisible] = useState(false);
+
     const [bankingData, setBankingData] = useState([]);
 
     useEffect(() => {
@@ -76,7 +76,7 @@ const QrScreen = ({ navigation, route }) => {
     const checkPermission = async () => {
         if (Platform.OS === 'ios') {
             downloadImage();
-        }else {
+        } else {
             try {
                 const granted = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -90,7 +90,7 @@ const QrScreen = ({ navigation, route }) => {
                 } else {
                     Alert.alert('Storage Permission Denied');
                 }
-            } catch (err){
+            } catch (err) {
                 console.warn(err);
             }
         }
@@ -126,7 +126,7 @@ const QrScreen = ({ navigation, route }) => {
 
     const backToHome = () => {
         console.log(1);
-        
+
         Alert.alert('Thông báo', 'Vé phim đã được đặt. Việc rời đi khi chưa thanh toán có thể gây nhầm lẫn. Bạn có muốn tiếp tục?', [
             {
                 text: 'Hủy bỏ',
@@ -141,25 +141,72 @@ const QrScreen = ({ navigation, route }) => {
         ]);
     }
 
+    const goToTicket = () => {
+        Alert.alert('Thông báo', 'Xác nhận đã thanh toán?', [
+            {
+                text: 'Hủy bỏ',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {
+                text: 'Xác nhận', onPress: () => {
+                    navigation.navigate('TicketScreen');
+                }
+            },
+        ]);
+    }
+
 
     return (
-        <View style={tw`h-full w-full`}>
+        <View style={tw`h-full w-full bg-white`}>
             <StatusBar
                 translucent={false}
                 backgroundColor={'#9c1d21'}
                 barStyle={'light-content'}
             />
-            <View style={tw`h-[65px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 bg-[#9c1d21]`}>
+            <View style={tw`h-[55px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 bg-[#9c1d21]`}>
                 <TouchableOpacity onPress={backToHome} style={tw``}>
-                    <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
+                    <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
                 </TouchableOpacity>
                 <View style={tw`flex items-start justify-center ml-2`}>
                     <View style={tw`flex-row items-start justify-center`}>
                         <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thanh toán</Text>
                     </View>
                 </View>
+                <TouchableOpacity style={tw`ml-auto`} onPress={goToTicket}>
+                    <MaterialIcons name="done" size={25} color={'#ffffff'} />
+                </TouchableOpacity>
             </View>
-            <View style={tw`flex-row items-center justify-between px-2 py-2 pr-4 border-b border-gray-300`}>
+            <Modal
+                animationType='fade'
+                transparent={false}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={tw`flex-1 justify-center items-center p-3`}>
+                    <View style={tw`bg-white w-full pt-4 pb-6  px-6 rounded-2 bg-[#ffffff] border border-gray-300`}>
+                        <Text style={tw`text-[15px] text-[#000000] font-bold`}>Thông tin vé</Text>
+
+                        <Text style={tw`text-[13.5px] text-[#000000] mt-3`}>Vui lòng kiểm tra trước khi thanh toán.</Text>
+
+                        <View style={tw`flex-row items-center justify-end`}>
+                            <TouchableOpacity style={tw`h-[35px] flex-row items-center justify-center px-3 mt-6 rounded-5`}
+                                onPress={() => setModalVisible(false)}>
+                                <Text style={tw`text-[13.5px] text-center text-[#9c1d21]`}>HỦY BỎ</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={tw`h-[35px] flex-row items-center justify-center px-3 mt-6 rounded-5`}
+                                onPress={() => paymentQr()}>
+                                <Text style={tw`text-[13.5px] text-center text-[#9c1d21]`}>XÁC NHẬN</Text>
+                            </TouchableOpacity>
+                        </View>
+
+
+                    </View>
+                </View>
+            </Modal>
+            <View style={tw`flex-row items-center justify-between px-2 py-2 pr-4 border-b border-gray-300 bg-white`}>
                 <Image
                     source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                     resizeMode="contain"
@@ -188,10 +235,10 @@ const QrScreen = ({ navigation, route }) => {
                             <View style={tw`w-1/4 p-1`} key={index}>
                                 <TouchableOpacity key={index} style={tw`flex-row items-center justify-between border border-gray-300 h-[50px] bg-white`}
                                     onPress={() => onDeepLink(item)}>
-                                <Image
-                                    resizeMode="contain"
-                                    style={tw`w-[100%] h-[40px]`}
-                                    source={{ uri: item?.logo }} />
+                                    <Image
+                                        resizeMode="contain"
+                                        style={tw`w-[100%] h-[40px]`}
+                                        source={{ uri: item?.logo }} />
                                 </TouchableOpacity>
                             </View>
                         )

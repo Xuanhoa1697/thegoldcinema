@@ -105,7 +105,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
             </TouchableOpacity>}
             <View style={tw`absolute left-3 top-2`}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
+                <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
             <View style={tw`absolute bottom-0 left-33`}>

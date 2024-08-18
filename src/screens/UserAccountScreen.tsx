@@ -47,9 +47,9 @@ const UserAccountScreen = ({ navigation }: any) => {
         backgroundColor={'#9C1D21'}
         barStyle={'light-content'}
       />
-      <View style={tw`h-[65px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+      <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <MaterialIcons name="arrow-back" size={27} color={'#ffffff'} />
+          <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
         </TouchableOpacity>
         <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin</Text>
       </View>
@@ -72,7 +72,7 @@ const UserAccountScreen = ({ navigation }: any) => {
         />
 
         <SettingComponent
-          icon="setting"
+          icon="info"
           heading="Hỗ trợ"
           subheading="Hướng dẫn, điều khoản sử dụng"
           handleAction={handleUser}

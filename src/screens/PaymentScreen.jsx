@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
     Text,
     View,
     ScrollView,
     StatusBar,
-    ImageBackground,
+    ActivityIndicator,
     TouchableOpacity,
     Dimensions,
     Modal,
@@ -17,6 +17,7 @@ import { SelectCountry } from 'react-native-element-dropdown';
 import tw from "twrnc";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,7 +31,21 @@ const PaymentScreen = ({ navigation, route }) => {
     const [selectedBanggia, setSelectedBanggia] = useState({});
     const [selectedBanggiaData, setSelectedBanggiaData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
-    const [secondsLeft, setSecondsLeft] = useState(180);
+    const [secondsLeft, setSecondsLeft] = useState(600);
+    const [loading, setLoading] = useState(false);
+
+    useFocusEffect(
+        useCallback(() => {
+          const intervalId = setInterval(() => {
+            setSecondsLeft((prevSeconds) => prevSeconds - 1);
+        }, 1000);
+    
+        return () => {
+            clearInterval(intervalId);
+            console.log('Function đã dừng do màn hình mất focus.');
+        };
+        }, [])
+      );
 
     useEffect(() => {
         (async () => {
@@ -51,17 +66,6 @@ const PaymentScreen = ({ navigation, route }) => {
             setSelectedBanggiaData(seats_data_default1);
         })();
 
-        if (secondsLeft <= 0) {
-            return;
-        }
-
-        // Thiết lập bộ đếm thời gian, trừ đi 1 giây mỗi lần
-        const timer = setInterval(() => {
-            setSecondsLeft((prevSeconds) => prevSeconds - 1);
-        }, 1000);
-
-        // Hủy bỏ bộ đếm thời gian khi component unmount hoặc khi secondsLeft thay đổi
-        return () => clearInterval(timer);
     }, [secondsLeft]);
 
     const formatTime = (seconds) => {
@@ -131,8 +135,8 @@ const PaymentScreen = ({ navigation, route }) => {
     }
 
     const fetchData = async (data_cinema) => {
-        // return console.log(data);
-
+        // return console.log(data_cinema);
+        setLoading(true);
         try {
             let data = JSON.stringify({
                 "jsonrpc": "2.0",
@@ -158,6 +162,7 @@ const PaymentScreen = ({ navigation, route }) => {
             setModalVisible(false);
 
             setTimeout(() => {
+                setLoading(false);
                 navigation.navigate('QrScreen', {
                     'tong_tien': Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                     'datas': datas,
@@ -168,6 +173,7 @@ const PaymentScreen = ({ navigation, route }) => {
 
         } catch (error) {
             setModalVisible(false);
+            setLoading(false);
             console.error(
                 ' Something went wrong in getPopularMoviesList Function',
                 error,
@@ -182,7 +188,7 @@ const PaymentScreen = ({ navigation, route }) => {
                 backgroundColor={'#000000'}
                 barStyle={'default'}
             />
-            <View style={tw`h-[65px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
+            <View style={tw`h-[55px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={tw``}>
                     <MaterialIcons name="arrow-back" size={27} color={'#9c1d21'} />
                 </TouchableOpacity>
@@ -199,7 +205,10 @@ const PaymentScreen = ({ navigation, route }) => {
                 </View>
                 <Text style={tw`text-[13.5px] text-[#000000] absolute right-3`}>{formatTime(secondsLeft)}</Text>
             </View>
-            <View style={tw`w-full mt-[75px]`}>
+            {loading && <View style={tw`h-full w-full absolute z-100 flex items-center justify-center`}>
+                <ActivityIndicator size="30" color="#9c1d21" style={tw``} />
+              </View>}
+            <View style={tw`w-full mt-[65px]`}>
                 <Modal
                     animationType='fade'
                     transparent={true}
@@ -232,7 +241,7 @@ const PaymentScreen = ({ navigation, route }) => {
                 <ScrollView style={tw`w-full px-2`}>
                     {Object.keys(seats).map((item) => {
                         return (
-                            <View key={item} style={tw`w-full h-[65px] flex-row items-center justify-between px-3 mt-2 bg-[#ffffff] rounded`}>
+                            <View key={item} style={tw`w-full h-[55px] flex-row items-center justify-between px-3 mb-2 bg-[#ffffff] rounded`}>
                                 <View style={tw`flex-row items-center justify-between`}>
                                     <View style={[tw`w-10 h-10 bg-white flex justify-center items-center bg-[#3a78c3] rounded`]}>
                                         <Text style={tw`text-[11px] text-center text-white`}>{item.split("_")[0]}{item.split("_")[1]}</Text>

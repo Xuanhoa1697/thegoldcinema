@@ -161,6 +161,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       setLegendTtems(datas.result.legend_items);
       setSeats(datas.result.seats);
     } catch (error) {
+      setLoading(false)
       console.error(
         ' Something went wrong in getPopularMoviesList Function',
         error,
@@ -248,9 +249,9 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
         backgroundColor={'#000000'}
         barStyle={'default'}
       />
-      <View style={tw`h-[65px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
+      <View style={tw`h-[55px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 absolute z-1 bg-white`}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={tw``}>
-          <MaterialIcons name="arrow-back" size={27} color={'#9c1d21'} />
+          <MaterialIcons name="arrow-back" size={25} color={'#9c1d21'} />
         </TouchableOpacity>
         <View style={tw`flex items-start justify-center ml-2`}>
           <View style={tw`flex-row items-start justify-center`}>

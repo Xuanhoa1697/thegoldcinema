@@ -132,9 +132,9 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         barStyle={'default'}
       />
       <View style={tw`h-full w-full`}>
-        <View style={tw`h-[65px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
+        <View style={tw`h-[55px] w-full flex-row items-center justify-center px-2 border-b border-gray-300`}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2 z-10`}>
-            <MaterialIcons name="arrow-back" size={27} color={'#9c1d21'} />
+            <MaterialIcons name="arrow-back" size={25} color={'#9c1d21'} />
           </TouchableOpacity>
           <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13.5px] font-bold text-black ml-2 w-[100%] pl-8`}>{movieName}</Text>
         </View>
