@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Dimensions,
     ToastAndroid,
-    Modal,
+    ActivityIndicator,
     Image,
     Linking,
     PermissionsAndroid,
@@ -29,7 +29,7 @@ const QrScreen = ({ navigation, route }) => {
     const selectedBanggia = route.params.selectedBanggia;
     const datas = route.params.datas;
     const rs_data = route.params.rs_data;
-    const [modalVisible, setModalVisible] = useState(false);
+    console.log(tong_tien);
 
     const [bankingData, setBankingData] = useState([]);
 
@@ -177,35 +177,6 @@ const QrScreen = ({ navigation, route }) => {
                     <MaterialIcons name="done" size={25} color={'#ffffff'} />
                 </TouchableOpacity>
             </View>
-            <Modal
-                animationType='fade'
-                transparent={false}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}>
-                <View style={tw`flex-1 justify-center items-center p-3`}>
-                    <View style={tw`bg-white w-full pt-4 pb-6  px-6 rounded-2 bg-[#ffffff] border border-gray-300`}>
-                        <Text style={tw`text-[15px] text-[#000000] font-bold`}>Thông tin vé</Text>
-
-                        <Text style={tw`text-[13.5px] text-[#000000] mt-3`}>Vui lòng kiểm tra trước khi thanh toán.</Text>
-
-                        <View style={tw`flex-row items-center justify-end`}>
-                            <TouchableOpacity style={tw`h-[35px] flex-row items-center justify-center px-3 mt-6 rounded-5`}
-                                onPress={() => setModalVisible(false)}>
-                                <Text style={tw`text-[13.5px] text-center text-[#9c1d21]`}>HỦY BỎ</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={tw`h-[35px] flex-row items-center justify-center px-3 mt-6 rounded-5`}
-                                onPress={() => paymentQr()}>
-                                <Text style={tw`text-[13.5px] text-center text-[#9c1d21]`}>XÁC NHẬN</Text>
-                            </TouchableOpacity>
-                        </View>
-
-
-                    </View>
-                </View>
-            </Modal>
             <View style={tw`flex-row items-center justify-between px-2 py-2 pr-4 border-b border-gray-300 bg-white`}>
                 <Image
                     source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
