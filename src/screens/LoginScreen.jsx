@@ -116,7 +116,7 @@ const LoginScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Đăng nhập</Text>
+                <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Đăng nhập</Text>
             </View>
             <ScrollView style={tw`h-full w-full bg-white`}>
                 <View style={tw`flex h-full items-center justify-start`}>
@@ -150,7 +150,7 @@ const LoginScreen = ({ navigation }) => {
                             <View style={tw`w-full pr-1 h-full`}>
                                 <TouchableOpacity style={tw`h-full bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
                                     onPress={actionLogin}>
-                                    <Text style={tw`text-white text-[13.5px] py-2 px-2`}>Đăng nhập</Text>
+                                    <Text style={tw`text-white text-[13px] py-2 px-2`}>Đăng nhập</Text>
                                     {isSpinLoading &&
                                         <ActivityIndicator color="#ffffff" size={20} />
                                     }
@@ -161,16 +161,16 @@ const LoginScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => {
                                 Linking.openURL('https://thegoldcinema.com/web/reset_password');
                             }}>
-                                <Text style={tw`text-[#000000] text-[13.5px]`}>Quên mật khẩu?</Text>
+                                <Text style={tw`text-[#000000] text-[13px]`}>Quên mật khẩu?</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={tw`text-[#000000] text-[13.5px] text-center italic`}>Hoặc</Text>
+                        <Text style={tw`text-[#000000] text-[13px] text-center italic`}>Hoặc</Text>
 
                         <View style={tw`w-full flex-row justify-between items-center h-10 mt-4`}>
                             <View style={tw`w-full pr-1 h-full`}>
                                 <TouchableOpacity style={tw`h-full bg-[#ffffff] border border-[#9c9c9c] flex-row justify-center items-center rounded-15`}
                                     onPress={() => navigation.navigate('RegisterScreen')}>
-                                    <Text style={tw`text-[#9c9c9c] text-[13.5px] py-2 px-2`}>Đăng ký tài khoản</Text>
+                                    <Text style={tw`text-[#9c9c9c] text-[13px] py-2 px-2`}>Đăng ký tài khoản</Text>
                                     {isSpinLoading &&
                                         <ActivityIndicator color="#ffffff" size={20} />
                                     }

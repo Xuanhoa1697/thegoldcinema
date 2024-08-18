@@ -11,7 +11,7 @@ const SettingComponent = (props: any) => {
         <CustomIcon name={props.icon} style={styles.iconStyle} />
       </View>
       <View style={styles.settingContainer}>
-        <Text style={[styles.title, tw`text-[13.5px]`]}>{props.heading}</Text>
+        <Text style={[styles.title, tw`text-[13px]`]}>{props.heading}</Text>
         <Text style={[styles.subtitle,tw`text-[13px]`]} ellipsizeMode='tail' numberOfLines={1}>{props.subheading}</Text>
         <Text style={styles.subtitle}>{props.subtitle}</Text>
       </View>

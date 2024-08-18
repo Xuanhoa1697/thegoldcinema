@@ -170,7 +170,7 @@ const QrScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <View style={tw`flex items-start justify-center ml-2`}>
                     <View style={tw`flex-row items-start justify-center`}>
-                        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thanh toán</Text>
+                        <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Thanh toán</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={tw`ml-auto`} onPress={goToTicket}>
@@ -183,7 +183,7 @@ const QrScreen = ({ navigation, route }) => {
                     resizeMode="contain"
                     style={tw`h-[70px] w-[170px]`} />
                 <View>
-                    <Text style={tw`text-[13.5px] text-[#404040]`}>Số tiền thanh toán</Text>
+                    <Text style={tw`text-[13px] text-[#404040]`}>Số tiền thanh toán</Text>
                     <Text style={tw`text-[15px] font-bold text-[#9c1d21]`}>{tong_tien} VND</Text>
                 </View>
             </View>
@@ -197,7 +197,7 @@ const QrScreen = ({ navigation, route }) => {
                     <TouchableOpacity style={tw` flex-row items-center justify-center`}
                         onPress={checkPermission}>
                         <MaterialIcons name="file-download" size={20} color={'#404040'} />
-                        <Text style={tw`text-[#404040] text-center text-[13.5px]`}>Tải xuống</Text>
+                        <Text style={tw`text-[#404040] text-center text-[13px]`}>Tải xuống</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={tw`w-full flex-wrap px-2 border-b border-gray-300 flex-row items-center justify-start mt-5`}>

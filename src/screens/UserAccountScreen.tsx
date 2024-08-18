@@ -51,7 +51,7 @@ const UserAccountScreen = ({ navigation }: any) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin</Text>
+        <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Thông tin</Text>
       </View>
 
       <View style={[styles.profileContainer, tw`mt-8`]}>

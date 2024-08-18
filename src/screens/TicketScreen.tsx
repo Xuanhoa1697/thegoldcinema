@@ -10,7 +10,8 @@ import {
   Alert,
   ToastAndroid,
   Platform,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import {
@@ -26,12 +27,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import tw from "twrnc";
 import axios from 'axios';
 import QRCode from 'react-native-qrcode-svg';
+import CustomIcon from '../components/CustomIcon';
 // import { ScrollView } from 'react-native-gesture-handler';
 
 const TicketScreen = ({ navigation, route }: any) => {
   const [ticketData, setTicketData] = useState<any>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [orderCode, setOrderCode] = useState('');
+  const [order, setOrder] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -91,7 +93,7 @@ const TicketScreen = ({ navigation, route }: any) => {
   const onShowTicketDetail = (item) => {
     // navigation.navigate('TicketDetailScreen', { item: item })
     setModalVisible(!modalVisible);
-    setOrderCode(item.name)
+    setOrder(item)
     console.log(item);
 
   }
@@ -104,10 +106,10 @@ const TicketScreen = ({ navigation, route }: any) => {
         barStyle={'light-content'}
       />
       <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Vé của tôi</Text>
+        <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Vé của tôi</Text>
       </View>
       <Modal
         animationType='fade'
@@ -116,24 +118,100 @@ const TicketScreen = ({ navigation, route }: any) => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
-        <View style={tw`w-full h-full`}>
-          <View style={tw`bg-white w-full rounded-2 bg-[#ffffff]`}>
-            <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
-              <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
-              </TouchableOpacity>
-              <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
-            </View>
-            <View>
+        <View style={tw`bg-white w-full rounded-2 bg-[#ffffff] h-full`}>
+          <View style={tw`h-[55px] w-full flex-row items-center justify-between px-2 bg-[#9c1d21]`}>
+            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+              <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
+            </TouchableOpacity>
+            <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
+          </View>
+          <ScrollView style={tw`p-3 mb-2`}>
+            <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[#000000] font-bold text-[13px]`}>{order.tenphim}</Text>
+
+            <View style={tw`flex-row items-center justify-center mt-3`}>
               <QRCode
-                value={orderCode}
-                size={200}
+                value={order.name}
+                size={80}
                 color="black"
                 backgroundColor="white"
               />
             </View>
+            <View style={tw`flex items-start justify-center mt-3 w-full border-b border-dotted border-gray-300 pb-3`}>
+              <Text style={tw`text-[#000000] text-[13px]`}>Vui lòng đưa mã số này đến quầy vé của The GoldMart để nhận vé của bạn.</Text>
+            </View>
 
-          </View>
+            <View style={tw`flex-row items-center justify-start mt-3`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Mã vẽ:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.name}</Text>
+            </View>
+            <View style={tw`flex-row items-center justify-start`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Ngày chiếu:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.batdau}</Text>
+            </View>
+
+            <View style={tw`flex-row items-center justify-start`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Rạp phim:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.rapphim}</Text>
+            </View>
+
+            <View style={tw`flex-row items-center justify-start`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Phòng:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.phong}</Text>
+            </View>
+
+            <View style={tw`flex-row items-center justify-start`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Thanh toán:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.thanhtoan}</Text>
+            </View>
+
+            <View style={tw`flex-row items-center justify-start`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Trạng thái:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.state != 'done' ? 'Chờ thanh toán' : 'Đã thanh toán'}</Text>
+            </View>
+
+            <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
+              <View style={tw` w-1/3`}>
+                <Text style={tw`text-[#000000] font-bold text-[13px]`}>Số ghế</Text>
+              </View>
+              <View style={tw` w-1/3`}>
+                <Text style={tw`text-[#000000] font-bold text-[13px]`}>Loại vé</Text>
+              </View>
+              <View style={tw` w-1/3`}>
+                <Text style={tw`text-[#000000] font-bold text-[13px]`}>Đơn giá</Text>
+              </View>
+            </View>
+            {order && order.lines && order?.lines.map(line => {
+              return (
+                <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
+                  <View style={tw` w-1/3`}>
+                    <Text style={tw`text-[#000000] text-[13px]`}>{line.name}</Text>
+                  </View>
+                  <View style={tw` w-1/3`}>
+                    <Text style={tw`text-[#000000] text-[13px]`}>{line.loaive}</Text>
+                  </View>
+                  <View style={tw` w-1/3`}>
+                    <Text style={tw`text-[#000000] text-[13px]`}>{line.dongia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+                  </View>
+                </View>
+              )
+            })}
+            <View style={tw`flex-row items-start justify-start mt-5 w-full`}>
+              <Text style={tw`text-[#000000] font-bold text-[13px]`}>Tổng cộng: </Text>
+              <Text style={tw`text-[#9c1d21] font-bold text-[13px]`}>{(order.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+            </View>
+
+
+            <View style={tw`flex-1 items-start justify-center mt-3 w-full`}>
+              <Text style={tw`text-[#000000] text-[13px]`}>{order.luu_y}</Text>
+            </View>
+            <View style={tw`flex items-center justify-center mt-3 w-full`}>
+              <Image
+                resizeMode="contain"
+                style={tw`h-[150px] w-[150px] bg-black`}
+                source={{ uri: 'http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem' }} />
+            </View>
+          </ScrollView>
+
         </View>
       </Modal>
 
@@ -151,10 +229,10 @@ const TicketScreen = ({ navigation, route }: any) => {
             </Svg>
             <View style={tw`flex-1 p-2`}>
               <View style={tw`h-[30px] w-[30px] rounded-full bg-[#c9c9c9] absolute top-[33px] right-[-20px]`} />
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#000000] font-semibold w-[80%]`}>{item.tenphim}</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#c9c9c9] w-[80%] mt-1`}>{item.rapphim}</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] text-[#c9c9c9] w-[80%] mt-1`}>{item.date_order}</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13.5px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#000000] font-semibold w-[80%]`}>{item.tenphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#4c4c4c] w-[80%] mt-1`}>{item.rapphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#4c4c4c] w-[80%] mt-1`}>{item.date_order}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
             </View>
             <Svg height="100%" width="20" viewBox="0 0 1 200" style={tw`absolute right-0`}>
               <Path
@@ -183,7 +261,6 @@ const styles = StyleSheet.create({
   },
   ticketContainer: {
     flex: 1,
-    justifyContent: 'center',
   },
   ticketBGImage: {
     alignSelf: 'center',
@@ -259,7 +336,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 80,
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.White,
   },
 });
 

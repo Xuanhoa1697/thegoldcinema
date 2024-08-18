@@ -118,7 +118,7 @@ const RegisterScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
                 </TouchableOpacity>
-                <Text style={tw`text-[13.5px] font-bold text-[#ffffff]`}>Đăng ký</Text>
+                <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Đăng ký</Text>
             </View>
             <ScrollView style={tw`h-full w-full bg-white`}>
                 <View style={tw`flex-1 h-full items-center justify-start`}>
@@ -173,7 +173,7 @@ const RegisterScreen = ({ navigation }) => {
                             <View style={tw`w-full pr-1 h-full`}>
                                 <TouchableOpacity style={tw`h-full bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
                                     onPress={actionRegister}>
-                                    <Text style={tw`text-white font-bold text-[13.5px] py-2 px-2`}>Đăng ký</Text>
+                                    <Text style={tw`text-white font-bold text-[13px] py-2 px-2`}>Đăng ký</Text>
                                     {isSpinLoading &&
                                         <ActivityIndicator color="#ffffff" size={20} />
                                     }
