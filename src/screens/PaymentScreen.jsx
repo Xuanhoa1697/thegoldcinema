@@ -88,7 +88,7 @@ const PaymentScreen = ({ navigation, route }) => {
         return (
             <View style={tw``}>
                 <View style={tw`w-full`}>
-                    <Text style={tw`text-[12.5px] text-[#404040]`}>{item.dm_loaighe_name}</Text>
+                    <Text style={tw`text-[12px] text-[#404040]`}>{item.dm_loaighe_name}</Text>
                 </View>
             </View>
         )
@@ -213,12 +213,12 @@ const PaymentScreen = ({ navigation, route }) => {
                         <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[15px] font-bold text-black ml-1`}>{detail.rapphim.toUpperCase()}</Text>
                     </View>
                     <View style={tw`flex-row items-start justify-center`}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12.5px] text-[#9c9c9c]`}>{detail.phong},</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12.5px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}-{detail.ngaychieu.split("-")[1]}-{detail.ngaychieu.split("-")[0]},</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12.5px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] text-[#9c9c9c]`}>{detail.phong},</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] text-[#9c9c9c] ml-1`}>{detail.ngaychieu.split("-")[2]}-{detail.ngaychieu.split("-")[1]}-{detail.ngaychieu.split("-")[0]},</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
                     </View>
                 </View>
-                <Text style={tw`text-[12.5px] text-[#000000] absolute right-3`}>{formatTime(secondsLeft)}</Text>
+                <Text style={tw`text-[12px] text-[#000000] absolute right-3`}>{formatTime(secondsLeft)}</Text>
             </View>
             {loading && <View style={tw`h-full w-full absolute z-100 flex items-center justify-center`}>
                 <ActivityIndicator size="30" color="#9c1d21" style={tw``} />
@@ -235,17 +235,17 @@ const PaymentScreen = ({ navigation, route }) => {
                         <View style={tw`bg-white w-full pt-4 pb-6  px-6 rounded-2 bg-[#ffffff] border border-gray-300`}>
                             <Text style={tw`text-[15px] text-[#000000] font-bold`}>Thông tin vé</Text>
 
-                            <Text style={tw`text-[12.5px] text-[#000000] mt-3`}>{datas.ptthanhtoan.length > 0 ? datas.ptthanhtoan[0].luu_y : 'Vui lòng kiểm tra trước khi thanh toán.'}</Text>
+                            <Text style={tw`text-[12px] text-[#000000] mt-3`}>{datas.ptthanhtoan.length > 0 ? datas.ptthanhtoan[0].luu_y : 'Vui lòng kiểm tra trước khi thanh toán.'}</Text>
 
                             <View style={tw`flex-row items-center justify-end`}>
                                 <TouchableOpacity style={tw`h-[35px] flex-row items-center justify-center px-3 mt-6 rounded-5`}
                                     onPress={() => setModalVisible(false)}>
-                                    <Text style={tw`text-[12.5px] text-center text-[#9c1d21]`}>HỦY BỎ</Text>
+                                    <Text style={tw`text-[12px] text-center text-[#9c1d21]`}>HỦY BỎ</Text>
                                 </TouchableOpacity>
 
                                 <TouchableOpacity style={tw`h-[35px] flex-row items-center justify-center px-3 mt-6 rounded-5`}
                                     onPress={() => paymentQr()}>
-                                    <Text style={tw`text-[12.5px] text-center text-[#9c1d21]`}>XÁC NHẬN</Text>
+                                    <Text style={tw`text-[12px] text-center text-[#9c1d21]`}>XÁC NHẬN</Text>
                                 </TouchableOpacity>
                             </View>
 
@@ -263,8 +263,8 @@ const PaymentScreen = ({ navigation, route }) => {
                                     </View>
                                     <SelectCountry
                                         style={tw`w-[140px] border-b-[0.5px] ml-3 border-b-[#7a7a7a]`}
-                                        selectedTextStyle={tw`text-[12.5px] text-[#404040]`}
-                                        placeholderStyle={tw`text-[12.5px]`}
+                                        selectedTextStyle={tw`text-[12px] text-[#404040]`}
+                                        placeholderStyle={tw`text-[12px]`}
                                         value={defaultBanggia}
                                         data={banggia}
                                         valueField="dm_loaive_id"
@@ -276,7 +276,7 @@ const PaymentScreen = ({ navigation, route }) => {
                                         renderItem={renderItem}
                                     />
                                 </View>
-                                <Text style={tw`text-[#9C1D21] font-bold text-[12.5px]`}>{(selectedBanggia[item] || defaultDongia).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+                                <Text style={tw`text-[#9C1D21] font-bold text-[12px]`}>{(selectedBanggia[item] || defaultDongia).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
                             </View>
                         )
                     })}
@@ -284,11 +284,11 @@ const PaymentScreen = ({ navigation, route }) => {
             </View>
             <View style={tw`h-[90px] w-full flex-row items-center justify-between px-2 absolute z-1 bottom-0 bg-white`}>
                 <View style={tw`flex items-start justify-start w-full`}>
-                    <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[12.5px] text-black`}>{detail.phim.toUpperCase()}</Text>
+                    <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[12px] text-black`}>{detail.phim.toUpperCase()}</Text>
                     <View style={tw`flex-row items-center justify-between w-full mt-2`}>
-                        <Text style={tw`text-[#9C1D21] font-bold text-[12.5px]`}>{Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+                        <Text style={tw`text-[#9C1D21] font-bold text-[12px]`}>{Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
                         <TouchableOpacity onPress={showModal}>
-                            <Text style={tw`text-white bg-[#9C1D21] text-[12.5px] px-8 py-2 rounded-15`}>Thanh toán</Text>
+                            <Text style={tw`text-white bg-[#9C1D21] text-[12px] px-8 py-2 rounded-15`}>Thanh toán</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

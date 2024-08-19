@@ -4,7 +4,7 @@ import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import tw from "twrnc";
 
 const CategoryHeader = (props: any) => {
-  return <Text style={[styles.text, tw`text-[12.5px]`]}>{props.title}</Text>;
+  return <Text style={[styles.text, tw`text-[12px]`]}>{props.title}</Text>;
 };
 
 const styles = StyleSheet.create({

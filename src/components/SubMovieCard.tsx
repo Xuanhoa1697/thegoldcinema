@@ -23,7 +23,7 @@ const SubMovieCard = (props: any) => {
           source={{uri: props.imagePath}}
           resizeMode='center'
         />
-        <Text numberOfLines={1} style={[styles.textTitle, tw`text-[12.5px]`]}>
+        <Text numberOfLines={1} style={[styles.textTitle, tw`text-[12px]`]}>
           {props.title}
         </Text>
       </View>

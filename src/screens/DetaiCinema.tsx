@@ -93,12 +93,12 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
           <View style={tw`mt-5 w-full`} key={key} >
             <View style={tw`flex-row items-center justify-between`}>
               <View style={tw`flex-row items-center justify-start`}>
-                <Text style={tw`text-[12.5px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
-                <Text style={tw`text-[12.5px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
+                <Text style={tw`text-[12px] text-[#9c1d21] font-semibold`}>{items[date][cinemaName]['marap']}</Text>
+                <Text style={tw`text-[12px] text-[#000000] font-semibold ml-1`}>{cinemaName}</Text>
               </View>
               <AntDesign name='heart' size={22} color={key == 0 ? '#9c1d21' : '#9c9c9c'} />
             </View>
-            <Text ellipsizeMode='tail' style={tw`text-[12.5px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
+            <Text ellipsizeMode='tail' style={tw`text-[12px] text-[#9c9c9c]`}>{items[date][cinemaName]['diachi']}</Text>
             <View style={tw`flex-row items-center justify-start mt-1.5`}>
             <FlatList
               data={items[date][cinemaName]['danhsachphim']}
@@ -111,7 +111,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
                     rounded-1 border border-[#9c9c9c] px-3 py-1.2`} key={index}
                     onPress={() => checkLogin(item)}>
                       <View style={tw`flex-row items-center justify-start`}>
-                        <Text style={tw`text-[12.5px] text-[#000000]`}>{item.giobatdau}</Text>
+                        <Text style={tw`text-[12px] text-[#000000]`}>{item.giobatdau}</Text>
                       </View>
                     </TouchableOpacity>
                 );
@@ -136,7 +136,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={tw`absolute left-2 z-10`}>
             <MaterialIcons name="arrow-back" size={25} color={'#9c1d21'} />
           </TouchableOpacity>
-          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12.5px] font-bold text-black ml-2 w-[100%] pl-8`}>{movieName}</Text>
+          <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] font-bold text-black ml-2 w-[100%] pl-8`}>{movieName}</Text>
         </View>
         {loading && <View style={tw`h-full w-full absolute z-10 top-[180px] flex items-center justify-start`}>
           <ActivityIndicator size="30" color="#9c1d21" style={tw`mt-[50%]`} />

@@ -51,7 +51,7 @@ const UserAccountScreen = ({ navigation }: any) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[12.5px] font-bold text-[#ffffff]`}>Thông tin</Text>
+        <Text style={tw`text-[12px] font-bold text-[#ffffff]`}>Thông tin</Text>
       </View>
 
       <View style={[styles.profileContainer, tw`mt-8`]}>
@@ -80,7 +80,7 @@ const UserAccountScreen = ({ navigation }: any) => {
         />
         <TouchableOpacity style={tw`w-full`}
           onPress={logoutApp}>
-          <Text style={tw`text-white bg-[#9C1D21] text-center text-[12.5px] px-8 py-3 rounded-15`}>Đăng xuất</Text>
+          <Text style={tw`text-white bg-[#9C1D21] text-center text-[12px] px-8 py-3 rounded-15`}>Đăng xuất</Text>
         </TouchableOpacity>
       </View>
     </View>
