@@ -364,18 +364,18 @@ const HomeScreen = ({ navigation }: any) => {
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
               <View style={tw``}>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[13px] font-bold text-white w-[270px]`}>{bgContent?.name}</Text>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12.5px] font-bold text-white w-[270px]`}>{bgContent?.name}</Text>
                 <View style={tw`flex-row items-center justify-start mt-3`}>
                   {bgContent?.rate && <CustomIcon name="star" size={20} color={'#f5d53e'} />}
-                  {bgContent?.rate && <Text style={tw`text-[13px] text-white mr-2`}>{bgContent?.rate}</Text>}
-                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-white mr-2 border border-[#f5d53e] rounded-[30px] px-2 w-[100px]`}>{bgContent?.type}</Text>}
-                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-white w-[180px]`}>⛔{bgContent?.old_limit}+</Text>
+                  {bgContent?.rate && <Text style={tw`text-[12.5px] text-white mr-2`}>{bgContent?.rate}</Text>}
+                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] text-white mr-2 border border-[#f5d53e] rounded-[30px] px-2 w-[100px]`}>{bgContent?.type}</Text>}
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] text-white w-[180px]`}>⛔{bgContent?.old_limit}+</Text>
                   
                 </View>
               </View>
               <TouchableOpacity style={tw`rounded-[30px] bg-[#9c1d21] px-4 py-1`}
                 onPress={() => navigation.push('MovieDetails', { movie: bgContent })}>
-                <Text style={tw`text-[13px] text-white`}>ĐẶT VÉ</Text>
+                <Text style={tw`text-[12.5px] text-white`}>ĐẶT VÉ</Text>
               </TouchableOpacity>
             </View>
           </LinearGradient>
@@ -384,7 +384,7 @@ const HomeScreen = ({ navigation }: any) => {
         <View style={tw`h-[50px] pl-2 pr-4`}>
           <TouchableOpacity style={tw`flex-row justify-between items-center h-full`}
             onPress={() => navigation.navigate('CinemaHomeScreen')}>
-            <Text style={tw`text-[13px] text-[#c9c9c9]`}>Tìm rạp gần bạn...</Text>
+            <Text style={tw`text-[12.5px] text-[#c9c9c9]`}>Tìm rạp gần bạn...</Text>
             <Feather name="send" size={18} color={'#c9c9c9'} />
           </TouchableOpacity>
         </View>

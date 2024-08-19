@@ -30,7 +30,7 @@ const UserTextInputChat = ({ placeholder, domainType=false, isPass, setStateValu
       <TextInput
         placeholder={placeholder}
         value={value}
-        style={tw`flex-1 text-[13px] text-[${primaryValue}]`}
+        style={tw`flex-1 text-[12.5px] text-[${primaryValue}]`}
         placeholderTextColor={primaryPlaceholder}
         onChangeText={handleTextChange} 
         secureTextEntry={isPass && showPass}

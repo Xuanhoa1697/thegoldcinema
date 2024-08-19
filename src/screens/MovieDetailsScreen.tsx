@@ -109,7 +109,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
               </TouchableOpacity>
             </View>
             <View style={tw`absolute bottom-0 left-33`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[13px] text-center w-[55%]`} >{movie?.name.toUpperCase()}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[12.5px] text-center w-[55%]`} >{movie?.name.toUpperCase()}</Text>
             </View>
           </LinearGradient>
         </ImageBackground>
@@ -123,14 +123,14 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <View style={styles.timeContainer}>
           <View style={tw`flex-row border border-gray-400 py-0.6 px-0.6 rounded-1 px-1`}>
             <CustomIcon name="clock" style={styles.clockIcon} />
-            <Text style={tw`text-[#9c9c9c] text-[13px]`}>
+            <Text style={tw`text-[#9c9c9c] text-[12.5px]`}>
               {Math.floor(movie?.time / 60)} giờ{' '}
               {Math.floor(movie?.time % 60)} phút
             </Text>
           </View>
           <View style={tw`flex-row border border-gray-400 py-0.6 px-0.7 rounded-1 ml-3`}>
             <EvilIcons name="calendar" size={28} color={COLORS.Black} />
-            <Text style={tw`text-[#9c9c9c] text-[13px]`}>
+            <Text style={tw`text-[#9c9c9c] text-[12.5px]`}>
               {movie?.date_start.replaceAll('-', '/')}
             </Text>
           </View>
@@ -138,12 +138,12 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <View style={tw`flex-row mt-2`}>
           {movie?.rate && <CustomIcon name="star" style={styles.starIcon} />}
           {movie?.rate && <Text style={[styles.runtimeText, tw`mr-5`]}>{movie?.rate}</Text>}
-          <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#9d2126]`}>⛔ {movie?.old_limit}+</Text>
+          <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] text-[#9d2126]`}>⛔ {movie?.old_limit}+</Text>
         </View>
       </View>
 
       <View style={tw`mt-5 mx-4`}>
-        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[13px]`]}>{movie?.content.replaceAll('<p>', '').replaceAll('</p>', '')}</Text>
+        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12.5px]`]}>{movie?.content.replaceAll('<p>', '').replaceAll('</p>', '')}</Text>
         {numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
           <Text style={tw`text-[#9d2126]`}>Xem thêm</Text>
         </TouchableOpacity>}
@@ -151,20 +151,20 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
           <Text style={tw`text-[#9d2126]`}>Rút gọn</Text>
         </TouchableOpacity>}
         <View style={tw`flex-row mt-3`}>
-          <Text style={tw`text-[13px] text-[#000000] font-semibold w-[20%]`}>Thể loại</Text>
-          <Text style={tw`text-[13px] text-[#000000] ml-15 px-2`}>{movie?.type}</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] font-semibold w-[20%]`}>Thể loại</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] ml-15 px-2`}>{movie?.type}</Text>
         </View>
         <View style={tw`flex-row mt-2`}>
-          <Text style={tw`text-[13px] text-[#000000] font-semibold w-[20%]`}>Đạo diễn</Text>
-          <Text style={tw`text-[13px] text-[#000000] ml-15 px-2`}>{movie?.daoien}</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] font-semibold w-[20%]`}>Đạo diễn</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] ml-15 px-2`}>{movie?.daoien}</Text>
         </View>
         <View style={tw`flex-row mt-2`}>
-          <Text style={tw`text-[13px] text-[#000000] font-semibold w-[20%]`}>Diễn viên</Text>
-          <Text style={tw`text-[13px] text-[#000000] ml-15 px-2`}>{movie?.dienvien}</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] font-semibold w-[20%]`}>Diễn viên</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] ml-15 px-2`}>{movie?.dienvien}</Text>
         </View>
         <View style={tw`flex-row mt-2`}>
-          <Text style={tw`text-[13px] text-[#000000] font-semibold w-[20%]`}>Ngôn ngữ</Text>
-          <Text style={tw`text-[13px] text-[#000000] ml-15 px-2`}>{movie?.lang}</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] font-semibold w-[20%]`}>Ngôn ngữ</Text>
+          <Text style={tw`text-[12.5px] text-[#000000] ml-15 px-2`}>{movie?.lang}</Text>
         </View>
       </View>
 
@@ -173,7 +173,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
           <TouchableOpacity
             style={tw`bg-[#9d2126] rounded-5 text-white w-full text-center py-2.5 my-5`}
             onPress={checkLogin}>
-            <Text style={tw`text-white w-full text-center text-[13px]`}>Đặt Vé</Text>
+            <Text style={tw`text-white w-full text-center text-[12.5px]`}>Đặt Vé</Text>
           </TouchableOpacity>
         </View>
       </View>

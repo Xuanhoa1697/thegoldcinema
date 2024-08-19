@@ -109,7 +109,7 @@ const TicketScreen = ({ navigation, route }: any) => {
         <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
           <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
         </TouchableOpacity>
-        <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Vé của tôi</Text>
+        <Text style={tw`text-[12.5px] font-bold text-[#ffffff]`}>Vé của tôi</Text>
       </View>
       <Modal
         animationType='fade'
@@ -123,10 +123,10 @@ const TicketScreen = ({ navigation, route }: any) => {
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
               <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
             </TouchableOpacity>
-            <Text style={tw`text-[13px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
+            <Text style={tw`text-[12.5px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
           </View>
           <ScrollView style={tw`p-3 mb-2`}>
-            <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[#000000] font-bold text-[13px]`}>{order.tenphim}</Text>
+            <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[#000000] font-bold text-[12.5px]`}>{order.tenphim}</Text>
 
             <View style={tw`flex-row items-center justify-center mt-3`}>
               <QRCode
@@ -137,78 +137,78 @@ const TicketScreen = ({ navigation, route }: any) => {
               />
             </View>
             <View style={tw`flex items-start justify-center mt-3 w-full border-b border-dotted border-gray-300 pb-3`}>
-              <Text style={tw`text-[#000000] text-[13px]`}>Vui lòng đưa mã số này đến quầy vé của The GoldMart để nhận vé của bạn.</Text>
+              <Text style={tw`text-[#000000] text-[12.5px]`}>Vui lòng đưa mã số này đến quầy vé của The GoldMart để nhận vé của bạn.</Text>
             </View>
 
             <View style={tw`flex-row items-center justify-start mt-3`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Mã vẽ:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.name}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-1/5 font-bold`}>Mã vẽ:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-4/5`}>{order.name}</Text>
             </View>
             <View style={tw`flex-row items-center justify-start`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Ngày chiếu:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.batdau}</Text>
-            </View>
-
-            <View style={tw`flex-row items-center justify-start`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Rạp phim:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.rapphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-1/5 font-bold`}>Ngày chiếu:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-4/5`}>{order.batdau}</Text>
             </View>
 
             <View style={tw`flex-row items-center justify-start`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Phòng:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.phong}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-1/5 font-bold`}>Rạp phim:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-4/5`}>{order.rapphim}</Text>
             </View>
 
             <View style={tw`flex-row items-center justify-start`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Thanh toán:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.thanhtoan}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-1/5 font-bold`}>Phòng:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-4/5`}>{order.phong}</Text>
             </View>
 
             <View style={tw`flex-row items-center justify-start`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-1/5 font-bold`}>Trạng thái:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[13px] mt-1 w-4/5`}>{order.state != 'done' ? 'Chờ thanh toán' : 'Đã thanh toán'}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-1/5 font-bold`}>Thanh toán:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-4/5`}>{order.thanhtoan}</Text>
+            </View>
+
+            <View style={tw`flex-row items-center justify-start`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-1/5 font-bold`}>Trạng thái:</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12.5px] mt-1 w-4/5`}>{order.state != 'done' ? 'Chờ thanh toán' : 'Đã thanh toán'}</Text>
             </View>
 
             <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
               <View style={tw` w-1/3`}>
-                <Text style={tw`text-[#000000] font-bold text-[13px]`}>Số ghế</Text>
+                <Text style={tw`text-[#000000] font-bold text-[12.5px]`}>Số ghế</Text>
               </View>
               <View style={tw` w-1/3`}>
-                <Text style={tw`text-[#000000] font-bold text-[13px]`}>Loại vé</Text>
+                <Text style={tw`text-[#000000] font-bold text-[12.5px]`}>Loại vé</Text>
               </View>
               <View style={tw` w-1/3`}>
-                <Text style={tw`text-[#000000] font-bold text-[13px]`}>Đơn giá</Text>
+                <Text style={tw`text-[#000000] font-bold text-[12.5px]`}>Đơn giá</Text>
               </View>
             </View>
             {order && order.lines && order?.lines.map(line => {
               return (
                 <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
                   <View style={tw` w-1/3`}>
-                    <Text style={tw`text-[#000000] text-[13px]`}>{line.name}</Text>
+                    <Text style={tw`text-[#000000] text-[12.5px]`}>{line.name}</Text>
                   </View>
                   <View style={tw` w-1/3`}>
-                    <Text style={tw`text-[#000000] text-[13px]`}>{line.loaive}</Text>
+                    <Text style={tw`text-[#000000] text-[12.5px]`}>{line.loaive}</Text>
                   </View>
                   <View style={tw` w-1/3`}>
-                    <Text style={tw`text-[#000000] text-[13px]`}>{line.dongia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+                    <Text style={tw`text-[#000000] text-[12.5px]`}>{line.dongia.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
                   </View>
                 </View>
               )
             })}
             <View style={tw`flex-row items-start justify-start mt-5 w-full`}>
-              <Text style={tw`text-[#000000] font-bold text-[13px]`}>Tổng cộng: </Text>
-              <Text style={tw`text-[#9c1d21] font-bold text-[13px]`}>{(order.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+              <Text style={tw`text-[#000000] font-bold text-[12.5px]`}>Tổng cộng: </Text>
+              <Text style={tw`text-[#9c1d21] font-bold text-[12.5px]`}>{(order.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
             </View>
 
 
             <View style={tw`flex-1 items-start justify-center mt-3 w-full`}>
-              <Text style={tw`text-[#000000] text-[13px]`}>{order.luu_y}</Text>
+              <Text style={tw`text-[#000000] text-[12.5px]`}>{order.luu_y}</Text>
             </View>
             <View style={tw`flex items-center justify-center mt-3 w-full`}>
               <Image
                 resizeMode="contain"
                 style={tw`h-[150px] w-[150px] bg-black`}
-                source={{ uri: 'http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem' }} />
+                source={{ uri: order?.qr }} />
             </View>
           </ScrollView>
 
@@ -229,10 +229,10 @@ const TicketScreen = ({ navigation, route }: any) => {
             </Svg>
             <View style={tw`flex-1 p-2`}>
               <View style={tw`h-[30px] w-[30px] rounded-full bg-[#c9c9c9] absolute top-[33px] right-[-20px]`} />
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#000000] font-semibold w-[80%]`}>{item.tenphim}</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#4c4c4c] w-[80%] mt-1`}>{item.rapphim}</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] text-[#4c4c4c] w-[80%] mt-1`}>{item.date_order}</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[13px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] text-[#000000] font-semibold w-[80%]`}>{item.tenphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] text-[#4c4c4c] w-[80%] mt-1`}>{item.rapphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] text-[#4c4c4c] w-[80%] mt-1`}>{item.date_order}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12.5px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
             </View>
             <Svg height="100%" width="20" viewBox="0 0 1 200" style={tw`absolute right-0`}>
               <Path
