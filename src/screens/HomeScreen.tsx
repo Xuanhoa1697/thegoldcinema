@@ -26,6 +26,7 @@ import MovieCard from '../components/MovieCard';
 import axios from 'axios';
 import tw from "twrnc";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entipo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Carousel from "react-native-snap-carousel";
 import CustomIcon from '../components/CustomIcon';
@@ -158,13 +159,16 @@ const get_list_blog_post = async () => {
       };
 
       let response = await axios.request(config);
-      const datas = await JSON.parse(JSON.stringify(response.data));
-      console.log(datas);
+      const datas = await JSON.parse(JSON.stringify(response.data)).result;
+      return datas.data
   } catch (error) {
-      console.error(
-          ' Something went wrong in BlogPost Function',
-          error,
-      );
+
+    console.error(
+        ' Something went wrong in BlogPost Function',
+        error,
+    );
+
+    return []
   }
 };
 
@@ -294,12 +298,12 @@ const HomeScreen = ({ navigation }: any) => {
             resizeMode='contain' />
         </View>
 
-        <View style={tw`w-[30%] flex-row justify-end items-center`}>
+        <View style={tw`w-[30%] flex-row justify-end items-center pr-2`}>
           <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={30} color={'#9d2126'} />
+            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#9d2126'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={checkLogin}>
-            <MaterialCommunityIcons name="format-list-bulleted" size={33} color={'#9d2126'} />
+            <MaterialCommunityIcons name="menu" size={35} color={'#9d2126'} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -336,10 +340,10 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://125.253.121.150:8069${nowPlayingMoviesList && nowPlayingMoviesList.length > 0 ? nowPlayingMoviesList[0]?.image : ''}` }}
+          source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem` }}
           resizeMode="cover"
           style={tw`w-full`}
-          blurRadius={10}>
+          blurRadius={3}>
           <View style={tw`flex-row items-start justify-between pt-4 h-[65px]`}>
             <View style={tw`w-[30%] flex-row justify-start items-center`}>
               {/* <Entypo name="github" size={33} color={'#9c1d21'} /> */}
@@ -350,12 +354,12 @@ const HomeScreen = ({ navigation }: any) => {
                 resizeMode='contain' />
             </View>
 
-            <View style={tw`w-[30%] flex-row justify-end items-center`}>
+            <View style={tw`w-[30%] flex-row justify-end items-center pr-2`}>
               <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-                <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-4`} size={30} color={'#ffffff'} />
+              <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#ffffff'} />
               </TouchableOpacity>
               <TouchableOpacity onPress={checkLogin}>
-                <MaterialCommunityIcons name="format-list-bulleted" size={33} color={'#ffffff'} />
+                <MaterialCommunityIcons name="menu" size={35} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
           </View>
@@ -372,6 +376,11 @@ const HomeScreen = ({ navigation }: any) => {
               loop={true}
               enableSnap={true}
               autoplayInterval={5000}
+              swipeThreshold={10}
+              decelerationRate="fast"
+              enableMomentum={false}
+              lockScrollWhileSnapping={true}
+              
               renderItem={({ item, index }) => (
                 <MovieCard
                   shoudlMarginatedAtEnd={true}
@@ -389,11 +398,11 @@ const HomeScreen = ({ navigation }: any) => {
                 />
               )}
               firstItem={0}
-              inactiveSlideScale={0.8}
+              inactiveSlideScale={0.65}
               // inactiveSlideShift={10}
-              inactiveSlideOpacity={0.5}
+              inactiveSlideOpacity={1}
               sliderWidth={width}
-              itemWidth={width / 1.65}
+              itemWidth={width / 1.7}
               slideStyle={{ display: "flex", alignItems: "center" }}
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
@@ -444,7 +453,7 @@ const HomeScreen = ({ navigation }: any) => {
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
             sliderWidth={width}
-            itemWidth={width / 3.5 + 16}
+            itemWidth={width / 3.7 + 16}
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
           {upcomingMoviesList && upcomingMoviesList.length > 0 && <CategoryHeader title={'Sắp chiếu'} />}
@@ -468,10 +477,20 @@ const HomeScreen = ({ navigation }: any) => {
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
             sliderWidth={width}
-            itemWidth={width / 3.5 + 16}
+            itemWidth={width / 3.7 + 16}
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
         </View>
+        {/* {blogPost && blogPost.length > 0 && <CategoryHeader title={'Blog'}/>}
+        <View style={tw`w-full flex-row flex-wrap px-2`}>
+          {blogPost && blogPost.length > 0 && blogPost.map((item: any, index: number) => {
+            return (
+              <View key={index} style={tw`h-[50px] w-full p-2 w-[50%] border border-[#f5d53e]`}>
+                
+              </View>
+            )
+          })}
+        </View> */}
       </Animated.ScrollView>
     </SafeAreaView>
   );

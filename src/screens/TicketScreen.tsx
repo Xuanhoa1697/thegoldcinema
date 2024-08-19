@@ -184,7 +184,9 @@ const TicketScreen = ({ navigation, route }: any) => {
               return (
                 <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
                   <View style={tw` w-1/3`}>
-                    <Text style={tw`text-[#000000] text-[12px]`}>{line.name}</Text>
+                    <View style={[tw`w-8 h-8 bg-white flex justify-center items-center bg-[#3a78c3] rounded`]}>
+                      <Text style={tw`text-[#ffffff] text-[12px]`}>{line.name}</Text>
+                    </View>
                   </View>
                   <View style={tw` w-1/3`}>
                     <Text style={tw`text-[#000000] text-[12px]`}>{line.loaive}</Text>
@@ -229,7 +231,7 @@ const TicketScreen = ({ navigation, route }: any) => {
             </Svg>
             <View style={tw`flex-1 p-2`}>
               <View style={tw`h-[30px] w-[30px] rounded-full bg-[#c9c9c9] absolute top-[33px] right-[-20px]`} />
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#000000] font-semibold w-[80%]`}>{item.tenphim}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#000000] font-semibold w-[95%]`}>{item.tenphim}</Text>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#4c4c4c] w-[80%] mt-1`}>{item.rapphim}</Text>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#4c4c4c] w-[80%] mt-1`}>{item.date_order}</Text>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>

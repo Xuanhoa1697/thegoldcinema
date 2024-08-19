@@ -157,34 +157,34 @@ const EditProfile = ({ navigation }) => {
             </View>
             <View style={tw`px-4 mt-5`}>
                 <TextInput
-                    style={tw`border-b border-[#9C9C9C] py-3 text-[12px]`}
+                    style={tw`border-b border-[#9C9C9C] py-3 text-[12px] text-[#4c4c4c]`}
                     placeholder='Họ tên *'
                     value={name}
                     onChange={(e) => setName(e.nativeEvent.text)}
                     selectTextOnFocus={false} />
                 <TextInput
-                    style={tw`border-b border-[#9C9C9C] py-3 text-[12px]`}
+                    style={tw`border-b border-[#9C9C9C] py-3 text-[12px] text-[#4c4c4c]`}
                     placeholder='Số điện thoại *'
                     value={phone || ''}
                     onChange={(e) => setPhone(e.nativeEvent.text)}
                     keyboardType='phone-pad'
                     selectTextOnFocus={false} />
                 <TextInput
-                    style={tw`border-b border-[#9C9C9C] py-3 text-[12px]`}
+                    style={tw`border-b border-[#9C9C9C] py-3 text-[12px] text-[#4c4c4c]`}
                     placeholder='Email *'
                     value={email}
                     onChange={(e) => setEmail(e.nativeEvent.text)}
                     editable={false}
                     selectTextOnFocus={false} />
 
-                <Text style={tw`text-[12px] text-[#9C9C9C] mt-5`}>* Thông tin bắt buộc</Text>
+                <Text style={tw`text-[12px] text-[#4c4c4c] mt-5`}>* Thông tin bắt buộc</Text>
                 <TouchableOpacity style={tw`w-full mt-5`}
                     onPress={updateProfile}>
                     <Text style={tw`text-white bg-[#9C1D21] text-center text-[12px] px-8 py-2 rounded-15`}>Cập nhật</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={tw`mt-3`}
                     onPress={removeUser}>
-                    <Text style={tw`text-[#9C9C9C] text-center text-[12px]`}>Xóa tài khoản</Text>
+                    <Text style={tw`text-[#4c4c4c] text-center text-[12px]`}>Xóa tài khoản</Text>
                 </TouchableOpacity>
             </View>
         </View>

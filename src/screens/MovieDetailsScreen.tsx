@@ -108,8 +108,8 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
                 <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
-            <View style={tw`absolute bottom-0 left-33`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[12px] text-center w-[55%]`} >{movie?.name.toUpperCase()}</Text>
+            <View style={tw`absolute bottom-0 left-33 w-full`}>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[12px] w-[55%]`} >{movie?.name.toUpperCase()}</Text>
             </View>
           </LinearGradient>
         </ImageBackground>
@@ -143,28 +143,28 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
       </View>
 
       <View style={tw`mt-5 mx-4`}>
-        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12px]`]}>{movie?.content.replaceAll('<p>', '').replaceAll('</p>', '')}</Text>
+        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12px]`]}>{movie?.content}</Text>
         {numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
           <Text style={tw`text-[#9d2126]`}>Xem thêm</Text>
         </TouchableOpacity>}
         {numberOfLines != 3 && <TouchableOpacity onPress={() => setNumberOfLines(3)}>
           <Text style={tw`text-[#9d2126]`}>Rút gọn</Text>
         </TouchableOpacity>}
-        <View style={tw`flex-row mt-3`}>
+        <View style={tw`flex-row mt-3 pr-2`}>
           <Text style={tw`text-[12px] text-[#000000] font-semibold w-[20%]`}>Thể loại</Text>
-          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2`}>{movie?.type}</Text>
+          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2 w-[70%]`}>{movie?.type}</Text>
         </View>
-        <View style={tw`flex-row mt-2`}>
+        <View style={tw`flex-row mt-2 pr-2`}>
           <Text style={tw`text-[12px] text-[#000000] font-semibold w-[20%]`}>Đạo diễn</Text>
-          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2`}>{movie?.daoien}</Text>
+          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2 w-[70%]`}>{movie?.daoien}</Text>
         </View>
         <View style={tw`flex-row mt-2`}>
           <Text style={tw`text-[12px] text-[#000000] font-semibold w-[20%]`}>Diễn viên</Text>
-          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2`}>{movie?.dienvien}</Text>
+          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2 w-[70%]`}>{movie?.dienvien}</Text>
         </View>
         <View style={tw`flex-row mt-2`}>
           <Text style={tw`text-[12px] text-[#000000] font-semibold w-[20%]`}>Ngôn ngữ</Text>
-          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2`}>{movie?.lang}</Text>
+          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2 w-[70%]`}>{movie?.lang}</Text>
         </View>
       </View>
 
