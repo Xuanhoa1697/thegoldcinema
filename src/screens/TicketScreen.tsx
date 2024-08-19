@@ -125,7 +125,7 @@ const TicketScreen = ({ navigation, route }: any) => {
             </TouchableOpacity>
             <Text style={tw`text-[12px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
           </View>
-          <ScrollView style={tw`p-3 mb-2`}>
+          <ScrollView style={tw`p-3 mb-1`}>
             <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[#000000] font-bold text-[12px]`}>{order.tenphim}</Text>
 
             <View style={tw`flex-row items-center justify-center mt-3`}>
@@ -204,7 +204,7 @@ const TicketScreen = ({ navigation, route }: any) => {
             <View style={tw`flex-1 items-start justify-center mt-3 w-full`}>
               <Text style={tw`text-[#000000] text-[12px]`}>{order.luu_y}</Text>
             </View>
-            <View style={tw`flex items-center justify-center mt-3 w-full`}>
+            <View style={tw`flex items-center justify-center mt-3 w-full p-3`}>
               <Image
                 resizeMode="contain"
                 style={tw`h-[150px] w-[150px]`}
@@ -234,7 +234,7 @@ const TicketScreen = ({ navigation, route }: any) => {
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#4c4c4c] w-[80%] mt-1`}>{item.date_order}</Text>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] font-bold text-[#9c1d21] w-[80%] mt-1`}>{(item.tongtien || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} đ</Text>
             </View>
-            <Svg height="100%" width="20" viewBox="0 0 1 200" style={tw`absolute right-0`}>
+            <Svg height="100%" width="20" viewBox="0 0 1 200" style={tw`absolute right-[-1px]`}>
               <Path
                 d="M20,0 Q0,5 20,10 Q0,15 20,20 Q0,25 20,30 Q0,35 20,40 Q0,45 20,50 Q0,55 20,60 Q0,65 20,70 Q0,75 20,80 
                Q0,85 20,90 Q0,95 20,100 Q0,105 20,110 Q0,115 20,120 Q0,125 20,130 Q0,135 20,140 Q0,145 20,150 

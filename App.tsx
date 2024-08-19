@@ -19,6 +19,7 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import EditProfile from './src/screens/EditProfile';
 import QrScreen from './src/screens/QrScreen';
+import BlogPost from './src/screens/BlogPost';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,12 +33,12 @@ const App = () => {
         <Stack.Screen
           name="LogoScreens"
           component={LogoScreens}
-          options={{animation: 'slide_from_right'}}
+          options={{animation: 'fade'}}
         />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
-          options={{animation: 'slide_from_right'}}
+          options={{animation: 'fade'}}
         />
         <Stack.Screen
           name="HomeScreen"
@@ -112,6 +113,11 @@ const App = () => {
         <Stack.Screen
           name="QrScreen"
           component={QrScreen}
+          options={{animation: 'slide_from_right'}}
+        />
+        <Stack.Screen
+          name="BlogPost"
+          component={BlogPost}
           options={{animation: 'slide_from_right'}}
         />
       </Stack.Navigator>

@@ -138,10 +138,41 @@ const getPopularMoviesList = async () => {
   }
 };
 
+const get_list_blog_post = async () => {
+  try {
+      let data = JSON.stringify({
+          "jsonrpc": "2.0",
+          "method": "call",
+          "params": {}
+      });
+      let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          mode: 'no-cors',
+          url: `http://125.253.121.150:8069/web/api/v1/blogpost`,
+          headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json',
+          },
+          data: data
+      };
+
+      let response = await axios.request(config);
+      const datas = await JSON.parse(JSON.stringify(response.data));
+      console.log(datas);
+  } catch (error) {
+      console.error(
+          ' Something went wrong in BlogPost Function',
+          error,
+      );
+  }
+};
+
 const HomeScreen = ({ navigation }: any) => {
   const [nowPlayingMoviesList, setNowPlayingMoviesList] = useState<any>(undefined);
   const [popularMoviesList, setPopularMoviesList] = useState<any>(undefined);
   const [upcomingMoviesList, setUpcomingMoviesList] = useState<any>(undefined);
+  const [blogPost, setBlogPost] = useState<any>(undefined);
   const [refreshing, setRefreshing] = useState(false);
   const [refreshingItem, setRefreshingItem] = useState(``);
   const [bgContent, setBgContent] = useState({});
@@ -162,6 +193,9 @@ const HomeScreen = ({ navigation }: any) => {
 
       let tempUpcoming = await getUpcomingMoviesList();
       setUpcomingMoviesList(tempUpcoming.result);
+      
+      let temp_blog = await get_list_blog_post();
+      setBlogPost(temp_blog);
     })();
     const backAction = () => {
       Alert.alert('Hold on!', 'Are you sure you want to go back?', [
@@ -344,7 +378,7 @@ const HomeScreen = ({ navigation }: any) => {
                   cardFunction={() => {
                     navigation.push('MovieDetails', { movie: item });
                   }}
-                  cardWidth={width * 0.65}
+                  cardWidth={width * 0.6}
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
@@ -357,9 +391,9 @@ const HomeScreen = ({ navigation }: any) => {
               firstItem={0}
               inactiveSlideScale={0.8}
               // inactiveSlideShift={10}
-              inactiveSlideOpacity={0.7}
+              inactiveSlideOpacity={0.5}
               sliderWidth={width}
-              itemWidth={width / 1.5}
+              itemWidth={width / 1.65}
               slideStyle={{ display: "flex", alignItems: "center" }}
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
@@ -399,7 +433,7 @@ const HomeScreen = ({ navigation }: any) => {
                 cardFunction={() => {
                   navigation.push('MovieDetails', { movie: item });
                 }}
-                cardWidth={width / 3}
+                cardWidth={width / 3.5}
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
@@ -410,7 +444,7 @@ const HomeScreen = ({ navigation }: any) => {
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
             sliderWidth={width}
-            itemWidth={width / 3 + 20}
+            itemWidth={width / 3.5 + 16}
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
           {upcomingMoviesList && upcomingMoviesList.length > 0 && <CategoryHeader title={'Sắp chiếu'} />}
@@ -423,7 +457,7 @@ const HomeScreen = ({ navigation }: any) => {
                 cardFunction={() => {
                   navigation.push('MovieDetails', { movie: item });
                 }}
-                cardWidth={width / 3}
+                cardWidth={width / 3.5}
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
@@ -434,7 +468,7 @@ const HomeScreen = ({ navigation }: any) => {
             inactiveSlideScale={1}
             inactiveSlideOpacity={1}
             sliderWidth={width}
-            itemWidth={width / 3 + 20}
+            itemWidth={width / 3.5 + 16}
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
         </View>

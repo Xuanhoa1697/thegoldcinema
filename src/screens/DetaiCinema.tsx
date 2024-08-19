@@ -168,9 +168,9 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
             agendaTodayColor: '#9c1d21',
             backgroundColor: '#000000',
             calendarBackground: '#000000',
-            textDayFontSize: 13.5,
-            textMonthFontSize: 13.5,
-            textDayHeaderFontSize: 13.5
+            textDayFontSize: 12,
+            textMonthFontSize: 12,
+            textDayHeaderFontSize: 12
           }}
         />
       </View>
