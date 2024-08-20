@@ -126,9 +126,7 @@ const TicketScreen = ({ navigation, route }: any) => {
             <Text style={tw`text-[12px] font-bold text-[#ffffff]`}>Thông tin vé phim</Text>
           </View>
           <ScrollView style={tw`p-3 mb-1`}>
-            <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[#000000] font-bold text-[12px]`}>{order.tenphim}</Text>
-
-            <View style={tw`flex-row items-center justify-center mt-3`}>
+            <View style={tw`flex-row items-center justify-center mb-3`}>
               <QRCode
                 value={order.name}
                 size={80}
@@ -136,9 +134,7 @@ const TicketScreen = ({ navigation, route }: any) => {
                 backgroundColor="white"
               />
             </View>
-            <View style={tw`flex items-start justify-center mt-3 w-full border-b border-dotted border-gray-300 pb-3`}>
-              <Text style={tw`text-[#000000] text-[12px]`}>Vui lòng đưa mã số này đến quầy vé của The GoldMart để nhận vé của bạn.</Text>
-            </View>
+            <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[#000000] font-bold text-[12px]`}>{order.tenphim}</Text>
 
             <View style={tw`flex-row items-center justify-start mt-3`}>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12px] mt-1 w-1/5 font-bold`}>Mã vẽ:</Text>

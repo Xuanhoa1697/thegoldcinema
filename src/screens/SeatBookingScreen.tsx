@@ -40,6 +40,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  withSpring
 } from 'react-native-reanimated';
 
 const timeArray: string[] = [
@@ -221,13 +222,21 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
 
   const panGesture = Gesture.Pan()
     .onStart(() => {
+      console.log(translateX.value, translateY.value);
+      
       savedTranslateX.current = translateX.value;
       savedTranslateY.current = translateY.value;
     })
     .onUpdate((event) => {
+      // console.log(translateX, translateY);
+      
       translateX.value = savedTranslateX.current + event.translationX;
       translateY.value = savedTranslateY.current + event.translationY;
-    });
+    }).onEnd(() => {
+      // Thêm hiệu ứng nảy (spring) khi gesture kết thúc
+      translateX.value = withSpring(translateX.value);
+      translateY.value = withSpring(translateY.value);
+    })
 
   const composedGesture = Gesture.Simultaneous(pinchGesture, panGesture);
 

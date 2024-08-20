@@ -194,10 +194,10 @@ const QrScreen = ({ navigation, route }) => {
                         style={tw`h-60%] w-[50%]`}
                         source={{ uri: rs_data.qr }} />
 
-                    <TouchableOpacity style={tw` flex-row items-center justify-center`}
+                    <TouchableOpacity style={tw`px-2 bg-[#ffffff] bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
                         onPress={checkPermission}>
-                        <MaterialIcons name="file-download" size={20} color={'#404040'} />
-                        <Text style={tw`text-[#404040] text-center text-[12px]`}>Tải xuống</Text>
+                        <MaterialIcons name="file-download" size={20} color={'#ffffff'} />
+                        <Text style={tw`text-[#9c9c9c] text-[12px] py-2 px-2 text-white`}>Tải xuống</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={tw`w-full flex-wrap px-2 border-b border-gray-300 flex-row items-center justify-start mt-5`}>

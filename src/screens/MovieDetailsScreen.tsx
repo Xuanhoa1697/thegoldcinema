@@ -8,7 +8,7 @@ import {
   StatusBar,
   ImageBackground,
   Image,
-  FlatList,
+  Dimensions,
   TouchableOpacity,
 } from 'react-native';
 import { baseImagePath, movieCastDetails, movieDetails } from '../api/apicalls';
@@ -30,6 +30,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import tw from "twrnc";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const { width, height } = Dimensions.get('window');
+
 
 // const getMovieDetails = async (movieid: number) => {
 //   try {
@@ -56,17 +58,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MovieDetailsScreen = ({ navigation, route }: any) => {
   const movie = route.params.movie
-  console.log(movie);
   
   const [numberOfLines, setNumberOfLines] = useState(3)
-  console.log(movie);
+  const [heightBg, setHeightBg] = useState(0)
+  const [widthImg, setWidthImg] = useState(0)
 
   useEffect(() => {
   }, []);
 
   const checkLogin = async () => {
     const user_info = await AsyncStorage.getItem('user_info');
-    console.log(user_info);
     
     if (!user_info) {
       navigation.navigate('LoginScreen');
@@ -76,6 +77,14 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         movieName: movie?.name,
       })
     }
+  }
+
+  const onLayoutHandle = (event) => {
+    setHeightBg(event.nativeEvent.layout.height)
+  }
+
+  const onLayoutHandleImage = (event) => {
+    setWidthImg(event.nativeEvent.layout.width)
   }
 
   return (
@@ -91,6 +100,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
 
       <View>
         <ImageBackground
+          onLayout={onLayoutHandle}
           source={{
             uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
           }}
@@ -108,30 +118,32 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
                 <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
               </TouchableOpacity>
             </View>
-            <View style={tw`absolute bottom-0 left-33 w-full`}>
+            <View style={tw`absolute bottom-0 left-[${widthImg + 20}px] w-full`}>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[12px] w-[55%]`} >{movie?.name.toUpperCase()}</Text>
             </View>
           </LinearGradient>
         </ImageBackground>
         <Image
+          onLayout={onLayoutHandleImage}
+          resizeMode='cover'
           source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
-          style={styles.cardImage}
+          style={[styles.cardImage, tw`top-[${heightBg * 0.7}px]`]}
         />
       </View>
 
-      <View style={tw`ml-33`}>
+      <View style={tw`ml-[${widthImg + 20}px]`}>
         <View style={styles.timeContainer}>
-          <View style={tw`flex-row border border-gray-400 py-0.6 px-0.6 rounded-1 px-1`}>
-            <CustomIcon name="clock" style={styles.clockIcon} />
+          <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 px-1`}>
+            <CustomIcon name="clock" style={[styles.clockIcon, tw`text-[15px]`]} />
             <Text style={tw`text-[#9c9c9c] text-[12px]`}>
               {Math.floor(movie?.time / 60)} giờ{' '}
               {Math.floor(movie?.time % 60)} phút
             </Text>
           </View>
-          <View style={tw`flex-row border border-gray-400 py-0.6 px-0.7 rounded-1 ml-3`}>
-            <EvilIcons name="calendar" size={28} color={COLORS.Black} />
+          <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 ml-2`}>
+            <EvilIcons name="calendar" size={22} color={COLORS.Black} />
             <Text style={tw`text-[#9c9c9c] text-[12px]`}>
-              {movie?.date_start.replaceAll('-', '/')}
+              {movie?.date_start.split("-")[2]}/{movie?.date_start.split("-")[1]}/{movie?.date_start.split("-")[0]}
             </Text>
           </View>
         </View>
@@ -142,12 +154,12 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         </View>
       </View>
 
-      <View style={tw`mt-5 mx-4`}>
-        <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12px]`]}>{movie?.content}</Text>
-        {numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
+      <View style={tw`mt-6 mx-4`}>
+        {movie?.content.trim() && <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12px]`]}>{movie?.content.trim()}</Text>}
+        {movie?.content.trim() && numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
           <Text style={tw`text-[#9d2126]`}>Xem thêm</Text>
         </TouchableOpacity>}
-        {numberOfLines != 3 && <TouchableOpacity onPress={() => setNumberOfLines(3)}>
+        {movie?.content.trim() && numberOfLines != 3 && <TouchableOpacity onPress={() => setNumberOfLines(3)}>
           <Text style={tw`text-[#9d2126]`}>Rút gọn</Text>
         </TouchableOpacity>}
         <View style={tw`flex-row mt-3 pr-2`}>
@@ -220,7 +232,7 @@ const styles = StyleSheet.create({
   clockIcon: {
     fontSize: FONTSIZE.size_20,
     color: COLORS.Black,
-    marginRight: SPACING.space_8,
+    marginRight: SPACING.space_4,
   },
   timeContainer: {
     display: 'flex',

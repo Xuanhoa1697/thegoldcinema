@@ -141,31 +141,31 @@ const getPopularMoviesList = async () => {
 
 const get_list_blog_post = async () => {
   try {
-      let data = JSON.stringify({
-          "jsonrpc": "2.0",
-          "method": "call",
-          "params": {}
-      });
-      let config = {
-          method: 'post',
-          maxBodyLength: Infinity,
-          mode: 'no-cors',
-          url: `http://125.253.121.150:8069/web/api/v1/blogpost`,
-          headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Content-Type': 'application/json',
-          },
-          data: data
-      };
+    let data = JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "call",
+      "params": {}
+    });
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      mode: 'no-cors',
+      url: `http://125.253.121.150:8069/web/api/v1/blogpost`,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      },
+      data: data
+    };
 
-      let response = await axios.request(config);
-      const datas = await JSON.parse(JSON.stringify(response.data)).result;
-      return datas.data
+    let response = await axios.request(config);
+    const datas = await JSON.parse(JSON.stringify(response.data)).result;
+    return datas.data
   } catch (error) {
 
     console.error(
-        ' Something went wrong in BlogPost Function',
-        error,
+      ' Something went wrong in BlogPost Function',
+      error,
     );
 
     return []
@@ -197,7 +197,7 @@ const HomeScreen = ({ navigation }: any) => {
 
       let tempUpcoming = await getUpcomingMoviesList();
       setUpcomingMoviesList(tempUpcoming.result);
-      
+
       let temp_blog = await get_list_blog_post();
       setBlogPost(temp_blog);
     })();
@@ -300,7 +300,8 @@ const HomeScreen = ({ navigation }: any) => {
 
         <View style={tw`w-[30%] flex-row justify-end items-center pr-2`}>
           <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-            <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#9d2126'} />
+            <Image source={require('../assets/image/cash.png')} style={tw`h-[35px] w-[45px] mr-3`} />
+            {/* <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#9d2126'} /> */}
           </TouchableOpacity>
           <TouchableOpacity onPress={checkLogin}>
             <MaterialCommunityIcons name="menu" size={35} color={'#9d2126'} />
@@ -327,7 +328,7 @@ const HomeScreen = ({ navigation }: any) => {
 
           if (scrollDirection.current === 'down' && lastOffsetY.current < 50) {
             scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? 100 : 0, animated: true });
-          } 
+          }
           // else if (scrollDirection.current === 'down' && lastOffsetY.current > 100) {
           //   scrollViewRef.current?.scrollTo({ y: scrollDirection.current === 'down' ? lastOffsetY.current + 100 : 0, animated: true });
           // }
@@ -356,7 +357,8 @@ const HomeScreen = ({ navigation }: any) => {
 
             <View style={tw`w-[30%] flex-row justify-end items-center pr-2`}>
               <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
-              <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#ffffff'} />
+                {/* <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#ffffff'} /> */}
+                <Image source={require('../assets/image/cash.png')} style={tw`h-[35px] w-[45px] mr-3`} />
               </TouchableOpacity>
               <TouchableOpacity onPress={checkLogin}>
                 <MaterialCommunityIcons name="menu" size={35} color={'#ffffff'} />
@@ -380,7 +382,7 @@ const HomeScreen = ({ navigation }: any) => {
               decelerationRate="fast"
               enableMomentum={false}
               lockScrollWhileSnapping={true}
-              
+
               renderItem={({ item, index }) => (
                 <MovieCard
                   shoudlMarginatedAtEnd={true}
@@ -406,20 +408,19 @@ const HomeScreen = ({ navigation }: any) => {
               slideStyle={{ display: "flex", alignItems: "center" }}
             />
             <View style={tw`w-full flex-row justify-between px-4 items-center mt-7`}>
-              <View style={tw``}>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] font-bold text-white w-[270px]`}>{bgContent?.name}</Text>
+              <View style={tw`w-[70%]`}>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] font-bold text-white w-[100%]`}>{bgContent?.name}</Text>
                 <View style={tw`flex-row items-center justify-start mt-3`}>
-                  {bgContent?.rate && <CustomIcon name="star" size={20} color={'#f5d53e'} />}
-                  {bgContent?.rate && <Text style={tw`text-[12px] text-white mr-2`}>{bgContent?.rate}</Text>}
-                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-white mr-2 border border-[#f5d53e] rounded-[30px] px-2 w-[100px]`}>{bgContent?.type}</Text>}
-                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-white w-[180px]`}>⛔{bgContent?.old_limit}+</Text>
-                  
+                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-white mr-2 text-center border border-[#f5d53e] rounded-[30px] px-2 w-[80px]`}>{bgContent?.type}</Text>}
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-white w-[60%]`}>⛔{bgContent?.old_limit}</Text>
+
                 </View>
               </View>
               <TouchableOpacity style={tw`rounded-[30px] bg-[#9c1d21] px-4 py-1`}
                 onPress={() => navigation.push('MovieDetails', { movie: bgContent })}>
                 <Text style={tw`text-[12px] text-white`}>ĐẶT VÉ</Text>
               </TouchableOpacity>
+
             </View>
           </LinearGradient>
 
