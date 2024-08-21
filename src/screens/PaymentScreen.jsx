@@ -31,21 +31,7 @@ const PaymentScreen = ({ navigation, route }) => {
     const [selectedBanggia, setSelectedBanggia] = useState({});
     const [selectedBanggiaData, setSelectedBanggiaData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
-    const [secondsLeft, setSecondsLeft] = useState(600);
     const [loading, setLoading] = useState(false);
-
-    useFocusEffect(
-        useCallback(() => {
-          const intervalId = setInterval(() => {
-            setSecondsLeft((prevSeconds) => prevSeconds - 1);
-        }, 1000);
-    
-        return () => {
-            clearInterval(intervalId);
-            console.log('Function đã dừng do màn hình mất focus.');
-        };
-        }, [])
-      );
 
     useEffect(() => {
         (async () => {
@@ -66,23 +52,7 @@ const PaymentScreen = ({ navigation, route }) => {
             setSelectedBanggiaData(seats_data_default1);
         })();
 
-    }, [secondsLeft]);
-
-    const formatTime = (seconds) => {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        if (minutes === 0 && remainingSeconds === 0) {
-            Alert.alert('Thông báo', 'Hết thời gian thanh toán. Vui lòng chọn lại?', [
-                {
-                    text: 'XÁC NHẬN', onPress: () => {
-                        navigation.goBack();
-                    }
-                },
-            ]);
-        }
-        
-        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-    };
+    }, []);
 
     const renderItem = ({ item }) => {
         return (
@@ -218,7 +188,6 @@ const PaymentScreen = ({ navigation, route }) => {
                         <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
                     </View>
                 </View>
-                <Text style={tw`text-[12px] text-[#000000] absolute right-3`}>{formatTime(secondsLeft)}</Text>
             </View>
             {loading && <View style={tw`h-full w-full absolute z-100 flex items-center justify-center`}>
                 <ActivityIndicator size="30" color="#9c1d21" style={tw``} />

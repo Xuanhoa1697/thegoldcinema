@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import {
   Text,
   View,
@@ -42,6 +42,7 @@ import Animated, {
   withTiming,
   withSpring
 } from 'react-native-reanimated';
+import { useFocusEffect } from '@react-navigation/native';
 
 const timeArray: string[] = [
   '10:30',
@@ -93,7 +94,7 @@ const { width, height } = Dimensions.get('window');
 
 const SeatBookingScreen = ({ navigation, route }: any) => {
   const detail = route.params.detailId;
-  
+
   const isFocused = useIsFocused()
 
   const [dateArray, setDateArray] = useState<any[]>(generateDate());
@@ -119,6 +120,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   const savedTranslateY = useRef(0);
   const [loading, setLoading] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState({});
+  const [secondsLeft, setSecondsLeft] = useState(600);
 
   React.useEffect(() => {
     (async () => {
@@ -126,6 +128,36 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       get_seat_map_cinema_home()
     })();
   }, [isFocused]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const intervalId = setInterval(() => {
+        setSecondsLeft((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+
+      return () => {
+        clearInterval(intervalId);
+        console.log('Function đã dừng do màn hình mất focus.');
+      };
+    }, [])
+  );
+
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    if (minutes === 0 && remainingSeconds === 0) {
+      Alert.alert('Thông báo', 'Hết thời gian thanh toán. Vui lòng chọn lại?', [
+        {
+          text: 'XÁC NHẬN', onPress: () => {
+            navigation.goBack();
+          }
+        },
+      ]);
+    }
+
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const get_seat_map_cinema_home = async () => {
     try {
@@ -196,7 +228,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   };
 
   const BookSeats = async () => {
-    
+
     if (Object.keys(selectedSeats).length === 0) {
       return handleShowNotification('Vui lòng chọn ghế trước khi đặt vé');
     }
@@ -223,13 +255,13 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   const panGesture = Gesture.Pan()
     .onStart(() => {
       console.log(translateX.value, translateY.value);
-      
+
       savedTranslateX.current = translateX.value;
       savedTranslateY.current = translateY.value;
     })
     .onUpdate((event) => {
       // console.log(translateX, translateY);
-      
+
       translateX.value = savedTranslateX.current + event.translationX;
       translateY.value = savedTranslateY.current + event.translationY;
     }).onEnd(() => {
@@ -273,6 +305,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
             {/* <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[14px] text-[#9c9c9c] ml-1`}>{detail.giobatdau} ~ {detail.ketthuc}</Text> */}
           </View>
         </View>
+        <Text style={tw`text-[12px] text-[#000000] absolute right-3`}>{formatTime(secondsLeft)}</Text>
       </View>
       <GestureHandlerRootView style={tw`h-full w-full bg-black`}>
         <GestureDetector gesture={composedGesture}>

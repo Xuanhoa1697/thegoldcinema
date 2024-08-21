@@ -111,7 +111,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
             colors={[COLORS.BlackRGB10, COLORS.Black]}
           >
             {movie?.trailer && <TouchableOpacity style={tw`mb-10`} onPress={() => navigation.push('TrailerScreen', { trailer: movie?.trailer })}>
-              <AntDesign name="play" size={40} color={'#ffffff'} />
+              <AntDesign name="play" size={30} color={'#ffffff'} />
             </TouchableOpacity>}
             <View style={tw`absolute left-3 top-2`}>
               <TouchableOpacity onPress={() => navigation.goBack()}>
