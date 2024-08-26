@@ -34,7 +34,7 @@ const genres: any = {
 
 const MovieCard = (props: any) => {
   return (
-    <TouchableOpacity onPress={() => props.cardFunction()} style={tw`mt-4`}>
+    <TouchableOpacity activeOpacity={1} onPress={() => props.cardFunction()} style={tw`mt-4`}>
       <View
         style={[
           styles.container,
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     // flex: 1,
-    // backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.WhiteRGBA15,
+    borderRadius: 15
   },
   cardImage: {
     aspectRatio: 2 / 3,

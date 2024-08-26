@@ -16,7 +16,8 @@ import {
   Platform,
   Animated,
   BackHandler,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
 import { COLORS, SPACING } from '../theme/theme';
 import InputHeader from '../components/InputHeader';
@@ -202,13 +203,13 @@ const HomeScreen = ({ navigation }: any) => {
       setBlogPost(temp_blog);
     })();
     const backAction = () => {
-      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+      Alert.alert('Đợi chút!', 'Bạn có muốn thoát khỏi ứng dụng?', [
         {
-          text: 'Cancel',
+          text: 'HỦY',
           onPress: () => null,
           style: 'cancel',
         },
-        { text: 'YES', onPress: () => BackHandler.exitApp() },
+        { text: 'ĐÔNG Ý', onPress: () => BackHandler.exitApp() },
       ]);
       return true;
     };
@@ -231,7 +232,7 @@ const HomeScreen = ({ navigation }: any) => {
     let tempUpcoming = await getUpcomingMoviesList();
     setUpcomingMoviesList(tempUpcoming.result);
 
-    setRefreshingItem(`&${Math.random()}`);
+    setRefreshingItem(`${Math.random()}`);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -482,16 +483,20 @@ const HomeScreen = ({ navigation }: any) => {
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
         </View>
-        {/* {blogPost && blogPost.length > 0 && <CategoryHeader title={'Blog'}/>}
-        <View style={tw`w-full flex-row flex-wrap px-2`}>
-          {blogPost && blogPost.length > 0 && blogPost.map((item: any, index: number) => {
-            return (
-              <View key={index} style={tw`h-[50px] w-full p-2 w-[50%] border border-[#f5d53e]`}>
-                
-              </View>
-            )
-          })}
-        </View> */}
+        <View style={tw`w-full flex-row items-center justify-between mt-3 pr-2`}>
+          <CategoryHeader title={'Bài viết'}/>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://thegoldcinema.com/blog')}
+            activeOpacity={1} style={tw`px-2 border border-[#9d2126] rounded-full`}>
+            <Text style={tw`text-[12px] text-[#9d2126]`}>Tất cả</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={tw`w-full px-2`}>
+          <TouchableOpacity activeOpacity={1} style={tw`h-[140px] w-[50%]`}>
+              <Image resizeMode="cover" source={{uri: `https://thegoldcinema.com/web/image/12942/ob.jpg`}} style={tw`w-full rounded-1 h-[100px]`} />
+              <Text numberOfLines={2} ellipsizeMode='tail' style={tw`text-[12px] text-black mt-1`}>Hướng dẫn đặt vé trước và kiểm tra vé đã đặt trên website</Text>
+          </TouchableOpacity>
+        </View>
       </Animated.ScrollView>
     </SafeAreaView>
   );

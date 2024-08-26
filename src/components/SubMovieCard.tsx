@@ -11,7 +11,7 @@ import tw from "twrnc";
 
 const SubMovieCard = (props: any) => {
   return (
-    <TouchableOpacity onPress={() => props.cardFunction()}>
+    <TouchableOpacity  activeOpacity={1} onPress={() => props.cardFunction()}>
       <View
         style={[
           styles.container,
@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     // flex: 1,
-    // backgroundColor: COLORS.Black,
+    orderRadius: 15,
+    backgroundColor: COLORS.WhiteRGBA15,
   },
   cardImage: {
     aspectRatio: 2 / 3,

@@ -16,7 +16,7 @@ const SplashScreen = ({ route }) => {
     useEffect(() => {
         setTimeout(() => {
             Navigation.navigate('HomeScreen')
-        }, 2000)
+        }, 4000)
     }, []);
 
     return (

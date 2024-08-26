@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderWidth: 3,
     borderColor: COLORS.White,
+    backgroundColor: COLORS.WhiteRGBA15,
   },
   clockIcon: {
     fontSize: FONTSIZE.size_20,

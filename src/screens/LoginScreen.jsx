@@ -171,9 +171,6 @@ const LoginScreen = ({ navigation }) => {
                                 <TouchableOpacity style={tw`h-full bg-[#ffffff] border border-[#9c9c9c] flex-row justify-center items-center rounded-15`}
                                     onPress={() => navigation.navigate('RegisterScreen')}>
                                     <Text style={tw`text-[#9c9c9c] text-[12px] py-2 px-2`}>Đăng ký tài khoản</Text>
-                                    {isSpinLoading &&
-                                        <ActivityIndicator color="#ffffff" size={20} />
-                                    }
                                 </TouchableOpacity>
                             </View>
                         </View>
