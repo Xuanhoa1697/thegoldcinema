@@ -1,4 +1,4 @@
-package com.movie_app;
+package com.thegoldcinema;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
