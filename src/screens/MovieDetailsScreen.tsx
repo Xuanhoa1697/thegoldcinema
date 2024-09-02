@@ -58,6 +58,9 @@ const { width, height } = Dimensions.get('window');
 
 const MovieDetailsScreen = ({ navigation, route }: any) => {
   const movie = route.params.movie
+
+  console.log(movie);
+  
   
   const [numberOfLines, setNumberOfLines] = useState(3)
   const [heightBg, setHeightBg] = useState(0)
@@ -119,7 +122,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
               </TouchableOpacity>
             </View>
             <View style={tw`absolute bottom-0 left-[${widthImg + 20}px] w-full`}>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[12px] w-[55%]`} >{movie?.name.toUpperCase()}</Text>
+              {movie?.name && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`mt-15 mb-5 text-white font-semibold text-[12px] w-[55%]`} >{movie?.name.toUpperCase()}</Text>}
             </View>
           </LinearGradient>
         </ImageBackground>
@@ -135,22 +138,22 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <View style={styles.timeContainer}>
           <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 px-1`}>
             <CustomIcon name="clock" style={[styles.clockIcon, tw`text-[15px]`]} />
-            <Text style={tw`text-[#9c9c9c] text-[12px]`}>
+            {movie?.time && <Text style={tw`text-[#9c9c9c] text-[12px]`}>
               {Math.floor(movie?.time / 60)} giờ{' '}
               {Math.floor(movie?.time % 60)} phút
-            </Text>
+            </Text>}
           </View>
           <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 ml-2`}>
-            <EvilIcons name="calendar" size={22} color={COLORS.Black} />
-            <Text style={tw`text-[#9c9c9c] text-[12px]`}>
+            {movie?.date_start && <EvilIcons name="calendar" size={22} color={COLORS.Black} />}
+            {movie?.date_start && <Text style={tw`text-[#9c9c9c] text-[12px]`}>
               {movie?.date_start.split("-")[2]}/{movie?.date_start.split("-")[1]}/{movie?.date_start.split("-")[0]}
-            </Text>
+            </Text>}
           </View>
         </View>
         <View style={tw`flex-row mt-2`}>
           {movie?.rate && <CustomIcon name="star" style={styles.starIcon} />}
           {movie?.rate && <Text style={[styles.runtimeText, tw`mr-5`]}>{movie?.rate}</Text>}
-          <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#9d2126]`}>⛔ {movie?.old_limit}+</Text>
+          {movie?.old_limit && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#9d2126]`}>⛔ {movie?.old_limit}+</Text>}
         </View>
       </View>
 

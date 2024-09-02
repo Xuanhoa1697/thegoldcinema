@@ -193,6 +193,8 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
 
       let response = await axios.request(config);
       const datas = await JSON.parse(JSON.stringify(response.data)).result;
+      console.log(datas);
+      
       setLoading(false)
       setRootData(datas.result);
       setData(datas.result.data);

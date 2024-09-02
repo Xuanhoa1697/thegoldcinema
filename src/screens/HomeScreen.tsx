@@ -19,7 +19,7 @@ import {
   Alert,
   Linking
 } from 'react-native';
-import { COLORS, SPACING } from '../theme/theme';
+import { COLORS, SPACING, BORDERRADIUS, FONTFAMILY, FONTSIZE } from '../theme/theme';
 import InputHeader from '../components/InputHeader';
 import CategoryHeader from '../components/CategoryHeader';
 import SubMovieCard from '../components/SubMovieCard';
@@ -198,6 +198,8 @@ const HomeScreen = ({ navigation }: any) => {
 
       let tempUpcoming = await getUpcomingMoviesList();
       setUpcomingMoviesList(tempUpcoming.result);
+      console.log(tempUpcoming.result);
+      
 
       let temp_blog = await get_list_blog_post();
       setBlogPost(temp_blog);
@@ -288,7 +290,7 @@ const HomeScreen = ({ navigation }: any) => {
         backgroundColor={'#000000'}
         barStyle={'default'}
       />
-      <Animated.View style={[styles.header, { transform: [{ translateY: headerTranslate }] },
+      <Animated.View style={[styles.header, tw`bg-[#ffffff]`, { transform: [{ translateY: headerTranslate }] },
       tw`flex-row items-start justify-between pt-4`]}>
         <View style={tw`w-[30%] flex-row justify-start items-center`}>
           {/* <Entypo name="github" size={33} color={'#9c1d21'} /> */}
@@ -305,7 +307,7 @@ const HomeScreen = ({ navigation }: any) => {
             {/* <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#9d2126'} /> */}
           </TouchableOpacity>
           <TouchableOpacity onPress={checkLogin}>
-            <MaterialCommunityIcons name="menu" size={35} color={'#9d2126'} />
+            <MaterialCommunityIcons name="menu" size={35} color={'#ffffff'} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -459,7 +461,7 @@ const HomeScreen = ({ navigation }: any) => {
             slideStyle={{ display: "flex", alignItems: "center" }}
           />
           {upcomingMoviesList && upcomingMoviesList.length > 0 && <CategoryHeader title={'Sắp chiếu'} />}
-          <Carousel
+          {upcomingMoviesList && upcomingMoviesList.length > 1 && <Carousel
             data={upcomingMoviesList}
             loop={true}
             renderItem={({ item, index }) => (
@@ -481,20 +483,33 @@ const HomeScreen = ({ navigation }: any) => {
             sliderWidth={width}
             itemWidth={width / 3.7 + 16}
             slideStyle={{ display: "flex", alignItems: "center" }}
-          />
+          />}
+          {upcomingMoviesList && upcomingMoviesList.length == 1 &&
+            <TouchableOpacity activeOpacity={1} style={tw`w-full p-2 pt-0`} onPress={() => navigation.push('MovieDetails', { movie: upcomingMoviesList[0] })}>
+              <Image
+                style={[styles.cardImage, tw`w-full h-[120px]`]}
+                source={{ uri: `http://125.253.121.150:8069${upcomingMoviesList[0].image}&time=${refreshingItem}` }}
+                resizeMode='cover'
+              />
+              <Text numberOfLines={1} style={[styles.textTitle, tw`text-[12px]`]}>
+                {upcomingMoviesList[0].name}
+              </Text>
+            </TouchableOpacity>
+          }
         </View>
         <View style={tw`w-full flex-row items-center justify-between mt-3 pr-2`}>
-          <CategoryHeader title={'Bài viết'}/>
+          <CategoryHeader title={'Bài viết'} />
           <TouchableOpacity
-            onPress={() => Linking.openURL('https://thegoldcinema.com/blog')}
+            onPress={() => Linking.openURL('http://125.253.121.150:8069/blog')}
             activeOpacity={1} style={tw`px-2 border border-[#9d2126] rounded-full`}>
             <Text style={tw`text-[12px] text-[#9d2126]`}>Tất cả</Text>
           </TouchableOpacity>
         </View>
         <View style={tw`w-full px-2`}>
-          <TouchableOpacity activeOpacity={1} style={tw`h-[140px] w-[50%]`}>
-              <Image resizeMode="cover" source={{uri: `https://thegoldcinema.com/web/image/12942/ob.jpg`}} style={tw`w-full rounded-1 h-[100px]`} />
-              <Text numberOfLines={2} ellipsizeMode='tail' style={tw`text-[12px] text-black mt-1`}>Hướng dẫn đặt vé trước và kiểm tra vé đã đặt trên website</Text>
+          <TouchableOpacity activeOpacity={1} style={tw`h-[140px] w-[50%]`}
+            onPress={() => navigation.navigate('BlogPost')}>
+            <Image resizeMode="cover" source={{ uri: `http://125.253.121.150:8069/web/image/12942/ob.jpg` }} style={tw`w-full rounded-1 h-[100px]`} />
+            <Text numberOfLines={2} ellipsizeMode='tail' style={tw`text-[12px] text-black mt-1`}>Hướng dẫn đặt vé trước và kiểm tra vé đã đặt trên website</Text>
           </TouchableOpacity>
         </View>
       </Animated.ScrollView>
@@ -503,6 +518,16 @@ const HomeScreen = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
+  cardImage: {
+    borderRadius: BORDERRADIUS.radius_8,
+  },
+  textTitle: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.Black,
+    textAlign: 'center',
+    paddingVertical: SPACING.space_10,
+  },
   container: {
     display: 'flex',
     // backgroundColor: COLORS.Black,
@@ -558,8 +583,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
     zIndex: 1000,
   },
 });

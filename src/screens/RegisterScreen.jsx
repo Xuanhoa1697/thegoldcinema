@@ -122,11 +122,11 @@ const RegisterScreen = ({ navigation }) => {
             </View>
             <ScrollView style={tw`h-full w-full bg-white`}>
                 <View style={tw`flex-1 h-full items-center justify-start`}>
-                    <View style={tw`w-full h-[200px] flex items-center justify-center`}>
+                    <View style={tw`w-full h-[200px] flex items-center justify-center bg-[#9c1d21]`}>
                         <View style={tw`flex justify-center items-center`}>
                             <View style={tw`rounded-5 flex justify-center items-center`}>
                                 <Image source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
-                                    style={tw`w-[200px] h-full`}
+                                    style={tw`w-[120px] h-full`}
                                     resizeMode='contain' />
                             </View>
                         </View>

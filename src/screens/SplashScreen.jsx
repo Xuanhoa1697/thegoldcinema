@@ -32,7 +32,7 @@ const SplashScreen = ({ route }) => {
                     <Image 
                         source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}`}}
                         resizeMode="contain"
-                        style={tw`h-[50px] w-[60%]`} />
+                        style={tw`h-[50px] w-[130px]`} />
                     <ActivityIndicator size="30" color="#ffffff" />
             </ImageBackground>
         </View>

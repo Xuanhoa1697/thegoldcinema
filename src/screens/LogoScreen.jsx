@@ -23,7 +23,7 @@ const LogoScreens = () => {
     }, []);
 
     return (
-        <View style={tw`h-full w-full flex items-center justify-center`}>
+        <View style={tw`h-full w-full flex items-center justify-center bg-[#9c1d21]`}>
             <StatusBar
                 translucent={true}
                 backgroundColor={'transparent'}
@@ -32,7 +32,7 @@ const LogoScreens = () => {
             <Image 
                 source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}`  }}
                 resizeMode="contain"
-                style={tw`h-[50px] w-[60%]`}  />
+                style={tw`h-[50px] w-[130px]`}  />
         </View>
 
     );

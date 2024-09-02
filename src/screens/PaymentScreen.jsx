@@ -84,6 +84,8 @@ const PaymentScreen = ({ navigation, route }) => {
 
     const paymentQr = async () => {
         let user = await AsyncStorage.getItem('user_info');
+        // return console.log(user);
+        
         let data_cinema = {
             'user_id': JSON.parse(user).user_id,
             'lc_id': detail.id,
@@ -91,6 +93,7 @@ const PaymentScreen = ({ navigation, route }) => {
             'totals': Object.values(selectedBanggia).reduce((a, b) => a + b, 0),
             'items': []
         }
+        
         let data = []
         Object.keys(selectedBanggiaData).map((item) => {
             let bangGiaData = { ...selectedBanggiaData[item] }
@@ -99,7 +102,8 @@ const PaymentScreen = ({ navigation, route }) => {
 
         })
         data_cinema.items = data;
-
+        console.log(data_cinema);
+        // return
         fetchData(data_cinema);
 
     }
