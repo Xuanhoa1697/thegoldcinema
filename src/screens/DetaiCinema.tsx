@@ -49,7 +49,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema_with_date`,
+        url: `https://thegoldcinema.com/web/api/v1/get_list_cinema_with_date`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',

@@ -104,7 +104,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
   const [selectedSeatArray, setSelectedSeatArray] = useState([]);
   const [selectedTimeIndex, setSelectedTimeIndex] = useState<any>();
   const [data, setData] = useState([]);
-  const [rootDataa, setRootData] = useState([]);
+  const [rootData, setRootData] = useState([]);
   const [rowMap, setRowMap] = useState([]);
   const [columnMap, setColumnMap] = useState([]);
   const [customStyle, setCustomStyle] = useState({});
@@ -183,7 +183,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://125.253.121.150:8069/web/api/v1/lichchieu/seatmap`,
+        url: `https://thegoldcinema.com/web/api/v1/lichchieu/seatmap`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
 
       let response = await axios.request(config);
       const datas = await JSON.parse(JSON.stringify(response.data)).result;
-      console.log(datas);
+      // console.log(datas);
       
       setLoading(false)
       setRootData(datas.result);
@@ -214,10 +214,13 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
     }
   };
 
-  const toggleSeat = (seatId, is_ghedoi) => {
+  const toggleSeat = (seatId, is_ghedoi, dm_loaighe_id) => {    
     let data_seat = {
       ...selectedSeats,
-      [seatId]: selectedSeats.hasOwnProperty(seatId) ? !selectedSeats[seatId] : true,
+      [seatId]: {
+        'tinhtranng': selectedSeats.hasOwnProperty(seatId) ? !selectedSeats[seatId].tinhtranng : true,
+        'dm_loaighe_id': dm_loaighe_id
+      }
     }
     if (is_ghedoi) {
       let ghe_doi = seatId.split("_");
@@ -227,10 +230,16 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
       } else {
         ghe_doi = ghe_doi[0] + "_" + (Number(ghe_doi[1]) + 1);
       }
-      data_seat[[ghe_doi]] = data_seat.hasOwnProperty(ghe_doi) ? !data_seat[ghe_doi] : true;
+      data_seat[[ghe_doi]] = {
+        'tinhtranng': data_seat.hasOwnProperty(ghe_doi) ? !data_seat[ghe_doi].tinhtranng : true,
+        'dm_loaighe_id': dm_loaighe_id
+      }
+      
     }
     const filteredByValue = Object.fromEntries(
-      Object.entries(data_seat).filter(([key, value]) => value === true) )
+      Object.entries(data_seat).filter(([key, value]) => value.tinhtranng === true) )
+      console.log(filteredByValue);
+      
     setSelectedSeats(filteredByValue);
   };
 
@@ -253,7 +262,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
     navigation.navigate('PaymentScreen', {
       detailId: detail,
       seats: selectedSeats,
-      data: rootDataa
+      data: rootData
     });
   };
 
@@ -340,11 +349,13 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
                           let color = '';
                           let disableBooking = false
                           let is_ghedoi = false
+                          let text_seats = 'a'
                           if (data_item.filter((i) => i === 'a').length > 0) {
                             color = '#3a78c3'
                           } else {
                             color = '#ee82ee';
-                            is_ghedoi = true
+                            is_ghedoi = true;
+                            text_seats = 'b'
                           }
 
                           if (datvetruocList.includes(`${item}_${subitem}`)) {
@@ -362,10 +373,10 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
                               disabled={disableBooking}
                               style={[customStyle.hasOwnProperty(item + subitem) ? customStyle[item + subitem] : '']}
                               onPress={() => {
-                                toggleSeat(`${item}_${subitem}`, is_ghedoi);
+                                toggleSeat(`${item}_${subitem}`, is_ghedoi, seats[text_seats].dm_loaighe_id);
                               }}>
                               <View style={[tw`w-7 h-7 bg-white flex justify-center items-center bg-[${color}] 
-                                  bg-[${(selectedSeats.hasOwnProperty(`${item}_${subitem}`) && selectedSeats[`${item}_${subitem}`]) ? '#e6cac4' : color}] 
+                                  bg-[${(selectedSeats.hasOwnProperty(`${item}_${subitem}`) && selectedSeats[`${item}_${subitem}`].tinhtranng) ? '#e6cac4' : color}] 
                                 `]}>
                                 <Text style={tw`text-[11px] text-center text-white`}>{item + subitem}</Text>
                               </View>

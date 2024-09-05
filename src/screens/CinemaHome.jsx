@@ -26,7 +26,7 @@ const CinemaHomeScreen = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema_home`,
+                url: `https://thegoldcinema.com/web/api/v1/get_list_cinema_home`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',

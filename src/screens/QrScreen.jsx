@@ -179,7 +179,7 @@ const QrScreen = ({ navigation, route }) => {
             </View>
             <View style={tw`flex-row items-center justify-between px-2 py-2 pr-4 border-b border-gray-300 bg-white`}>
                 <Image
-                    source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                    source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                     resizeMode="contain"
                     style={tw`h-[70px] w-[170px]`} />
                 <View>

@@ -105,7 +105,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <ImageBackground
           onLayout={onLayoutHandle}
           source={{
-            uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
+            uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}`,
           }}
           style={styles.imageBG}
           resizeMode='cover'>
@@ -129,20 +129,20 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <Image
           onLayout={onLayoutHandleImage}
           resizeMode='cover'
-          source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
+          source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=hinhanh&model=dm.phim&res_id=${movie.id}` }}
           style={[styles.cardImage, tw`top-[${heightBg * 0.7}px]`]}
         />
       </View>
 
       <View style={tw`ml-[${widthImg + 20}px]`}>
         <View style={styles.timeContainer}>
-          <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 px-1`}>
+          {movie?.time > 0 && <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 px-1`}>
             <CustomIcon name="clock" style={[styles.clockIcon, tw`text-[15px]`]} />
-            {movie?.time && <Text style={tw`text-[#9c9c9c] text-[12px]`}>
+            <Text style={tw`text-[#9c9c9c] text-[12px]`}>
               {Math.floor(movie?.time / 60)} giờ{' '}
               {Math.floor(movie?.time % 60)} phút
-            </Text>}
-          </View>
+            </Text>
+          </View>}
           <View style={tw`flex-row justify-center items-center border border-gray-400 py-0.3 px-0.3 rounded-1 ml-2`}>
             {movie?.date_start && <EvilIcons name="calendar" size={22} color={COLORS.Black} />}
             {movie?.date_start && <Text style={tw`text-[#9c9c9c] text-[12px]`}>
@@ -158,11 +158,11 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
       </View>
 
       <View style={tw`mt-6 mx-4`}>
-        {movie?.content.trim() && <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12px]`]}>{movie?.content.trim()}</Text>}
-        {movie?.content.trim() && numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
+        {movie?.content && movie?.content.trim() && <Text ellipsizeMode='tail' numberOfLines={numberOfLines} style={[styles.descriptionText, tw`text-[12px]`]}>{movie?.content.trim()}</Text>}
+        {movie?.content && movie?.content.trim() && numberOfLines == 3 && <TouchableOpacity onPress={() => setNumberOfLines(100)}>
           <Text style={tw`text-[#9d2126]`}>Xem thêm</Text>
         </TouchableOpacity>}
-        {movie?.content.trim() && numberOfLines != 3 && <TouchableOpacity onPress={() => setNumberOfLines(3)}>
+        {movie?.content && movie?.content.trim() && numberOfLines != 3 && <TouchableOpacity onPress={() => setNumberOfLines(3)}>
           <Text style={tw`text-[#9d2126]`}>Rút gọn</Text>
         </TouchableOpacity>}
         <View style={tw`flex-row mt-3 pr-2`}>

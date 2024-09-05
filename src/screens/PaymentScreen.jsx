@@ -33,13 +33,16 @@ const PaymentScreen = ({ navigation, route }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    // console.log(seats,'aaaaaa', banggia);
+
     useEffect(() => {
         (async () => {
             let seats_data_default = {
                 ...selectedBanggia,
             }
             Object.keys(seats).map((item) => {
-                seats_data_default[[item]] = defaultDongia
+                let don_gia = banggia.filter(bg => bg.dm_loaighe_id === seats[item].dm_loaighe_id);                
+                seats_data_default[[item]] = don_gia[0].dongia
             })
             setSelectedBanggia(seats_data_default);
 
@@ -47,7 +50,8 @@ const PaymentScreen = ({ navigation, route }) => {
                 ...selectedBanggiaData,
             }
             Object.keys(seats).map((item) => {
-                seats_data_default1[[item]] = banggia?.length > 0 ? banggia[0] : {}
+                let don_gia = banggia.filter(bg => bg.dm_loaighe_id === seats[item].dm_loaighe_id);
+                seats_data_default1[[item]] = don_gia?.length > 0 ? don_gia[0] : {}
             })
             setSelectedBanggiaData(seats_data_default1);
         })();
@@ -65,7 +69,7 @@ const PaymentScreen = ({ navigation, route }) => {
     }
 
     const onChange = (item, key) => {
-        console.log(item, key);
+        // console.log(item, key);
 
         setSelectedBanggia({
             ...selectedBanggia,
@@ -76,6 +80,9 @@ const PaymentScreen = ({ navigation, route }) => {
             ...selectedBanggiaData,
             [key]: item
         });
+
+        console.log(selectedBanggiaData);
+        
     }
 
     const showModal = () => {
@@ -123,7 +130,7 @@ const PaymentScreen = ({ navigation, route }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://125.253.121.150:8069/web/api/v1/booking`,
+                url: `https://thegoldcinema.com/web/api/v1/booking`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
@@ -228,6 +235,9 @@ const PaymentScreen = ({ navigation, route }) => {
                 </Modal>
                 <ScrollView style={tw`w-full px-2`}>
                     {Object.keys(seats).map((item) => {
+                        let banggia_ids = banggia.filter(bg => bg.dm_loaighe_id === seats[item].dm_loaighe_id)
+                        console.log('aa', seats[item]);
+                        
                         return (
                             <View key={item} style={tw`w-full h-[55px] flex-row items-center justify-between px-3 mb-2 bg-[#ffffff] rounded`}>
                                 <View style={tw`flex-row items-center justify-between`}>
@@ -238,8 +248,8 @@ const PaymentScreen = ({ navigation, route }) => {
                                         style={tw`w-[140px] border-b-[0.5px] ml-3 border-b-[#7a7a7a]`}
                                         selectedTextStyle={tw`text-[12px] text-[#404040]`}
                                         placeholderStyle={tw`text-[12px]`}
-                                        value={defaultBanggia}
-                                        data={banggia}
+                                        value={selectedBanggiaData.hasOwnProperty(item) ? selectedBanggiaData[item].dm_loaive_id : banggia_ids[0].dm_loaive_id}
+                                        data={banggia_ids}
                                         valueField="dm_loaive_id"
                                         labelField="dm_loaive_name"
                                         placeholder={'Loại vé'}

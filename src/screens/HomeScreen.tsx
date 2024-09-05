@@ -52,7 +52,7 @@ const getNowPlayingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema`,
+      url: `https://thegoldcinema.com/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const getUpcomingMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema`,
+      url: `https://thegoldcinema.com/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ const getPopularMoviesList = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://125.253.121.150:8069/web/api/v1/get_list_cinema`,
+      url: `https://thegoldcinema.com/web/api/v1/get_list_cinema`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const get_list_blog_post = async () => {
       method: 'post',
       maxBodyLength: Infinity,
       mode: 'no-cors',
-      url: `http://125.253.121.150:8069/web/api/v1/blogpost`,
+      url: `https://thegoldcinema.com/web/api/v1/blogpost`,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -297,7 +297,7 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
         <View style={tw`w-[40%] flex-row justify-center items-center`}>
           <Image style={tw`h-[45px] w-[100px]`}
-            source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+            source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
             resizeMode='contain' />
         </View>
 
@@ -307,7 +307,7 @@ const HomeScreen = ({ navigation }: any) => {
             {/* <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#9d2126'} /> */}
           </TouchableOpacity>
           <TouchableOpacity onPress={checkLogin}>
-            <MaterialCommunityIcons name="menu" size={35} color={'#ffffff'} />
+            <MaterialCommunityIcons name="menu" size={35} color={'#9d2126'} />
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -344,7 +344,7 @@ const HomeScreen = ({ navigation }: any) => {
         }
       >
         <ImageBackground
-          source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem` }}
+          source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem` }}
           resizeMode="cover"
           style={tw`w-full`}
           blurRadius={3}>
@@ -354,7 +354,7 @@ const HomeScreen = ({ navigation }: any) => {
             </View>
             <View style={tw`w-[40%] flex-row justify-center items-center`}>
               <Image style={tw`h-[45px] w-[100px]`}
-                source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                 resizeMode='contain' />
             </View>
 
@@ -396,7 +396,7 @@ const HomeScreen = ({ navigation }: any) => {
                   isFirst={index == 0 ? true : false}
                   isLast={index == nowPlayingMoviesList?.length - 1 ? true : false}
                   title={item.name}
-                  imagePath={`http://125.253.121.150:8069${item.image}&time=${refreshingItem}`}
+                  imagePath={`https://thegoldcinema.com${item.image}&time=${refreshingItem}`}
                   // genre={item.genre_ids.slice(1, 4)}
                   // vote_average={item.rate}
                   vote_count={item.nsx}
@@ -450,7 +450,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://125.253.121.150:8069${item.image}&time=${refreshingItem}`}
+                imagePath={`https://thegoldcinema.com${item.image}&time=${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -474,7 +474,7 @@ const HomeScreen = ({ navigation }: any) => {
                 isFirst={index == 0 ? true : false}
                 isLast={index == upcomingMoviesList?.length - 1 ? true : false}
                 title={item.name}
-                imagePath={`http://125.253.121.150:8069${item.image}&time=${refreshingItem}`}
+                imagePath={`https://thegoldcinema.com${item.image}&time=${refreshingItem}`}
               />
             )}
             firstItem={1}
@@ -488,7 +488,7 @@ const HomeScreen = ({ navigation }: any) => {
             <TouchableOpacity activeOpacity={1} style={tw`w-full p-2 pt-0`} onPress={() => navigation.push('MovieDetails', { movie: upcomingMoviesList[0] })}>
               <Image
                 style={[styles.cardImage, tw`w-full h-[120px]`]}
-                source={{ uri: `http://125.253.121.150:8069${upcomingMoviesList[0].image}&time=${refreshingItem}` }}
+                source={{ uri: `https://thegoldcinema.com${upcomingMoviesList[0].image}&time=${refreshingItem}` }}
                 resizeMode='cover'
               />
               <Text numberOfLines={1} style={[styles.textTitle, tw`text-[12px]`]}>
@@ -500,7 +500,7 @@ const HomeScreen = ({ navigation }: any) => {
         <View style={tw`w-full flex-row items-center justify-between mt-3 pr-2`}>
           <CategoryHeader title={'Bài viết'} />
           <TouchableOpacity
-            onPress={() => Linking.openURL('http://125.253.121.150:8069/blog')}
+            onPress={() => Linking.openURL('https://thegoldcinema.com/blog')}
             activeOpacity={1} style={tw`px-2 border border-[#9d2126] rounded-full`}>
             <Text style={tw`text-[12px] text-[#9d2126]`}>Tất cả</Text>
           </TouchableOpacity>
@@ -508,7 +508,7 @@ const HomeScreen = ({ navigation }: any) => {
         <View style={tw`w-full px-2`}>
           <TouchableOpacity activeOpacity={1} style={tw`h-[140px] w-[50%]`}
             onPress={() => navigation.navigate('BlogPost')}>
-            <Image resizeMode="cover" source={{ uri: `http://125.253.121.150:8069/web/image/12942/ob.jpg` }} style={tw`w-full rounded-1 h-[100px]`} />
+            <Image resizeMode="cover" source={{ uri: `https://thegoldcinema.com/web/image/12942/ob.jpg` }} style={tw`w-full rounded-1 h-[100px]`} />
             <Text numberOfLines={2} ellipsizeMode='tail' style={tw`text-[12px] text-black mt-1`}>Hướng dẫn đặt vé trước và kiểm tra vé đã đặt trên website</Text>
           </TouchableOpacity>
         </View>

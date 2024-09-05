@@ -68,7 +68,7 @@ const RegisterScreen = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://125.253.121.150:8069/web/api/v1/register`,
+                url: `https://thegoldcinema.com/web/api/v1/register`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ const RegisterScreen = ({ navigation }) => {
                     <View style={tw`w-full h-[200px] flex items-center justify-center bg-[#9c1d21]`}>
                         <View style={tw`flex justify-center items-center`}>
                             <View style={tw`rounded-5 flex justify-center items-center`}>
-                                <Image source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
+                                <Image source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem` }}
                                     style={tw`w-[120px] h-full`}
                                     resizeMode='contain' />
                             </View>

@@ -45,7 +45,7 @@ const EditProfile = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://125.253.121.150:8069/web/api/v1/user_update`,
+                url: `https://thegoldcinema.com/web/api/v1/user_update`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const EditProfile = ({ navigation }) => {
                 method: 'post',
                 maxBodyLength: Infinity,
                 mode: 'no-cors',
-                url: `http://125.253.121.150:8069/web/api/v1/user_delete`,
+                url: `https://thegoldcinema.com/web/api/v1/user_delete`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',

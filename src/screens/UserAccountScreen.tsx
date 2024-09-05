@@ -37,7 +37,7 @@ const UserAccountScreen = ({ navigation }: any) => {
       navigation.navigate('EditProfile');
     }
     if (keyData === 'support') {
-      Linking.openURL('http://125.253.121.150:8069')
+      Linking.openURL('https://thegoldcinema.com')
     }
   }
   return (

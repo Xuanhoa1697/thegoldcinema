@@ -59,7 +59,7 @@ const TicketScreen = ({ navigation, route }: any) => {
         method: 'post',
         maxBodyLength: Infinity,
         mode: 'no-cors',
-        url: `http://125.253.121.150:8069/web/api/v1/get_ticket`,
+        url: `https://thegoldcinema.com/web/api/v1/get_ticket`,
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',

@@ -27,10 +27,10 @@ const SplashScreen = ({ route }) => {
                 barStyle="white-content"
             />
             <ImageBackground blurRadius={5} 
-                source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem&time=${Math.random()}` }} 
+                source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=img_app&model=dm.diadiem` }} 
                 resizeMode="cover" style={tw`h-full w-full flex items-center justify-center `}>
                     <Image 
-                        source={{ uri: `http://125.253.121.150:8069/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem&time=${Math.random()}`}}
+                        source={{ uri: `https://thegoldcinema.com/web/api/v1/get_background_app?image_type=logo&model=dm.diadiem`}}
                         resizeMode="contain"
                         style={tw`h-[50px] w-[130px]`} />
                     <ActivityIndicator size="30" color="#ffffff" />
