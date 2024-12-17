@@ -3,12 +3,13 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import CustomIcon from './CustomIcon';
 import tw from "twrnc";
+import Feather from 'react-native-vector-icons/Feather';
 
 const SettingComponent = (props: any) => {
   return (
     <TouchableOpacity style={tw`flex-row items-start mb-3`} onPress={() => props.handleAction(props.keyData)}>
       <View>
-        <CustomIcon name={props.icon} style={styles.iconStyle} />
+        <Feather name={props.icon} style={styles.iconStyle} />
       </View>
       <View style={styles.settingContainer}>
         <Text style={[styles.title, tw`text-[12px]`]}>{props.heading}</Text>

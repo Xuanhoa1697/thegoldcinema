@@ -59,7 +59,7 @@ const { width, height } = Dimensions.get('window');
 const MovieDetailsScreen = ({ navigation, route }: any) => {
   const movie = route.params.movie
 
-  console.log(movie);
+  // console.log(movie);
   
   
   const [numberOfLines, setNumberOfLines] = useState(3)
@@ -153,7 +153,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         <View style={tw`flex-row mt-2`}>
           {movie?.rate && <CustomIcon name="star" style={styles.starIcon} />}
           {movie?.rate && <Text style={[styles.runtimeText, tw`mr-5`]}>{movie?.rate}</Text>}
-          {movie?.old_limit && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-[#9d2126]`}>⛔ {movie?.old_limit}+</Text>}
+          {movie?.old_limit && <Text ellipsizeMode='tail' numberOfLines={2} style={tw`text-[12px] text-[#9d2126]`}>⛔ {movie?.old_limit}</Text>}
         </View>
       </View>
 
@@ -171,7 +171,7 @@ const MovieDetailsScreen = ({ navigation, route }: any) => {
         </View>
         <View style={tw`flex-row mt-2 pr-2`}>
           <Text style={tw`text-[12px] text-[#000000] font-semibold w-[20%]`}>Đạo diễn</Text>
-          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2 w-[70%]`}>{movie?.daoien}</Text>
+          <Text style={tw`text-[12px] text-[#000000] ml-15 px-2 w-[70%]`}>{movie?.daodien}</Text>
         </View>
         <View style={tw`flex-row mt-2`}>
           <Text style={tw`text-[12px] text-[#000000] font-semibold w-[20%]`}>Diễn viên</Text>

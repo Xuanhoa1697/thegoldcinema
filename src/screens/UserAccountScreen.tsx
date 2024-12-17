@@ -28,7 +28,7 @@ const UserAccountScreen = ({ navigation }: any) => {
       await AsyncStorage.removeItem('user_info');
       navigation.navigate('HomeScreen');
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   }
 
@@ -36,6 +36,27 @@ const UserAccountScreen = ({ navigation }: any) => {
     if (keyData === 'user') {
       navigation.navigate('EditProfile');
     }
+
+    if (keyData === 'private') {
+      Linking.openURL('https://thegoldcinema.com/chinh-sach-bao-mat-thong-tin')
+    }
+
+    if (keyData === 'refund') {
+      Linking.openURL('https://thegoldcinema.com/chinh-sach-oi-tra-va-hoan-tien')
+    }
+
+    if (keyData === 'shield') {
+      Linking.openURL('https://thegoldcinema.com/chinh-sach-hoat-ong-va-quy-inh-chung-cua-webside')
+    }
+
+    if (keyData === 'link') {
+      Linking.openURL('https://thegoldcinema.com/thong-tin-ve-ieu-kien-giao-dich-chung')
+    }
+
+    if (keyData === 'tag') {
+      Linking.openURL('https://thegoldcinema.com/thong-tin-ve-phuong-thuc-thanh-toan')
+    }
+
     if (keyData === 'support') {
       Linking.openURL('https://thegoldcinema.com')
     }
@@ -64,17 +85,49 @@ const UserAccountScreen = ({ navigation }: any) => {
         />
 
         <SettingComponent
-          icon="setting"
-          heading="Phiên bản"
-          subheading="1.0.0"
+          icon="alert-triangle"
+          heading="Chính sách bảo mật thông tin"
+          subheading="Thông tin, bảo mật"
           handleAction={handleUser}
-          keyData="version"
+          keyData="private"
+        />
+
+        <SettingComponent
+          icon="refresh-cw"
+          heading="Chính sách đổi trả và hoàn tiền"
+          subheading="Đổi trả và hoàn tiền"
+          handleAction={handleUser}
+          keyData="refund"
+        />
+
+        <SettingComponent
+          icon="shield"
+          heading="Chính sách hoạt động và quy định chung"
+          subheading="Chính sách và quy định"
+          handleAction={handleUser}
+          keyData="shield"
+        />
+
+        <SettingComponent
+          icon="link"
+          heading="Thông tin về điều kiện giao dịch chung"
+          subheading="Điều kiện giao dịch"
+          handleAction={handleUser}
+          keyData="link"
+        />
+
+        <SettingComponent
+          icon="tag"
+          heading="Thông tin về phương thức thanh toán"
+          subheading="Thông tin về thanh toán"
+          handleAction={handleUser}
+          keyData="tag"
         />
 
         <SettingComponent
           icon="info"
           heading="Hỗ trợ"
-          subheading="Hướng dẫn, điều khoản sử dụng"
+          subheading="Hướng dẫn và hỗ trợ"
           handleAction={handleUser}
           keyData="support"
         />

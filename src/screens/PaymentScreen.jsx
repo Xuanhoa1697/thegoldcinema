@@ -81,7 +81,7 @@ const PaymentScreen = ({ navigation, route }) => {
             [key]: item
         });
 
-        console.log(selectedBanggiaData);
+        // console.log(selectedBanggiaData);
         
     }
 
@@ -109,7 +109,7 @@ const PaymentScreen = ({ navigation, route }) => {
 
         })
         data_cinema.items = data;
-        console.log(data_cinema);
+        // console.log(data_cinema);
         // return
         fetchData(data_cinema);
 
@@ -143,7 +143,7 @@ const PaymentScreen = ({ navigation, route }) => {
             setModalVisible(false);
 
             if (rs_data.status == 500) {
-                console.log(rs_data.data);
+                // console.log(rs_data.data);
                 
                 setLoading(false);
                 if (rs_data.exist) {
@@ -159,12 +159,12 @@ const PaymentScreen = ({ navigation, route }) => {
 
             setTimeout(() => {
                 setLoading(false);
-                navigation.navigate('QrScreen', {
-                    'tong_tien': Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                    'datas': datas,
-                    'selectedBanggia': selectedBanggia,
-                    'rs_data': rs_data.data
-                })
+                    navigation.navigate('QrScreen', {
+                        'tong_tien': Object.values(selectedBanggia).reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                        'datas': datas,
+                        'selectedBanggia': selectedBanggia,
+                        'rs_data': rs_data.data
+                    })
             }, 1000);
 
         } catch (error) {
@@ -236,7 +236,7 @@ const PaymentScreen = ({ navigation, route }) => {
                 <ScrollView style={tw`w-full px-2`}>
                     {Object.keys(seats).map((item) => {
                         let banggia_ids = banggia.filter(bg => bg.dm_loaighe_id === seats[item].dm_loaighe_id)
-                        console.log('aa', seats[item]);
+                        // console.log('aa', seats[item]);
                         
                         return (
                             <View key={item} style={tw`w-full h-[55px] flex-row items-center justify-between px-3 mb-2 bg-[#ffffff] rounded`}>

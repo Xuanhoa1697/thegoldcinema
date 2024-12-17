@@ -25,7 +25,7 @@ const EditProfile = ({ navigation }) => {
         setName(json_loads.user);
         setUser_id(json_loads.user_id);
         setToken(json_loads.access_token);
-        console.log(json_loads);
+        // console.log(json_loads);
     }
 
     const updateProfile = async () => {
@@ -55,7 +55,7 @@ const EditProfile = ({ navigation }) => {
 
             let response = await axios.request(config);
             const datas = await JSON.parse(JSON.stringify(response.data)).result;
-            console.log(datas);
+            // console.log(datas);
             if (datas.status != 200) {
                 return handleShowNotification(datas.msg);
             }
@@ -80,7 +80,7 @@ const EditProfile = ({ navigation }) => {
 
     const saveToLocal = async (data) => {
         const localStorage = JSON.parse(await AsyncStorage.getItem('user_info'));
-        console.log(localStorage);
+        // console.log(localStorage);
         localStorage.phone = data.phone;
         localStorage.user = data.name;
         localStorage.user_name = data.name;
@@ -112,7 +112,7 @@ const EditProfile = ({ navigation }) => {
 
             let response = await axios.request(config);
             const datas = await JSON.parse(JSON.stringify(response.data)).result;
-            console.log(datas);
+            // console.log(datas);
             if (datas.status != 200) {
                 return handleShowNotification(datas.msg);
             }

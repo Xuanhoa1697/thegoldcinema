@@ -59,7 +59,7 @@ const DetaiCinemaScreen = ({ navigation, route }) => {
 
       let response = await axios.request(config);
       const datas = await JSON.parse(JSON.stringify(response.data)).result;
-      console.log(datas);
+      // console.log(datas);
       
       setItems(datas.result);
 

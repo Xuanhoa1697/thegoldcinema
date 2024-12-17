@@ -34,6 +34,7 @@ const TicketScreen = ({ navigation, route }: any) => {
   const [ticketData, setTicketData] = useState<any>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [order, setOrder] = useState({});
+  const [ttthanhtoan, setTtthanhtoan] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -75,10 +76,10 @@ const TicketScreen = ({ navigation, route }: any) => {
       setTicketData(datas.result.result);
     } catch (error) {
       handleShowNotification('Đã xảy ra lỗi. Vui lòng thử lại.')
-      console.error(
-        ' Something went wrong in getPopularMoviesList Function',
-        error,
-      );
+      // console.error(
+      //   ' Something went wrong in getPopularMoviesList Function',
+      //   error,
+      // );
     }
   };
 
@@ -94,7 +95,12 @@ const TicketScreen = ({ navigation, route }: any) => {
     // navigation.navigate('TicketDetailScreen', { item: item })
     setModalVisible(!modalVisible);
     setOrder(item)
-    console.log(item);
+    if (item.ht_thanhtoan == 'cash') {
+      setTtthanhtoan('Thanh toán tại quầy')
+    }else {
+      setTtthanhtoan(item.thanhtoan)
+    }
+    // console.log(item);
 
   }
 
@@ -157,13 +163,13 @@ const TicketScreen = ({ navigation, route }: any) => {
 
             <View style={tw`flex-row items-center justify-start`}>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12px] mt-1 w-1/5 font-bold`}>Thanh toán:</Text>
-              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12px] mt-1 w-4/5`}>{order.thanhtoan}</Text>
+              <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12px] mt-1 w-4/5`}>{ttthanhtoan}</Text>
             </View>
 
-            <View style={tw`flex-row items-center justify-start`}>
+            {order.ht_thanhtoan == 'bank' && <View style={tw`flex-row items-center justify-start`}>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12px] mt-1 w-1/5 font-bold`}>Trạng thái:</Text>
               <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[#000000] text-[12px] mt-1 w-4/5`}>{order.state != 'done' ? 'Chờ thanh toán' : 'Đã thanh toán'}</Text>
-            </View>
+            </View>}
 
             <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
               <View style={tw` w-1/3`}>
@@ -178,7 +184,7 @@ const TicketScreen = ({ navigation, route }: any) => {
             </View>
             {order && order.lines && order?.lines.map(line => {
               return (
-                <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`}>
+                <View style={tw`w-full flex-row items-center justify-start mt-3 border-b border-gray-300 py-3`} key={line.id}>
                   <View style={tw` w-1/3`}>
                     <View style={[tw`w-8 h-8 bg-white flex justify-center items-center bg-[#3a78c3] rounded`]}>
                       <Text style={tw`text-[#ffffff] text-[12px]`}>{line.name}</Text>
@@ -214,7 +220,7 @@ const TicketScreen = ({ navigation, route }: any) => {
       </Modal>
 
       <ScrollView style={tw`flex-1 px-2`}>
-        {ticketData.length == 0 && <Text style={tw`text-center text-[#000000] mt-5`}>Không có dữ liệu</Text>}
+        {ticketData.length == 0 && <Text style={tw`text-center text-[#000000] mt-5`}>Bạn chưa có vé phim</Text>}
         {ticketData?.map((item, index) => (
           <TouchableOpacity onPress={() => onShowTicketDetail(item)} key={index} style={tw`w-full mt-3 px-2 bg-[#ffffff]`}>
             <Svg height="100%" width="20" viewBox="5 0 30 200" style={tw`absolute left-0`}>

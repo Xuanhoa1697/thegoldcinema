@@ -7,7 +7,7 @@ import YoutubePlayer from "react-native-youtube-iframe";
 
 const TrailerScreen = ({ navigation, route }) => {
     const trailer = route.params.trailer
-    console.log(trailer);
+    // console.log(trailer);
     return (
         <View style={tw`h-full w-full bg-black`}>
             <StatusBar

@@ -169,6 +169,10 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
+  const onRefresh = async () => {
+    await get_seat_map_cinema_home()
+  }
+
   const get_seat_map_cinema_home = async () => {
     try {
       setLoading(true)
@@ -238,7 +242,7 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
     }
     const filteredByValue = Object.fromEntries(
       Object.entries(data_seat).filter(([key, value]) => value.tinhtranng === true) )
-      console.log(filteredByValue);
+      // console.log(filteredByValue);
       
     setSelectedSeats(filteredByValue);
   };
@@ -429,9 +433,15 @@ const SeatBookingScreen = ({ navigation, route }: any) => {
             <Text ellipsizeMode='tail' numberOfLines={1} style={tw`font-bold text-[12px] text-black`}>{detail.phim.toUpperCase()}</Text>
             <View style={tw`flex-row items-center justify-between w-full mt-2`}>
               <Text style={tw`text-[#4a4a4a] text-[12px]`}>{detail.giobatdau} ~ {detail.ketthuc}</Text>
-              <TouchableOpacity onPress={BookSeats}>
-                <Text style={tw`text-white font-bold bg-[#9C1D21] text-[12px] px-8 py-2 rounded-15`}>Đặt vé</Text>
-              </TouchableOpacity>
+              <View style={tw`flex-row items-center justify-between`}>
+                <TouchableOpacity onPress={onRefresh} style={tw`mr-2`}>
+                  <Text style={tw`text-white font-bold bg-[#9C1D21] text-[12px] px-5 py-2 rounded-15`}>Cập nhật ghế</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={BookSeats}>
+                  <Text style={tw`text-white font-bold bg-[#9C1D21] text-[12px] px-8 py-2 rounded-15`}>Đặt vé</Text>
+                </TouchableOpacity>
+              </View>
+              
             </View>
 
           </View>

@@ -6,8 +6,8 @@ import axios from 'axios';
 
 const CinemaHomeScreen = ({ navigation }) => {
     const [datas, setDatas] = React.useState([{
-        'name': 'Rạp chiếu phim The Gol Mart',
-        'address': 'Dev'
+        'name': '',
+        'address': ''
     }]);
     React.useEffect(() => {
         (async () => {
@@ -36,7 +36,7 @@ const CinemaHomeScreen = ({ navigation }) => {
 
             let response = await axios.request(config);
             const datas = await JSON.parse(JSON.stringify(response.data)).result;
-            console.log(datas);
+            // console.log(datas);
             setDatas(datas.result);
         } catch (error) {
             console.error(

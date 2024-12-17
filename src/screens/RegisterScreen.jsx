@@ -78,7 +78,7 @@ const RegisterScreen = ({ navigation }) => {
 
             let response = await axios.request(config);
             const datas = await JSON.parse(JSON.stringify(response.data)).result;
-            console.log(datas);
+            // console.log(datas);
             if (datas.status == 500) {
                 return handleShowNotification(datas.msg);
             }

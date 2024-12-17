@@ -21,7 +21,7 @@ const SubMovieCard = (props: any) => {
         <Image
           style={[styles.cardImage, {width: props.cardWidth}]}
           source={{uri: props.imagePath}}
-          resizeMode='center'
+          resizeMode='cover'
         />
         <Text numberOfLines={1} style={[styles.textTitle, tw`text-[12px]`]}>
           {props.title}

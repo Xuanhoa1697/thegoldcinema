@@ -29,14 +29,52 @@ const QrScreen = ({ navigation, route }) => {
     const selectedBanggia = route.params.selectedBanggia;
     const datas = route.params.datas;
     const rs_data = route.params.rs_data;
-    console.log(tong_tien);
+    // console.log(rs_data.qr);
 
     const [bankingData, setBankingData] = useState([]);
+    const [isPaid, setPaid] = useState(false);
 
     useEffect(() => {
         (async () => {
             await getBanking();
         })();
+
+        const interval = setInterval(async () => {
+            try {
+                if (!isPaid) {
+                    let data = JSON.stringify({
+                        "jsonrpc": "2.0",
+                        "method": "call",
+                        "params": {
+                            'order_name': rs_data.dbv_id
+                        }
+                    });
+                    let config = {
+                        method: 'post',
+                        maxBodyLength: Infinity,
+                        mode: 'no-cors',
+                        url: `https://thegoldcinema.com/web/api/v1/check_paid`,
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/json',
+                        },
+                        data: data
+                    };
+        
+                    let response = await axios.request(config);
+                    const data_paid = await JSON.parse(JSON.stringify(response.data)).result;
+                    if (data_paid.status == 200 && data_paid.result) {
+                        setPaid(data_paid.result);
+                        clearInterval(interval)
+                    }
+                }else{
+                    clearInterval(interval)
+                }
+            } catch (error) {
+                var a = error
+            }
+        }, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     const getBanking = async () => {
@@ -54,17 +92,17 @@ const QrScreen = ({ navigation, route }) => {
                     setBankingData(JSON.parse(JSON.stringify(response.data)).data);
                 })
                 .catch((error) => {
-                    console.log(1, error);
+                    
                 });
 
 
             // const datas = await JSON.parse(JSON.stringify(response.data)).result;
             // return datas
         } catch (error) {
-            console.error(
-                ' Something went wrong in get banking Function',
-                error,
-            );
+            // console.error(
+            //     ' Something went wrong in get banking Function',
+            //     error,
+            // );
         }
     }
 
@@ -91,7 +129,7 @@ const QrScreen = ({ navigation, route }) => {
                     Alert.alert('Storage Permission Denied');
                 }
             } catch (err) {
-                console.warn(err);
+                // console.warn(err);
             }
         }
     }
@@ -116,7 +154,7 @@ const QrScreen = ({ navigation, route }) => {
         }
 
         config(options).fetch('GET', image_Url).then((res) => {
-            console.log('The image is saved to');
+            // console.log('The image is saved to');
         })
     }
 
@@ -125,12 +163,10 @@ const QrScreen = ({ navigation, route }) => {
     }
 
     const backToHome = () => {
-        console.log(1);
 
-        Alert.alert('Thông báo', 'Vé phim đã được đặt. Việc rời đi khi chưa thanh toán có thể gây nhầm lẫn. Bạn có muốn tiếp tục?', [
+        Alert.alert('Thông báo', 'Trở về trang chủ?', [
             {
                 text: 'Hủy bỏ',
-                onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
             },
             {
@@ -141,21 +177,52 @@ const QrScreen = ({ navigation, route }) => {
         ]);
     }
 
-    const goToTicket = () => {
-        Alert.alert('Thông báo', 'Xác nhận đã thanh toán?', [
+    
+    const goToTicket = (msg) => {
+        Alert.alert('Thông báo', msg, [
             {
                 text: 'Hủy bỏ',
-                onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
             },
             {
                 text: 'Xác nhận', onPress: () => {
-                    navigation.navigate('TicketScreen');
+                    ttTaiQuay()
                 }
             },
         ]);
     }
-
+    
+    const ttTaiQuay = async () => {
+        try {
+            let data = JSON.stringify({
+                "jsonrpc": "2.0",
+                "method": "call",
+                "params": {
+                    'order_name': rs_data.dbv_id
+                }
+            });
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                mode: 'no-cors',
+                url: `https://thegoldcinema.com/web/api/v1/dat_tai_quay`,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                },
+                data: data
+            };
+    
+            let response = await axios.request(config);
+            const data_paid = await JSON.parse(JSON.stringify(response.data)).result;
+            if (data_paid.status == 200) {
+                navigation.navigate('TicketScreen');
+            }
+        }catch (error) {
+            // console.log(error);
+            // navigation.navigate('TicketScreen');
+        }
+    }
 
     return (
         <View style={tw`h-full w-full bg-white`}>
@@ -165,17 +232,14 @@ const QrScreen = ({ navigation, route }) => {
                 barStyle={'light-content'}
             />
             <View style={tw`h-[55px] w-full flex-row items-center justify-start px-2 border-b border-gray-300 bg-[#9c1d21]`}>
-                <TouchableOpacity onPress={backToHome} style={tw``}>
+                {/* <TouchableOpacity onPress={backToHome} style={tw``}>
                     <MaterialIcons name="arrow-back" size={25} color={'#ffffff'} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={tw`flex items-start justify-center ml-2`}>
                     <View style={tw`flex-row items-start justify-center`}>
                         <Text style={tw`text-[12px] font-bold text-[#ffffff]`}>Thanh toán</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={tw`ml-auto`} onPress={goToTicket}>
-                    <MaterialIcons name="done" size={25} color={'#ffffff'} />
-                </TouchableOpacity>
             </View>
             <View style={tw`flex-row items-center justify-between px-2 py-2 pr-4 border-b border-gray-300 bg-white`}>
                 <Image
@@ -187,13 +251,36 @@ const QrScreen = ({ navigation, route }) => {
                     <Text style={tw`text-[15px] font-bold text-[#9c1d21]`}>{tong_tien} VND</Text>
                 </View>
             </View>
-            <ScrollView>
+            {isPaid && <View style={tw`flex items-center justify-center mt-7`}>
+                <View style={tw`h-[40px] w-[40px] flex-row items-center justify-center bg-[#3bdc85] rounded-full`}>
+                    <MaterialIcons name="done" size={25} color={'#ffffff'} />
+                </View>
+                <Text style={tw`text-[#9c9c9c] text-[14px] mt-3 py-2 px-2 text-[#3bdc85]`}>Thanh toán thành công</Text>
+                <Text style={tw`text-[#9c9c9c] text-[12px] py-2 px-2 text-[#404040]`}>Cám ơn quý khách đã sử dụng dịch vụ</Text>
+
+                <TouchableOpacity style={tw`py-2 px-3 bg-[#9c1d21] flex-row justify-center items-center rounded-15 mt-5`} onPress={() => navigation.navigate('TicketScreen')}>
+                    <Text style={tw`text-[12px] text-[#ffffff]`}>Quản lý vé phim</Text>
+                </TouchableOpacity>
+            </View>}
+            {!isPaid && <ScrollView>
                 <View style={tw`flex items-center justify-center`}>
+                    <TouchableOpacity onPress={() => goToTicket('Xác nhận thanh toán tại quầy?')} style={tw`py-2 px-3 bg-[#9c1d21] flex-row justify-center items-center rounded-15 mt-4`}>
+                        <Text style={tw`text-[12px] text-[#ffffff]`}>Thanh toán tại quầy</Text>
+                    </TouchableOpacity>
+                    <Text style={tw`text-[#9c9c9c] text-[12px] text-[#000000] mt-3`}>Hoặc</Text>
+                    <View style={tw`flex-row justify-center items-center mt-2`}>
+                        <ActivityIndicator color="#000000" size={20} />
+                        <Text style={tw`text-[#9c9c9c] text-[12px] text-[#000000] px-2`}>Quét QR để thanh toán</Text>
+                    </View>
+                    <Text style={tw`text-[#9c9c9c] text-[12px] text-[#000000]`}>Mã QR có hiệu lực trong vòng 10 phút</Text>
+                    
                     <Image
                         resizeMode="contain"
                         style={tw`h-60%] w-[50%]`}
                         source={{ uri: rs_data.qr }} />
-
+                    <TouchableOpacity style={tw`py-2 px-3 bg-[#9c1d21] flex-row justify-center items-center rounded-15 mb-3 mt-3`} onPress={() => goToTicket('Quản lý vé phim của bạn?')}>
+                        <Text style={tw`text-[12px] text-[#ffffff]`}>Quản lý vé phim</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={tw`px-2 bg-[#ffffff] bg-[#9c1d21] flex-row justify-center items-center rounded-15`}
                         onPress={checkPermission}>
                         <MaterialIcons name="file-download" size={20} color={'#ffffff'} />
@@ -215,7 +302,7 @@ const QrScreen = ({ navigation, route }) => {
                         )
                     })}
                 </View>
-            </ScrollView>
+            </ScrollView>}
 
 
         </View>

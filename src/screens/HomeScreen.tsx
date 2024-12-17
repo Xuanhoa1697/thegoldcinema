@@ -198,7 +198,7 @@ const HomeScreen = ({ navigation }: any) => {
 
       let tempUpcoming = await getUpcomingMoviesList();
       setUpcomingMoviesList(tempUpcoming.result);
-      console.log(tempUpcoming.result);
+      // console.log(tempUpcoming.result);
       
 
       let temp_blog = await get_list_blog_post();
@@ -282,6 +282,15 @@ const HomeScreen = ({ navigation }: any) => {
     }
   }
 
+  const checkLoginTicket = async () => {
+    const user_info = await AsyncStorage.getItem('user_info');
+    if (!user_info) {
+      navigation.navigate('LoginScreen');
+    } else {
+      navigation.navigate('TicketScreen')
+    }
+  }
+
   return (
     <SafeAreaView style={tw`h-full w-full`}>
       {/* <StatusBar hidden /> */}
@@ -302,7 +311,7 @@ const HomeScreen = ({ navigation }: any) => {
         </View>
 
         <View style={tw`w-[30%] flex-row justify-end items-center pr-2`}>
-          <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
+          <TouchableOpacity onPress={checkLoginTicket}>
             <Image source={require('../assets/image/cash.png')} style={tw`h-[35px] w-[45px] mr-3`} />
             {/* <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#9d2126'} /> */}
           </TouchableOpacity>
@@ -359,7 +368,7 @@ const HomeScreen = ({ navigation }: any) => {
             </View>
 
             <View style={tw`w-[30%] flex-row justify-end items-center pr-2`}>
-              <TouchableOpacity onPress={() => navigation.navigate('TicketScreen')}>
+              <TouchableOpacity onPress={checkLoginTicket}>
                 {/* <MaterialCommunityIcons name="ticket-confirmation-outline" style={tw`mr-3`} size={30} color={'#ffffff'} /> */}
                 <Image source={require('../assets/image/cash.png')} style={tw`h-[35px] w-[45px] mr-3`} />
               </TouchableOpacity>
@@ -414,8 +423,8 @@ const HomeScreen = ({ navigation }: any) => {
               <View style={tw`w-[70%]`}>
                 <Text numberOfLines={1} ellipsizeMode='tail' style={tw`text-[12px] font-bold text-white w-[100%]`}>{bgContent?.name}</Text>
                 <View style={tw`flex-row items-center justify-start mt-3`}>
-                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-white mr-2 text-center border border-[#f5d53e] rounded-[30px] px-2 w-[80px]`}>{bgContent?.type}</Text>}
-                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[12px] text-white w-[60%]`}>⛔{bgContent?.old_limit}</Text>
+                  {bgContent?.type && <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[11px] text-white mr-2 text-center border border-[#f5d53e] rounded-[30px] px-2 w-[80px]`}>{bgContent?.type}</Text>}
+                  <Text ellipsizeMode='tail' numberOfLines={1} style={tw`text-[11px] text-white w-[60%]`}>⛔ {bgContent?.old_limit}</Text>
 
                 </View>
               </View>
@@ -505,12 +514,20 @@ const HomeScreen = ({ navigation }: any) => {
             <Text style={tw`text-[12px] text-[#9d2126]`}>Tất cả</Text>
           </TouchableOpacity>
         </View>
-        <View style={tw`w-full px-2`}>
-          <TouchableOpacity activeOpacity={1} style={tw`h-[140px] w-[50%]`}
-            onPress={() => navigation.navigate('BlogPost')}>
-            <Image resizeMode="cover" source={{ uri: `https://thegoldcinema.com/web/image/12942/ob.jpg` }} style={tw`w-full rounded-1 h-[100px]`} />
-            <Text numberOfLines={2} ellipsizeMode='tail' style={tw`text-[12px] text-black mt-1`}>Hướng dẫn đặt vé trước và kiểm tra vé đã đặt trên website</Text>
-          </TouchableOpacity>
+        <View style={tw`w-full flex-row items-center justify-between flex-wrap`}>
+          {blogPost && blogPost.length > 0 && blogPost.map((item, index) => {
+            var cover_properties = item.cover_properties ? JSON.parse(item.cover_properties) : {};
+            var background_image = cover_properties['background-image'] || '';
+            if (background_image.includes('url(')) {
+              background_image = background_image.replace('url(', '').replace(')', '');
+            } 
+            return (
+            <TouchableOpacity activeOpacity={1} style={tw`h-[140px] w-[50%] px-2`} key={item.id}
+              onPress={() => navigation.navigate('BlogPost', { url: item.website_url })}>
+              <Image resizeMode="cover" source={{ uri: `https://thegoldcinema.com${background_image}` }} style={tw`w-full rounded-1 h-[100px]`} />
+              <Text numberOfLines={2} ellipsizeMode='tail' style={tw`text-[12px] text-black mt-1`}>{item.title}</Text>
+            </TouchableOpacity>
+          )})}
         </View>
       </Animated.ScrollView>
     </SafeAreaView>
